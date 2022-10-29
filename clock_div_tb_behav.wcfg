@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="clock_div_tb_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="clock_div_tb" />
+            <top_module name="glbl" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="2432134fs"></ZoomStartTime>
+      <ZoomEndTime time="2769626fs"></ZoomEndTime>
+      <Cursor1Time time="2561386fs"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="247"></NameColumnWidth>
+      <ValueColumnWidth column_width="58"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="18" />
+   <wvobject fp_name="/clock_div_tb/clk" type="logic">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/clock_div_tb/clk_div" type="logic">
+      <obj_property name="ElementShortName">clk_div</obj_property>
+      <obj_property name="ObjectShortName">clk_div</obj_property>
+   </wvobject>
+   <wvobject fp_name="/clock_div_tb/divider" type="array">
+      <obj_property name="ElementShortName">divider[15:0]</obj_property>
+      <obj_property name="ObjectShortName">divider[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/clock_div_tb/reset" type="logic">
+      <obj_property name="ElementShortName">reset</obj_property>
+      <obj_property name="ObjectShortName">reset</obj_property>
+   </wvobject>
+   <wvobject fp_name="/clock_div_tb/T" type="other">
+      <obj_property name="ElementShortName">T</obj_property>
+      <obj_property name="ObjectShortName">T</obj_property>
+   </wvobject>
+   <wvobject fp_name="/clock_div_tb/uut/divider" type="array">
+      <obj_property name="ElementShortName">divider[15:0]</obj_property>
+      <obj_property name="ObjectShortName">divider[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/clock_div_tb/uut/clk_orig" type="logic">
+      <obj_property name="ElementShortName">clk_orig</obj_property>
+      <obj_property name="ObjectShortName">clk_orig</obj_property>
+   </wvobject>
+   <wvobject fp_name="/clock_div_tb/uut/clk_div" type="logic">
+      <obj_property name="ElementShortName">clk_div</obj_property>
+      <obj_property name="ObjectShortName">clk_div</obj_property>
+   </wvobject>
+   <wvobject fp_name="/clock_div_tb/uut/reset" type="logic">
+      <obj_property name="ElementShortName">reset</obj_property>
+      <obj_property name="ObjectShortName">reset</obj_property>
+   </wvobject>
+   <wvobject fp_name="/clock_div_tb/uut/counter_reg" type="array">
+      <obj_property name="ElementShortName">counter_reg[15:0]</obj_property>
+      <obj_property name="ObjectShortName">counter_reg[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/clock_div_tb/uut/counter_reg_next" type="array">
+      <obj_property name="ElementShortName">counter_reg_next[15:0]</obj_property>
+      <obj_property name="ObjectShortName">counter_reg_next[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/clock_div_tb/uut/counter_divider_equal" type="logic">
+      <obj_property name="ElementShortName">counter_divider_equal</obj_property>
+      <obj_property name="ObjectShortName">counter_divider_equal</obj_property>
+   </wvobject>
+   <wvobject fp_name="/clock_div_tb/uut/clk_div_ff_posedge" type="logic">
+      <obj_property name="ElementShortName">clk_div_ff_posedge</obj_property>
+      <obj_property name="ObjectShortName">clk_div_ff_posedge</obj_property>
+   </wvobject>
+   <wvobject fp_name="/clock_div_tb/uut/clk_div_ff_negedge" type="logic">
+      <obj_property name="ElementShortName">clk_div_ff_negedge</obj_property>
+      <obj_property name="ObjectShortName">clk_div_ff_negedge</obj_property>
+   </wvobject>
+   <wvobject fp_name="/clock_div_tb/uut/ff_posedge_en" type="logic">
+      <obj_property name="ElementShortName">ff_posedge_en</obj_property>
+      <obj_property name="ObjectShortName">ff_posedge_en</obj_property>
+   </wvobject>
+   <wvobject fp_name="/clock_div_tb/uut/ff_negedge_en" type="logic">
+      <obj_property name="ElementShortName">ff_negedge_en</obj_property>
+      <obj_property name="ObjectShortName">ff_negedge_en</obj_property>
+   </wvobject>
+   <wvobject fp_name="/clock_div_tb/uut/clk_div_ff_even" type="logic">
+      <obj_property name="ElementShortName">clk_div_ff_even</obj_property>
+      <obj_property name="ObjectShortName">clk_div_ff_even</obj_property>
+   </wvobject>
+   <wvobject fp_name="/clock_div_tb/uut/ff_even_en" type="logic">
+      <obj_property name="ElementShortName">ff_even_en</obj_property>
+      <obj_property name="ObjectShortName">ff_even_en</obj_property>
+   </wvobject>
+</wave_config>

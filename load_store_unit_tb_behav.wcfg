@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="load_store_unit_tb_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="glbl" />
+            <top_module name="load_store_unit_tb" />
+            <top_module name="pkg_axi" />
+            <top_module name="pkg_cpu" />
+            <top_module name="pkg_fu" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="0fs"></ZoomStartTime>
+      <ZoomEndTime time="5000001fs"></ZoomEndTime>
+      <Cursor1Time time="3231895fs"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="252"></NameColumnWidth>
+      <ValueColumnWidth column_width="118"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="43" />
+   <wvobject fp_name="/load_store_unit_tb/clk" type="logic">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/load_store_unit_tb/reset" type="logic">
+      <obj_property name="ElementShortName">reset</obj_property>
+      <obj_property name="ObjectShortName">reset</obj_property>
+   </wvobject>
+   <wvobject fp_name="/load_store_unit_tb/sq_calc_addr" type="array">
+      <obj_property name="ElementShortName">sq_calc_addr[31:0]</obj_property>
+      <obj_property name="ObjectShortName">sq_calc_addr[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/load_store_unit_tb/sq_calc_addr_tag" type="array">
+      <obj_property name="ElementShortName">sq_calc_addr_tag[2:0]</obj_property>
+      <obj_property name="ObjectShortName">sq_calc_addr_tag[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/load_store_unit_tb/sq_calc_addr_valid" type="logic">
+      <obj_property name="ElementShortName">sq_calc_addr_valid</obj_property>
+      <obj_property name="ObjectShortName">sq_calc_addr_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/load_store_unit_tb/lq_calc_addr" type="array">
+      <obj_property name="ElementShortName">lq_calc_addr[31:0]</obj_property>
+      <obj_property name="ObjectShortName">lq_calc_addr[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/load_store_unit_tb/lq_calc_addr_tag" type="array">
+      <obj_property name="ElementShortName">lq_calc_addr_tag[2:0]</obj_property>
+      <obj_property name="ObjectShortName">lq_calc_addr_tag[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/load_store_unit_tb/lq_calc_addr_valid" type="logic">
+      <obj_property name="ElementShortName">lq_calc_addr_valid</obj_property>
+      <obj_property name="ObjectShortName">lq_calc_addr_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/load_store_unit_tb/sq_store_data" type="array">
+      <obj_property name="ElementShortName">sq_store_data[31:0]</obj_property>
+      <obj_property name="ObjectShortName">sq_store_data[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/load_store_unit_tb/sq_store_data_tag" type="array">
+      <obj_property name="ElementShortName">sq_store_data_tag[6:0]</obj_property>
+      <obj_property name="ObjectShortName">sq_store_data_tag[6:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/load_store_unit_tb/sq_store_data_valid" type="logic">
+      <obj_property name="ElementShortName">sq_store_data_valid</obj_property>
+      <obj_property name="ObjectShortName">sq_store_data_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/load_store_unit_tb/sq_alloc_tag" type="array">
+      <obj_property name="ElementShortName">sq_alloc_tag[2:0]</obj_property>
+      <obj_property name="ObjectShortName">sq_alloc_tag[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/load_store_unit_tb/lq_alloc_tag" type="array">
+      <obj_property name="ElementShortName">lq_alloc_tag[2:0]</obj_property>
+      <obj_property name="ObjectShortName">lq_alloc_tag[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/load_store_unit_tb/sq_data_tag" type="array">
+      <obj_property name="ElementShortName">sq_data_tag[6:0]</obj_property>
+      <obj_property name="ObjectShortName">sq_data_tag[6:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/load_store_unit_tb/uut/sq_retire_tag" type="array">
+      <obj_property name="ElementShortName">sq_retire_tag[2:0]</obj_property>
+      <obj_property name="ObjectShortName">sq_retire_tag[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/load_store_unit_tb/uut/sq_retire_tag_valid" type="logic">
+      <obj_property name="ElementShortName">sq_retire_tag_valid</obj_property>
+      <obj_property name="ObjectShortName">sq_retire_tag_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/load_store_unit_tb/lq_dest_tag" type="array">
+      <obj_property name="ElementShortName">lq_dest_tag[6:0]</obj_property>
+      <obj_property name="ObjectShortName">lq_dest_tag[6:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/load_store_unit_tb/uut/sq_store_ready" type="logic">
+      <obj_property name="ElementShortName">sq_store_ready</obj_property>
+      <obj_property name="ObjectShortName">sq_store_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/load_store_unit_tb/sq_enqueue_en" type="logic">
+      <obj_property name="ElementShortName">sq_enqueue_en</obj_property>
+      <obj_property name="ObjectShortName">sq_enqueue_en</obj_property>
+   </wvobject>
+   <wvobject fp_name="/load_store_unit_tb/lq_enqueue_en" type="logic">
+      <obj_property name="ElementShortName">lq_enqueue_en</obj_property>
+      <obj_property name="ObjectShortName">lq_enqueue_en</obj_property>
+   </wvobject>
+   <wvobject fp_name="/load_store_unit_tb/lq_dequeue_en" type="logic">
+      <obj_property name="ElementShortName">lq_dequeue_en</obj_property>
+      <obj_property name="ObjectShortName">lq_dequeue_en</obj_property>
+   </wvobject>
+   <wvobject fp_name="/load_store_unit_tb/uut/sq_dequeue_en" type="logic">
+      <obj_property name="ElementShortName">sq_dequeue_en</obj_property>
+      <obj_property name="ObjectShortName">sq_dequeue_en</obj_property>
+   </wvobject>
+   <wvobject fp_name="/load_store_unit_tb/SQ_ENTRIES" type="other">
+      <obj_property name="ElementShortName">SQ_ENTRIES</obj_property>
+      <obj_property name="ObjectShortName">SQ_ENTRIES</obj_property>
+   </wvobject>
+   <wvobject fp_name="/load_store_unit_tb/LQ_ENTRIES" type="other">
+      <obj_property name="ElementShortName">LQ_ENTRIES</obj_property>
+      <obj_property name="ObjectShortName">LQ_ENTRIES</obj_property>
+   </wvobject>
+   <wvobject fp_name="/load_store_unit_tb/T" type="other">
+      <obj_property name="ElementShortName">T</obj_property>
+      <obj_property name="ObjectShortName">T</obj_property>
+   </wvobject>
+   <wvobject fp_name="/load_store_unit_tb/uut/store_queue" type="array">
+      <obj_property name="ElementShortName">store_queue[7:0][73:0]</obj_property>
+      <obj_property name="ObjectShortName">store_queue[7:0][73:0]</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+   </wvobject>
+   <wvobject fp_name="/load_store_unit_tb/uut/load_queue" type="array">
+      <obj_property name="ElementShortName">load_queue[7:0][39:0]</obj_property>
+      <obj_property name="ObjectShortName">load_queue[7:0][39:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/load_store_unit_tb/uut/sq_head_counter_reg" type="array">
+      <obj_property name="ElementShortName">sq_head_counter_reg[2:0]</obj_property>
+      <obj_property name="ObjectShortName">sq_head_counter_reg[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/load_store_unit_tb/uut/sq_head_counter_next" type="array">
+      <obj_property name="ElementShortName">sq_head_counter_next[2:0]</obj_property>
+      <obj_property name="ObjectShortName">sq_head_counter_next[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/load_store_unit_tb/uut/sq_tail_counter_reg" type="array">
+      <obj_property name="ElementShortName">sq_tail_counter_reg[2:0]</obj_property>
+      <obj_property name="ObjectShortName">sq_tail_counter_reg[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/load_store_unit_tb/uut/sq_tail_counter_next" type="array">
+      <obj_property name="ElementShortName">sq_tail_counter_next[2:0]</obj_property>
+      <obj_property name="ObjectShortName">sq_tail_counter_next[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/load_store_unit_tb/uut/lq_head_counter_reg" type="array">
+      <obj_property name="ElementShortName">lq_head_counter_reg[2:0]</obj_property>
+      <obj_property name="ObjectShortName">lq_head_counter_reg[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/load_store_unit_tb/uut/lq_head_counter_next" type="array">
+      <obj_property name="ElementShortName">lq_head_counter_next[2:0]</obj_property>
+      <obj_property name="ObjectShortName">lq_head_counter_next[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/load_store_unit_tb/uut/lq_tail_counter_reg" type="array">
+      <obj_property name="ElementShortName">lq_tail_counter_reg[2:0]</obj_property>
+      <obj_property name="ObjectShortName">lq_tail_counter_reg[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/load_store_unit_tb/uut/lq_tail_counter_next" type="array">
+      <obj_property name="ElementShortName">lq_tail_counter_next[2:0]</obj_property>
+      <obj_property name="ObjectShortName">lq_tail_counter_next[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/load_store_unit_tb/uut/sq_full" type="logic">
+      <obj_property name="ElementShortName">sq_full</obj_property>
+      <obj_property name="ObjectShortName">sq_full</obj_property>
+   </wvobject>
+   <wvobject fp_name="/load_store_unit_tb/uut/sq_empty" type="logic">
+      <obj_property name="ElementShortName">sq_empty</obj_property>
+      <obj_property name="ObjectShortName">sq_empty</obj_property>
+   </wvobject>
+   <wvobject fp_name="/load_store_unit_tb/uut/lq_full" type="logic">
+      <obj_property name="ElementShortName">lq_full</obj_property>
+      <obj_property name="ObjectShortName">lq_full</obj_property>
+   </wvobject>
+   <wvobject fp_name="/load_store_unit_tb/uut/lq_empty" type="logic">
+      <obj_property name="ElementShortName">lq_empty</obj_property>
+      <obj_property name="ObjectShortName">lq_empty</obj_property>
+   </wvobject>
+   <wvobject fp_name="/load_store_unit_tb/uut/store_state_reg" type="other">
+      <obj_property name="ElementShortName">store_state_reg</obj_property>
+      <obj_property name="ObjectShortName">store_state_reg</obj_property>
+   </wvobject>
+   <wvobject fp_name="/load_store_unit_tb/uut/store_state_next" type="other">
+      <obj_property name="ElementShortName">store_state_next</obj_property>
+      <obj_property name="ObjectShortName">store_state_next</obj_property>
+   </wvobject>
+   <wvobject fp_name="/load_store_unit_tb/uut/load_state_reg" type="other">
+      <obj_property name="ElementShortName">load_state_reg</obj_property>
+      <obj_property name="ObjectShortName">load_state_reg</obj_property>
+   </wvobject>
+   <wvobject fp_name="/load_store_unit_tb/uut/load_state_next" type="other">
+      <obj_property name="ElementShortName">load_state_next</obj_property>
+      <obj_property name="ObjectShortName">load_state_next</obj_property>
+   </wvobject>
+</wave_config>

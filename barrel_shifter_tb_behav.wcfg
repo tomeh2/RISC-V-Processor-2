@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="barrel_shifter_tb_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="barrel_shifter_tb" />
+            <top_module name="glbl" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="0fs"></ZoomStartTime>
+      <ZoomEndTime time="841329fs"></ZoomEndTime>
+      <Cursor1Time time="922509fs"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="254"></NameColumnWidth>
+      <ValueColumnWidth column_width="59"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="7" />
+   <wvobject fp_name="/barrel_shifter_tb/clk" type="logic">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/barrel_shifter_tb/data_in" type="array">
+      <obj_property name="ElementShortName">data_in[31:0]</obj_property>
+      <obj_property name="ObjectShortName">data_in[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/barrel_shifter_tb/data_out" type="array">
+      <obj_property name="ElementShortName">data_out[31:0]</obj_property>
+      <obj_property name="ObjectShortName">data_out[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/barrel_shifter_tb/shift_amount" type="array">
+      <obj_property name="ElementShortName">shift_amount[4:0]</obj_property>
+      <obj_property name="ObjectShortName">shift_amount[4:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/barrel_shifter_tb/shift_dir" type="logic">
+      <obj_property name="ElementShortName">shift_dir</obj_property>
+      <obj_property name="ObjectShortName">shift_dir</obj_property>
+   </wvobject>
+   <wvobject fp_name="/barrel_shifter_tb/shift_arith" type="logic">
+      <obj_property name="ElementShortName">shift_arith</obj_property>
+      <obj_property name="ObjectShortName">shift_arith</obj_property>
+   </wvobject>
+   <wvobject fp_name="/barrel_shifter_tb/uut/intermediate_results" type="array">
+      <obj_property name="ElementShortName">intermediate_results[4:0][31:0]</obj_property>
+      <obj_property name="ObjectShortName">intermediate_results[4:0][31:0]</obj_property>
+   </wvobject>
+</wave_config>

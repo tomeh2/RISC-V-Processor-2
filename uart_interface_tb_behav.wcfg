@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="uart_interface_tb_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="glbl" />
+            <top_module name="uart_interface_tb" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="0fs"></ZoomStartTime>
+      <ZoomEndTime time="305000001fs"></ZoomEndTime>
+      <Cursor1Time time="43535889fs"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="312"></NameColumnWidth>
+      <ValueColumnWidth column_width="130"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="2" />
+   <wvobject fp_name="group55" type="group">
+      <obj_property name="label">INTERFACE</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject fp_name="/uart_interface_tb/clk" type="logic">
+         <obj_property name="ElementShortName">clk</obj_property>
+         <obj_property name="ObjectShortName">clk</obj_property>
+      </wvobject>
+      <wvobject fp_name="/uart_interface_tb/reset" type="logic">
+         <obj_property name="ElementShortName">reset</obj_property>
+         <obj_property name="ObjectShortName">reset</obj_property>
+      </wvobject>
+      <wvobject fp_name="/uart_interface_tb/cs" type="logic">
+         <obj_property name="ElementShortName">cs</obj_property>
+         <obj_property name="ObjectShortName">cs</obj_property>
+      </wvobject>
+      <wvobject fp_name="/uart_interface_tb/tx_line" type="logic">
+         <obj_property name="ElementShortName">tx_line</obj_property>
+         <obj_property name="ObjectShortName">tx_line</obj_property>
+      </wvobject>
+      <wvobject fp_name="/uart_interface_tb/rx_line" type="logic">
+         <obj_property name="ElementShortName">rx_line</obj_property>
+         <obj_property name="ObjectShortName">rx_line</obj_property>
+      </wvobject>
+      <wvobject fp_name="/uart_interface_tb/uut/req_to_send" type="logic">
+         <obj_property name="ElementShortName">req_to_send</obj_property>
+         <obj_property name="ObjectShortName">req_to_send</obj_property>
+      </wvobject>
+      <wvobject fp_name="/uart_interface_tb/uut/clr_to_send" type="logic">
+         <obj_property name="ElementShortName">clr_to_send</obj_property>
+         <obj_property name="ObjectShortName">clr_to_send</obj_property>
+      </wvobject>
+      <wvobject fp_name="/uart_interface_tb/uut/data_set_ready" type="logic">
+         <obj_property name="ElementShortName">data_set_ready</obj_property>
+         <obj_property name="ObjectShortName">data_set_ready</obj_property>
+      </wvobject>
+      <wvobject fp_name="/uart_interface_tb/data_read_bus" type="array">
+         <obj_property name="ElementShortName">data_read_bus[7:0]</obj_property>
+         <obj_property name="ObjectShortName">data_read_bus[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/uart_interface_tb/data_write_bus" type="array">
+         <obj_property name="ElementShortName">data_write_bus[7:0]</obj_property>
+         <obj_property name="ObjectShortName">data_write_bus[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/uart_interface_tb/addr_bus" type="array">
+         <obj_property name="ElementShortName">addr_bus[2:0]</obj_property>
+         <obj_property name="ObjectShortName">addr_bus[2:0]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group56" type="group">
+      <obj_property name="label">UART CONTROLLER</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject type="divider" fp_name="divider57">
+         <obj_property name="label">REGISTERS</obj_property>
+         <obj_property name="DisplayName">label</obj_property>
+      </wvobject>
+      <wvobject fp_name="/uart_interface_tb/uut/divisor_latch_ls" type="array">
+         <obj_property name="ElementShortName">divisor_latch_ls[7:0]</obj_property>
+         <obj_property name="ObjectShortName">divisor_latch_ls[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/uart_interface_tb/uut/divisor_latch_ms" type="array">
+         <obj_property name="ElementShortName">divisor_latch_ms[7:0]</obj_property>
+         <obj_property name="ObjectShortName">divisor_latch_ms[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/uart_interface_tb/uut/line_control_reg" type="array">
+         <obj_property name="ElementShortName">line_control_reg[7:0]</obj_property>
+         <obj_property name="ObjectShortName">line_control_reg[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/uart_interface_tb/uut/line_status_reg" type="array">
+         <obj_property name="ElementShortName">line_status_reg[7:0]</obj_property>
+         <obj_property name="ObjectShortName">line_status_reg[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/uart_interface_tb/uut/line_status_reg_en" type="logic">
+         <obj_property name="ElementShortName">line_status_reg_en</obj_property>
+         <obj_property name="ObjectShortName">line_status_reg_en</obj_property>
+      </wvobject>
+      <wvobject fp_name="/uart_interface_tb/uut/modem_control_reg" type="array">
+         <obj_property name="ElementShortName">modem_control_reg[7:0]</obj_property>
+         <obj_property name="ObjectShortName">modem_control_reg[7:0]</obj_property>
+      </wvobject>
+      <wvobject type="divider" fp_name="divider72">
+         <obj_property name="label">BAUD RATE GENERATOR</obj_property>
+         <obj_property name="DisplayName">label</obj_property>
+      </wvobject>
+      <wvobject fp_name="/uart_interface_tb/uut/divisor_latch_full" type="array">
+         <obj_property name="ElementShortName">divisor_latch_full[15:0]</obj_property>
+         <obj_property name="ObjectShortName">divisor_latch_full[15:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/uart_interface_tb/uut/baud_rate_gen_x16_counter_reg" type="array">
+         <obj_property name="ElementShortName">baud_rate_gen_x16_counter_reg[15:0]</obj_property>
+         <obj_property name="ObjectShortName">baud_rate_gen_x16_counter_reg[15:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/uart_interface_tb/uut/baud_rate_gen_counter_reg" type="array">
+         <obj_property name="ElementShortName">baud_rate_gen_counter_reg[3:0]</obj_property>
+         <obj_property name="ObjectShortName">baud_rate_gen_counter_reg[3:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/uart_interface_tb/uut/baud_rate_x16_tick" type="logic">
+         <obj_property name="ElementShortName">baud_rate_x16_tick</obj_property>
+         <obj_property name="ObjectShortName">baud_rate_x16_tick</obj_property>
+      </wvobject>
+      <wvobject fp_name="/uart_interface_tb/uut/baud_rate_counter_zero" type="logic">
+         <obj_property name="ElementShortName">baud_rate_counter_zero</obj_property>
+         <obj_property name="ObjectShortName">baud_rate_counter_zero</obj_property>
+      </wvobject>
+      <wvobject fp_name="/uart_interface_tb/uut/baud_rate_counter_zero_delay" type="logic">
+         <obj_property name="ElementShortName">baud_rate_counter_zero_delay</obj_property>
+         <obj_property name="ObjectShortName">baud_rate_counter_zero_delay</obj_property>
+      </wvobject>
+      <wvobject fp_name="/uart_interface_tb/uut/baud_rate_tick" type="logic">
+         <obj_property name="ElementShortName">baud_rate_tick</obj_property>
+         <obj_property name="ObjectShortName">baud_rate_tick</obj_property>
+      </wvobject>
+      <wvobject type="divider" fp_name="divider60">
+         <obj_property name="label">TRANSMITTER</obj_property>
+         <obj_property name="DisplayName">label</obj_property>
+      </wvobject>
+      <wvobject fp_name="/uart_interface_tb/uut/transmitter_state" type="other">
+         <obj_property name="ElementShortName">transmitter_state</obj_property>
+         <obj_property name="ObjectShortName">transmitter_state</obj_property>
+      </wvobject>
+      <wvobject fp_name="/uart_interface_tb/uut/transmitter_state_next" type="other">
+         <obj_property name="ElementShortName">transmitter_state_next</obj_property>
+         <obj_property name="ObjectShortName">transmitter_state_next</obj_property>
+      </wvobject>
+      <wvobject fp_name="/uart_interface_tb/uut/tx_data_reg" type="array">
+         <obj_property name="ElementShortName">tx_data_reg[7:0]</obj_property>
+         <obj_property name="ObjectShortName">tx_data_reg[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/uart_interface_tb/uut/tx_data_reg_en" type="logic">
+         <obj_property name="ElementShortName">tx_data_reg_en</obj_property>
+         <obj_property name="ObjectShortName">tx_data_reg_en</obj_property>
+      </wvobject>
+      <wvobject fp_name="/uart_interface_tb/uut/tx_data_reg_next" type="array">
+         <obj_property name="ElementShortName">tx_data_reg_next[7:0]</obj_property>
+         <obj_property name="ObjectShortName">tx_data_reg_next[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/uart_interface_tb/uut/tx_data_shift_reg" type="array">
+         <obj_property name="ElementShortName">tx_data_shift_reg[7:0]</obj_property>
+         <obj_property name="ObjectShortName">tx_data_shift_reg[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/uart_interface_tb/uut/tx_data_shift_reg_shift_en" type="logic">
+         <obj_property name="ElementShortName">tx_data_shift_reg_shift_en</obj_property>
+         <obj_property name="ObjectShortName">tx_data_shift_reg_shift_en</obj_property>
+      </wvobject>
+      <wvobject fp_name="/uart_interface_tb/uut/tx_data_shift_reg_write_en" type="logic">
+         <obj_property name="ElementShortName">tx_data_shift_reg_write_en</obj_property>
+         <obj_property name="ObjectShortName">tx_data_shift_reg_write_en</obj_property>
+      </wvobject>
+      <wvobject fp_name="/uart_interface_tb/uut/tx_bits_transfered_counter" type="array">
+         <obj_property name="ElementShortName">tx_bits_transfered_counter[3:0]</obj_property>
+         <obj_property name="ObjectShortName">tx_bits_transfered_counter[3:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/uart_interface_tb/uut/tx_bits_transfered_counter_en" type="logic">
+         <obj_property name="ElementShortName">tx_bits_transfered_counter_en</obj_property>
+         <obj_property name="ObjectShortName">tx_bits_transfered_counter_en</obj_property>
+      </wvobject>
+      <wvobject fp_name="/uart_interface_tb/uut/tx_bits_transfered_counter_fill_en" type="logic">
+         <obj_property name="ElementShortName">tx_bits_transfered_counter_fill_en</obj_property>
+         <obj_property name="ObjectShortName">tx_bits_transfered_counter_fill_en</obj_property>
+      </wvobject>
+      <wvobject fp_name="/uart_interface_tb/uut/tx_data_reg_state_set" type="logic">
+         <obj_property name="ElementShortName">tx_data_reg_state_set</obj_property>
+         <obj_property name="ObjectShortName">tx_data_reg_state_set</obj_property>
+      </wvobject>
+      <wvobject fp_name="/uart_interface_tb/uut/tx_data_reg_state_reset" type="logic">
+         <obj_property name="ElementShortName">tx_data_reg_state_reset</obj_property>
+         <obj_property name="ObjectShortName">tx_data_reg_state_reset</obj_property>
+      </wvobject>
+      <wvobject type="divider" fp_name="divider59">
+         <obj_property name="label">RECEIVER</obj_property>
+         <obj_property name="DisplayName">label</obj_property>
+      </wvobject>
+      <wvobject fp_name="/uart_interface_tb/uut/rx_line" type="logic">
+         <obj_property name="ElementShortName">rx_line</obj_property>
+         <obj_property name="ObjectShortName">rx_line</obj_property>
+      </wvobject>
+      <wvobject fp_name="/uart_interface_tb/uut/rx_data_reg" type="array">
+         <obj_property name="ElementShortName">rx_data_reg[7:0]</obj_property>
+         <obj_property name="ObjectShortName">rx_data_reg[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/uart_interface_tb/uut/rx_data_reg_en" type="logic">
+         <obj_property name="ElementShortName">rx_data_reg_en</obj_property>
+         <obj_property name="ObjectShortName">rx_data_reg_en</obj_property>
+      </wvobject>
+      <wvobject fp_name="/uart_interface_tb/uut/rx_data_shift_reg" type="array">
+         <obj_property name="ElementShortName">rx_data_shift_reg[7:0]</obj_property>
+         <obj_property name="ObjectShortName">rx_data_shift_reg[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/uart_interface_tb/uut/rx_data_shift_reg_shift_en" type="logic">
+         <obj_property name="ElementShortName">rx_data_shift_reg_shift_en</obj_property>
+         <obj_property name="ObjectShortName">rx_data_shift_reg_shift_en</obj_property>
+      </wvobject>
+      <wvobject fp_name="/uart_interface_tb/uut/rx_sampler_counter_reg" type="array">
+         <obj_property name="ElementShortName">rx_sampler_counter_reg[3:0]</obj_property>
+         <obj_property name="ObjectShortName">rx_sampler_counter_reg[3:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/uart_interface_tb/uut/rx_sampler_counter_fill" type="array">
+         <obj_property name="ElementShortName">rx_sampler_counter_fill[3:0]</obj_property>
+         <obj_property name="ObjectShortName">rx_sampler_counter_fill[3:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/uart_interface_tb/uut/rx_sampler_counter_reg_count_en" type="logic">
+         <obj_property name="ElementShortName">rx_sampler_counter_reg_count_en</obj_property>
+         <obj_property name="ObjectShortName">rx_sampler_counter_reg_count_en</obj_property>
+      </wvobject>
+      <wvobject fp_name="/uart_interface_tb/uut/rx_sampler_counter_reg_fill_en" type="logic">
+         <obj_property name="ElementShortName">rx_sampler_counter_reg_fill_en</obj_property>
+         <obj_property name="ObjectShortName">rx_sampler_counter_reg_fill_en</obj_property>
+      </wvobject>
+      <wvobject fp_name="/uart_interface_tb/uut/rx_bits_received_counter_reg" type="array">
+         <obj_property name="ElementShortName">rx_bits_received_counter_reg[3:0]</obj_property>
+         <obj_property name="ObjectShortName">rx_bits_received_counter_reg[3:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/uart_interface_tb/uut/rx_bits_received_counter_fill" type="array">
+         <obj_property name="ElementShortName">rx_bits_received_counter_fill[3:0]</obj_property>
+         <obj_property name="ObjectShortName">rx_bits_received_counter_fill[3:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/uart_interface_tb/uut/rx_bits_received_counter_reg_count_en" type="logic">
+         <obj_property name="ElementShortName">rx_bits_received_counter_reg_count_en</obj_property>
+         <obj_property name="ObjectShortName">rx_bits_received_counter_reg_count_en</obj_property>
+      </wvobject>
+      <wvobject fp_name="/uart_interface_tb/uut/rx_bits_received_counter_reg_fill_en" type="logic">
+         <obj_property name="ElementShortName">rx_bits_received_counter_reg_fill_en</obj_property>
+         <obj_property name="ObjectShortName">rx_bits_received_counter_reg_fill_en</obj_property>
+      </wvobject>
+      <wvobject fp_name="/uart_interface_tb/uut/receiver_state" type="other">
+         <obj_property name="ElementShortName">receiver_state</obj_property>
+         <obj_property name="ObjectShortName">receiver_state</obj_property>
+      </wvobject>
+      <wvobject fp_name="/uart_interface_tb/uut/receiver_state_next" type="other">
+         <obj_property name="ElementShortName">receiver_state_next</obj_property>
+         <obj_property name="ObjectShortName">receiver_state_next</obj_property>
+      </wvobject>
+   </wvobject>
+</wave_config>

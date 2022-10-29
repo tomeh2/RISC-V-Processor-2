@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="uop_fifo_tb_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="glbl" />
+            <top_module name="pkg_cpu" />
+            <top_module name="uop_fifo_tb" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="344.124 ns"></ZoomStartTime>
+      <ZoomEndTime time="922.669 ns"></ZoomEndTime>
+      <Cursor1Time time="670.000 ns"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="385"></NameColumnWidth>
+      <ValueColumnWidth column_width="157"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="15" />
+   <wvobject fp_name="/uop_fifo_tb/clk" type="logic">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/uop_fifo_tb/reset" type="logic">
+      <obj_property name="ElementShortName">reset</obj_property>
+      <obj_property name="ObjectShortName">reset</obj_property>
+   </wvobject>
+   <wvobject fp_name="/uop_fifo_tb/rd_en" type="logic">
+      <obj_property name="ElementShortName">rd_en</obj_property>
+      <obj_property name="ObjectShortName">rd_en</obj_property>
+   </wvobject>
+   <wvobject fp_name="/uop_fifo_tb/rd_ready" type="logic">
+      <obj_property name="ElementShortName">rd_ready</obj_property>
+      <obj_property name="ObjectShortName">rd_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/uop_fifo_tb/wr_en" type="logic">
+      <obj_property name="ElementShortName">wr_en</obj_property>
+      <obj_property name="ObjectShortName">wr_en</obj_property>
+   </wvobject>
+   <wvobject fp_name="/uop_fifo_tb/full" type="logic">
+      <obj_property name="ElementShortName">full</obj_property>
+      <obj_property name="ObjectShortName">full</obj_property>
+   </wvobject>
+   <wvobject fp_name="/uop_fifo_tb/empty" type="logic">
+      <obj_property name="ElementShortName">empty</obj_property>
+      <obj_property name="ObjectShortName">empty</obj_property>
+   </wvobject>
+   <wvobject fp_name="/uop_fifo_tb/uop_in" type="array">
+      <obj_property name="ElementShortName">uop_in</obj_property>
+      <obj_property name="ObjectShortName">uop_in</obj_property>
+   </wvobject>
+   <wvobject fp_name="/uop_fifo_tb/uop_out" type="array">
+      <obj_property name="ElementShortName">uop_out</obj_property>
+      <obj_property name="ObjectShortName">uop_out</obj_property>
+   </wvobject>
+   <wvobject fp_name="/uop_fifo_tb/T" type="other">
+      <obj_property name="ElementShortName">T</obj_property>
+      <obj_property name="ObjectShortName">T</obj_property>
+   </wvobject>
+   <wvobject fp_name="/uop_fifo_tb/uut/fifo" type="array">
+      <obj_property name="ElementShortName">fifo[3:0][94:0]</obj_property>
+      <obj_property name="ObjectShortName">fifo[3:0][94:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/uop_fifo_tb/uut/head_counter_reg" type="array">
+      <obj_property name="ElementShortName">head_counter_reg[1:0]</obj_property>
+      <obj_property name="ObjectShortName">head_counter_reg[1:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/uop_fifo_tb/uut/head_counter_next" type="array">
+      <obj_property name="ElementShortName">head_counter_next[1:0]</obj_property>
+      <obj_property name="ObjectShortName">head_counter_next[1:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/uop_fifo_tb/uut/tail_counter_reg" type="array">
+      <obj_property name="ElementShortName">tail_counter_reg[1:0]</obj_property>
+      <obj_property name="ObjectShortName">tail_counter_reg[1:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/uop_fifo_tb/uut/tail_counter_next" type="array">
+      <obj_property name="ElementShortName">tail_counter_next[1:0]</obj_property>
+      <obj_property name="ObjectShortName">tail_counter_next[1:0]</obj_property>
+   </wvobject>
+</wave_config>

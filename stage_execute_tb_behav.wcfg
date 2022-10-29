@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="stage_execute_tb_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="glbl" />
+            <top_module name="pkg_cpu" />
+            <top_module name="pkg_fu" />
+            <top_module name="pkg_sched" />
+            <top_module name="stage_execute_tb" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="0fs"></ZoomStartTime>
+      <ZoomEndTime time="5000001fs"></ZoomEndTime>
+      <Cursor1Time time="5000000fs"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="264"></NameColumnWidth>
+      <ValueColumnWidth column_width="121"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="16" />
+   <wvobject fp_name="/stage_execute_tb/clk" type="logic">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/stage_execute_tb/rst" type="logic">
+      <obj_property name="ElementShortName">rst</obj_property>
+      <obj_property name="ObjectShortName">rst</obj_property>
+   </wvobject>
+   <wvobject fp_name="/stage_execute_tb/instr_rdy" type="logic">
+      <obj_property name="ElementShortName">instr_rdy</obj_property>
+      <obj_property name="ObjectShortName">instr_rdy</obj_property>
+   </wvobject>
+   <wvobject fp_name="/stage_execute_tb/instr_in" type="array">
+      <obj_property name="ElementShortName">instr_in</obj_property>
+      <obj_property name="ObjectShortName">instr_in</obj_property>
+   </wvobject>
+   <wvobject fp_name="/stage_execute_tb/T" type="other">
+      <obj_property name="ElementShortName">T</obj_property>
+      <obj_property name="ObjectShortName">T</obj_property>
+   </wvobject>
+   <wvobject fp_name="/stage_execute_tb/uut/iq_full" type="logic">
+      <obj_property name="ElementShortName">iq_full</obj_property>
+      <obj_property name="ObjectShortName">iq_full</obj_property>
+   </wvobject>
+   <wvobject fp_name="/stage_execute_tb/uut/iq_empty" type="logic">
+      <obj_property name="ElementShortName">iq_empty</obj_property>
+      <obj_property name="ObjectShortName">iq_empty</obj_property>
+   </wvobject>
+   <wvobject fp_name="/stage_execute_tb/uut/next_instr_ready" type="logic">
+      <obj_property name="ElementShortName">next_instr_ready</obj_property>
+      <obj_property name="ObjectShortName">next_instr_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/stage_execute_tb/uut/next_instruction" type="array">
+      <obj_property name="ElementShortName">next_instruction</obj_property>
+      <obj_property name="ObjectShortName">next_instruction</obj_property>
+   </wvobject>
+   <wvobject fp_name="/stage_execute_tb/uut/rf_src_tag_1" type="array">
+      <obj_property name="ElementShortName">rf_src_tag_1[3:0]</obj_property>
+      <obj_property name="ObjectShortName">rf_src_tag_1[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/stage_execute_tb/uut/rf_src_tag_2" type="array">
+      <obj_property name="ElementShortName">rf_src_tag_2[3:0]</obj_property>
+      <obj_property name="ObjectShortName">rf_src_tag_2[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="group742" type="group">
+      <obj_property name="label">RESERVATION STATION</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject type="divider" fp_name="divider752">
+         <obj_property name="label">INS</obj_property>
+         <obj_property name="DisplayName">label</obj_property>
+      </wvobject>
+      <wvobject fp_name="/stage_execute_tb/uut/reservation_station/i1_operand_1" type="array">
+         <obj_property name="ElementShortName">i1_operand_1[31:0]</obj_property>
+         <obj_property name="ObjectShortName">i1_operand_1[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/stage_execute_tb/uut/reservation_station/i1_operand_2" type="array">
+         <obj_property name="ElementShortName">i1_operand_2[31:0]</obj_property>
+         <obj_property name="ObjectShortName">i1_operand_2[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/stage_execute_tb/uut/reservation_station/i1_dest_reg" type="array">
+         <obj_property name="ElementShortName">i1_dest_reg[4:0]</obj_property>
+         <obj_property name="ObjectShortName">i1_dest_reg[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/stage_execute_tb/uut/reservation_station/i1_src_tag_1" type="array">
+         <obj_property name="ElementShortName">i1_src_tag_1[3:0]</obj_property>
+         <obj_property name="ObjectShortName">i1_src_tag_1[3:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/stage_execute_tb/uut/reservation_station/i1_src_tag_2" type="array">
+         <obj_property name="ElementShortName">i1_src_tag_2[3:0]</obj_property>
+         <obj_property name="ObjectShortName">i1_src_tag_2[3:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/stage_execute_tb/uut/reservation_station/rs1_src_tag_1" type="array">
+         <obj_property name="ElementShortName">rs1_src_tag_1[3:0]</obj_property>
+         <obj_property name="ObjectShortName">rs1_src_tag_1[3:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/stage_execute_tb/uut/reservation_station/rs1_src_tag_2" type="array">
+         <obj_property name="ElementShortName">rs1_src_tag_2[3:0]</obj_property>
+         <obj_property name="ObjectShortName">rs1_src_tag_2[3:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/stage_execute_tb/uut/reservation_station/rs1_operand_1" type="array">
+         <obj_property name="ElementShortName">rs1_operand_1[31:0]</obj_property>
+         <obj_property name="ObjectShortName">rs1_operand_1[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/stage_execute_tb/uut/reservation_station/rs1_operand_2" type="array">
+         <obj_property name="ElementShortName">rs1_operand_2[31:0]</obj_property>
+         <obj_property name="ObjectShortName">rs1_operand_2[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/stage_execute_tb/uut/reservation_station/write_en" type="logic">
+         <obj_property name="ElementShortName">write_en</obj_property>
+         <obj_property name="ObjectShortName">write_en</obj_property>
+      </wvobject>
+      <wvobject type="divider" fp_name="divider754">
+         <obj_property name="label">OUTS</obj_property>
+         <obj_property name="DisplayName">label</obj_property>
+      </wvobject>
+      <wvobject fp_name="/stage_execute_tb/uut/reservation_station/o1_operand_1" type="array">
+         <obj_property name="ElementShortName">o1_operand_1[31:0]</obj_property>
+         <obj_property name="ObjectShortName">o1_operand_1[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/stage_execute_tb/uut/reservation_station/o1_operand_2" type="array">
+         <obj_property name="ElementShortName">o1_operand_2[31:0]</obj_property>
+         <obj_property name="ObjectShortName">o1_operand_2[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/stage_execute_tb/uut/reservation_station/rs_entries" type="array">
+         <obj_property name="ElementShortName">rs_entries[14:0][113:0]</obj_property>
+         <obj_property name="ObjectShortName">rs_entries[14:0][113:0]</obj_property>
+         <obj_property name="isExpanded"></obj_property>
+      </wvobject>
+      <wvobject fp_name="/stage_execute_tb/uut/reservation_station/rs_busy_bits" type="array">
+         <obj_property name="ElementShortName">rs_busy_bits[14:0]</obj_property>
+         <obj_property name="ObjectShortName">rs_busy_bits[14:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/stage_execute_tb/uut/reservation_station/rs_ready_bits" type="array">
+         <obj_property name="ElementShortName">rs_ready_bits[14:0]</obj_property>
+         <obj_property name="ObjectShortName">rs_ready_bits[14:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/stage_execute_tb/uut/reservation_station/rs_sel_read_1" type="array">
+         <obj_property name="ElementShortName">rs_sel_read_1[3:0]</obj_property>
+         <obj_property name="ObjectShortName">rs_sel_read_1[3:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/stage_execute_tb/uut/reservation_station/rs_sel_write_1" type="array">
+         <obj_property name="ElementShortName">rs_sel_write_1[3:0]</obj_property>
+         <obj_property name="ObjectShortName">rs_sel_write_1[3:0]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group759" type="group">
+      <obj_property name="label">REG FILE</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject fp_name="/stage_execute_tb/uut/register_file/reg_file" type="array">
+         <obj_property name="ElementShortName">reg_file[31:0][31:0]</obj_property>
+         <obj_property name="ObjectShortName">reg_file[31:0][31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/stage_execute_tb/uut/register_file/rf_status_reg" type="array">
+         <obj_property name="ElementShortName">rf_status_reg[31:0][3:0]</obj_property>
+         <obj_property name="ObjectShortName">rf_status_reg[31:0][3:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/stage_execute_tb/uut/register_file/rd_1_addr" type="array">
+         <obj_property name="ElementShortName">rd_1_addr[4:0]</obj_property>
+         <obj_property name="ObjectShortName">rd_1_addr[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/stage_execute_tb/uut/register_file/rd_2_addr" type="array">
+         <obj_property name="ElementShortName">rd_2_addr[4:0]</obj_property>
+         <obj_property name="ObjectShortName">rd_2_addr[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/stage_execute_tb/uut/register_file/wr_addr" type="array">
+         <obj_property name="ElementShortName">wr_addr[4:0]</obj_property>
+         <obj_property name="ObjectShortName">wr_addr[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/stage_execute_tb/uut/register_file/rs_alloc_dest_tag" type="array">
+         <obj_property name="ElementShortName">rs_alloc_dest_tag[3:0]</obj_property>
+         <obj_property name="ObjectShortName">rs_alloc_dest_tag[3:0]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group357" type="group">
+      <obj_property name="label">INT/BR FU</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject fp_name="/stage_execute_tb/uut/integer_branch_func_unit/pipeline_reg_1" type="array">
+         <obj_property name="ElementShortName">pipeline_reg_1</obj_property>
+         <obj_property name="ObjectShortName">pipeline_reg_1</obj_property>
+         <obj_property name="isExpanded"></obj_property>
+      </wvobject>
+      <wvobject fp_name="/stage_execute_tb/uut/integer_branch_func_unit/pipeline_reg_2" type="array">
+         <obj_property name="ElementShortName">pipeline_reg_2</obj_property>
+         <obj_property name="ObjectShortName">pipeline_reg_2</obj_property>
+      </wvobject>
+      <wvobject fp_name="/stage_execute_tb/uut/integer_branch_func_unit/immediate" type="array">
+         <obj_property name="ElementShortName">immediate[31:0]</obj_property>
+         <obj_property name="ObjectShortName">immediate[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/stage_execute_tb/uut/integer_branch_func_unit/operand_1" type="array">
+         <obj_property name="ElementShortName">operand_1[31:0]</obj_property>
+         <obj_property name="ObjectShortName">operand_1[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/stage_execute_tb/uut/integer_branch_func_unit/operand_2" type="array">
+         <obj_property name="ElementShortName">operand_2[31:0]</obj_property>
+         <obj_property name="ObjectShortName">operand_2[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/stage_execute_tb/uut/integer_branch_func_unit/operation_sel" type="array">
+         <obj_property name="ElementShortName">operation_sel[4:0]</obj_property>
+         <obj_property name="ObjectShortName">operation_sel[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/stage_execute_tb/uut/integer_branch_func_unit/alu_result" type="array">
+         <obj_property name="ElementShortName">alu_result[31:0]</obj_property>
+         <obj_property name="ObjectShortName">alu_result[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/stage_execute_tb/uut/integer_branch_func_unit/alu_operand_2" type="array">
+         <obj_property name="ElementShortName">alu_operand_2[31:0]</obj_property>
+         <obj_property name="ObjectShortName">alu_operand_2[31:0]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject type="divider" fp_name="divider1106">
+      <obj_property name="label">CDB</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+   </wvobject>
+   <wvobject fp_name="/stage_execute_tb/uut/cdb_1" type="array">
+      <obj_property name="ElementShortName">cdb_1</obj_property>
+      <obj_property name="ObjectShortName">cdb_1</obj_property>
+   </wvobject>
+</wave_config>

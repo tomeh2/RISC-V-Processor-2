@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="reorder_buffer_tb_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="glbl" />
+            <top_module name="reorder_buffer_tb" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="0fs"></ZoomStartTime>
+      <ZoomEndTime time="5000001fs"></ZoomEndTime>
+      <Cursor1Time time="5000000fs"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="264"></NameColumnWidth>
+      <ValueColumnWidth column_width="85"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="18" />
+   <wvobject fp_name="/reorder_buffer_tb/head_dest_reg" type="array">
+      <obj_property name="ElementShortName">head_dest_reg[2:0]</obj_property>
+      <obj_property name="ObjectShortName">head_dest_reg[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/reorder_buffer_tb/head_result" type="array">
+      <obj_property name="ElementShortName">head_result[3:0]</obj_property>
+      <obj_property name="ObjectShortName">head_result[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/reorder_buffer_tb/cdb_data" type="array">
+      <obj_property name="ElementShortName">cdb_data[3:0]</obj_property>
+      <obj_property name="ObjectShortName">cdb_data[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/reorder_buffer_tb/cdb_tag" type="array">
+      <obj_property name="ElementShortName">cdb_tag[2:0]</obj_property>
+      <obj_property name="ObjectShortName">cdb_tag[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/reorder_buffer_tb/operation_1_type" type="array">
+      <obj_property name="ElementShortName">operation_1_type[3:0]</obj_property>
+      <obj_property name="ObjectShortName">operation_1_type[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/reorder_buffer_tb/dest_reg_1" type="array">
+      <obj_property name="ElementShortName">dest_reg_1[2:0]</obj_property>
+      <obj_property name="ObjectShortName">dest_reg_1[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/reorder_buffer_tb/write_1_en" type="logic">
+      <obj_property name="ElementShortName">write_1_en</obj_property>
+      <obj_property name="ObjectShortName">write_1_en</obj_property>
+   </wvobject>
+   <wvobject fp_name="/reorder_buffer_tb/commit_1_en" type="logic">
+      <obj_property name="ElementShortName">commit_1_en</obj_property>
+      <obj_property name="ObjectShortName">commit_1_en</obj_property>
+   </wvobject>
+   <wvobject fp_name="/reorder_buffer_tb/full" type="logic">
+      <obj_property name="ElementShortName">full</obj_property>
+      <obj_property name="ObjectShortName">full</obj_property>
+   </wvobject>
+   <wvobject fp_name="/reorder_buffer_tb/empty" type="logic">
+      <obj_property name="ElementShortName">empty</obj_property>
+      <obj_property name="ObjectShortName">empty</obj_property>
+   </wvobject>
+   <wvobject fp_name="/reorder_buffer_tb/clk" type="logic">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/reorder_buffer_tb/reset" type="logic">
+      <obj_property name="ElementShortName">reset</obj_property>
+      <obj_property name="ObjectShortName">reset</obj_property>
+   </wvobject>
+   <wvobject fp_name="/reorder_buffer_tb/ENTRIES" type="other">
+      <obj_property name="ElementShortName">ENTRIES</obj_property>
+      <obj_property name="ObjectShortName">ENTRIES</obj_property>
+   </wvobject>
+   <wvobject fp_name="/reorder_buffer_tb/REGFILE_ENTRIES" type="other">
+      <obj_property name="ElementShortName">REGFILE_ENTRIES</obj_property>
+      <obj_property name="ObjectShortName">REGFILE_ENTRIES</obj_property>
+   </wvobject>
+   <wvobject fp_name="/reorder_buffer_tb/OPERAND_BITS" type="other">
+      <obj_property name="ElementShortName">OPERAND_BITS</obj_property>
+      <obj_property name="ObjectShortName">OPERAND_BITS</obj_property>
+   </wvobject>
+   <wvobject fp_name="/reorder_buffer_tb/OPERATION_TYPE_BITS" type="other">
+      <obj_property name="ElementShortName">OPERATION_TYPE_BITS</obj_property>
+      <obj_property name="ObjectShortName">OPERATION_TYPE_BITS</obj_property>
+   </wvobject>
+   <wvobject fp_name="/reorder_buffer_tb/T" type="other">
+      <obj_property name="ElementShortName">T</obj_property>
+      <obj_property name="ObjectShortName">T</obj_property>
+   </wvobject>
+   <wvobject fp_name="group960" type="group">
+      <obj_property name="label">REORDER BUFFER</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject fp_name="/reorder_buffer_tb/uut/reorder_buffer" type="array">
+         <obj_property name="ElementShortName">reorder_buffer[7:0][11:0]</obj_property>
+         <obj_property name="ObjectShortName">reorder_buffer[7:0][11:0]</obj_property>
+         <obj_property name="isExpanded"></obj_property>
+      </wvobject>
+      <wvobject fp_name="/reorder_buffer_tb/uut/head_counter_reg" type="array">
+         <obj_property name="ElementShortName">head_counter_reg[2:0]</obj_property>
+         <obj_property name="ObjectShortName">head_counter_reg[2:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/reorder_buffer_tb/uut/head_counter_next" type="array">
+         <obj_property name="ElementShortName">head_counter_next[2:0]</obj_property>
+         <obj_property name="ObjectShortName">head_counter_next[2:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/reorder_buffer_tb/uut/tail_counter_reg" type="array">
+         <obj_property name="ElementShortName">tail_counter_reg[2:0]</obj_property>
+         <obj_property name="ObjectShortName">tail_counter_reg[2:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/reorder_buffer_tb/uut/tail_counter_next" type="array">
+         <obj_property name="ElementShortName">tail_counter_next[2:0]</obj_property>
+         <obj_property name="ObjectShortName">tail_counter_next[2:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/reorder_buffer_tb/uut/rob_full" type="logic">
+         <obj_property name="ElementShortName">rob_full</obj_property>
+         <obj_property name="ObjectShortName">rob_full</obj_property>
+      </wvobject>
+      <wvobject fp_name="/reorder_buffer_tb/uut/rob_empty" type="logic">
+         <obj_property name="ElementShortName">rob_empty</obj_property>
+         <obj_property name="ObjectShortName">rob_empty</obj_property>
+      </wvobject>
+      <wvobject fp_name="/reorder_buffer_tb/uut/commit_en" type="logic">
+         <obj_property name="ElementShortName">commit_en</obj_property>
+         <obj_property name="ObjectShortName">commit_en</obj_property>
+      </wvobject>
+   </wvobject>
+</wave_config>
