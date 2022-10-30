@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="icache_tb_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="glbl" />
+            <top_module name="icache_tb" />
+            <top_module name="pkg_cpu" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="0.000 ns"></ZoomStartTime>
+      <ZoomEndTime time="469.405 ns"></ZoomEndTime>
+      <Cursor1Time time="6.295 ns"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="385"></NameColumnWidth>
+      <ValueColumnWidth column_width="93"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="44" />
+   <wvobject fp_name="/icache_tb/clk" type="logic">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/icache_tb/reset" type="logic">
+      <obj_property name="ElementShortName">reset</obj_property>
+      <obj_property name="ObjectShortName">reset</obj_property>
+   </wvobject>
+   <wvobject fp_name="/icache_tb/read_addr" type="array">
+      <obj_property name="ElementShortName">read_addr[31:0]</obj_property>
+      <obj_property name="ObjectShortName">read_addr[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/icache_tb/bus_addr_read" type="array">
+      <obj_property name="ElementShortName">bus_addr_read[31:0]</obj_property>
+      <obj_property name="ObjectShortName">bus_addr_read[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/icache_tb/bus_data_read" type="array">
+      <obj_property name="ElementShortName">bus_data_read[31:0]</obj_property>
+      <obj_property name="ObjectShortName">bus_data_read[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/icache_tb/read_en" type="logic">
+      <obj_property name="ElementShortName">read_en</obj_property>
+      <obj_property name="ObjectShortName">read_en</obj_property>
+   </wvobject>
+   <wvobject fp_name="/icache_tb/hit" type="logic">
+      <obj_property name="ElementShortName">hit</obj_property>
+      <obj_property name="ObjectShortName">hit</obj_property>
+   </wvobject>
+   <wvobject fp_name="/icache_tb/bus_stbr" type="logic">
+      <obj_property name="ElementShortName">bus_stbr</obj_property>
+      <obj_property name="ObjectShortName">bus_stbr</obj_property>
+   </wvobject>
+   <wvobject fp_name="/icache_tb/bus_ackr" type="logic">
+      <obj_property name="ElementShortName">bus_ackr</obj_property>
+      <obj_property name="ObjectShortName">bus_ackr</obj_property>
+   </wvobject>
+   <wvobject fp_name="/icache_tb/data_out" type="array">
+      <obj_property name="ElementShortName">data_out[63:0]</obj_property>
+      <obj_property name="ObjectShortName">data_out[63:0]</obj_property>
+   </wvobject>
+   <wvobject type="divider" fp_name="divider371">
+      <obj_property name="label">CACHE</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+   </wvobject>
+   <wvobject fp_name="/icache_tb/uut/read_addr" type="array">
+      <obj_property name="ElementShortName">read_addr[31:0]</obj_property>
+      <obj_property name="ObjectShortName">read_addr[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/icache_tb/uut/read_en" type="logic">
+      <obj_property name="ElementShortName">read_en</obj_property>
+      <obj_property name="ObjectShortName">read_en</obj_property>
+   </wvobject>
+   <wvobject fp_name="/icache_tb/uut/hit" type="logic">
+      <obj_property name="ElementShortName">hit</obj_property>
+      <obj_property name="ObjectShortName">hit</obj_property>
+   </wvobject>
+   <wvobject fp_name="/icache_tb/uut/data_out" type="array">
+      <obj_property name="ElementShortName">data_out[63:0]</obj_property>
+      <obj_property name="ObjectShortName">data_out[63:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/icache_tb/uut/bus_addr_read" type="array">
+      <obj_property name="ElementShortName">bus_addr_read[31:0]</obj_property>
+      <obj_property name="ObjectShortName">bus_addr_read[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/icache_tb/uut/bus_data_read" type="array">
+      <obj_property name="ElementShortName">bus_data_read[31:0]</obj_property>
+      <obj_property name="ObjectShortName">bus_data_read[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/icache_tb/uut/bus_stbr" type="logic">
+      <obj_property name="ElementShortName">bus_stbr</obj_property>
+      <obj_property name="ObjectShortName">bus_stbr</obj_property>
+   </wvobject>
+   <wvobject fp_name="/icache_tb/uut/bus_ackr" type="logic">
+      <obj_property name="ElementShortName">bus_ackr</obj_property>
+      <obj_property name="ObjectShortName">bus_ackr</obj_property>
+   </wvobject>
+   <wvobject fp_name="/icache_tb/uut/icache" type="array">
+      <obj_property name="ElementShortName">icache[0:15][0:1][88:0]</obj_property>
+      <obj_property name="ObjectShortName">icache[0:15][0:1][88:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/icache_tb/uut/icache_valid_bits" type="array">
+      <obj_property name="ElementShortName">icache_valid_bits[31:0]</obj_property>
+      <obj_property name="ObjectShortName">icache_valid_bits[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/icache_tb/uut/icache_block_out" type="array">
+      <obj_property name="ElementShortName">icache_block_out[0:1][88:0]</obj_property>
+      <obj_property name="ObjectShortName">icache_block_out[0:1][88:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/icache_tb/uut/icache_block_valid" type="array">
+      <obj_property name="ElementShortName">icache_block_valid[1:0]</obj_property>
+      <obj_property name="ObjectShortName">icache_block_valid[1:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/icache_tb/uut/hit_bits" type="array">
+      <obj_property name="ElementShortName">hit_bits[1:0]</obj_property>
+      <obj_property name="ObjectShortName">hit_bits[1:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/icache_tb/uut/i_hit" type="logic">
+      <obj_property name="ElementShortName">i_hit</obj_property>
+      <obj_property name="ObjectShortName">i_hit</obj_property>
+   </wvobject>
+   <wvobject fp_name="/icache_tb/uut/read_en_pipeline_reg" type="logic">
+      <obj_property name="ElementShortName">read_en_pipeline_reg</obj_property>
+      <obj_property name="ObjectShortName">read_en_pipeline_reg</obj_property>
+   </wvobject>
+   <wvobject fp_name="/icache_tb/uut/i_bus_addr_read" type="array">
+      <obj_property name="ElementShortName">i_bus_addr_read[31:0]</obj_property>
+      <obj_property name="ObjectShortName">i_bus_addr_read[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/icache_tb/uut/cacheline_update" type="logic">
+      <obj_property name="ElementShortName">cacheline_update</obj_property>
+      <obj_property name="ObjectShortName">cacheline_update</obj_property>
+   </wvobject>
+   <wvobject fp_name="/icache_tb/uut/bus_read_state" type="other">
+      <obj_property name="ElementShortName">bus_read_state</obj_property>
+      <obj_property name="ObjectShortName">bus_read_state</obj_property>
+   </wvobject>
+   <wvobject fp_name="/icache_tb/uut/bus_read_state_next" type="other">
+      <obj_property name="ElementShortName">bus_read_state_next</obj_property>
+      <obj_property name="ObjectShortName">bus_read_state_next</obj_property>
+   </wvobject>
+   <wvobject fp_name="/icache_tb/uut/fetched_cacheline_data" type="array">
+      <obj_property name="ElementShortName">fetched_cacheline_data[63:0]</obj_property>
+      <obj_property name="ObjectShortName">fetched_cacheline_data[63:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/icache_tb/uut/fetched_cacheline" type="array">
+      <obj_property name="ElementShortName">fetched_cacheline[88:0]</obj_property>
+      <obj_property name="ObjectShortName">fetched_cacheline[88:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/icache_tb/uut/fetched_instrs_counter" type="array">
+      <obj_property name="ElementShortName">fetched_instrs_counter[0:0]</obj_property>
+      <obj_property name="ObjectShortName">fetched_instrs_counter[0:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/icache_tb/uut/TAG_SIZE" type="other">
+      <obj_property name="ElementShortName">TAG_SIZE</obj_property>
+      <obj_property name="ObjectShortName">TAG_SIZE</obj_property>
+   </wvobject>
+   <wvobject fp_name="/icache_tb/uut/INDEX_SIZE" type="other">
+      <obj_property name="ElementShortName">INDEX_SIZE</obj_property>
+      <obj_property name="ObjectShortName">INDEX_SIZE</obj_property>
+   </wvobject>
+   <wvobject fp_name="/icache_tb/uut/CACHELINE_SIZE" type="other">
+      <obj_property name="ElementShortName">CACHELINE_SIZE</obj_property>
+      <obj_property name="ObjectShortName">CACHELINE_SIZE</obj_property>
+   </wvobject>
+   <wvobject fp_name="/icache_tb/uut/RADDR_TAG_START" type="other">
+      <obj_property name="ElementShortName">RADDR_TAG_START</obj_property>
+      <obj_property name="ObjectShortName">RADDR_TAG_START</obj_property>
+   </wvobject>
+   <wvobject fp_name="/icache_tb/uut/RADDR_TAG_END" type="other">
+      <obj_property name="ElementShortName">RADDR_TAG_END</obj_property>
+      <obj_property name="ObjectShortName">RADDR_TAG_END</obj_property>
+   </wvobject>
+   <wvobject fp_name="/icache_tb/uut/RADDR_INDEX_START" type="other">
+      <obj_property name="ElementShortName">RADDR_INDEX_START</obj_property>
+      <obj_property name="ObjectShortName">RADDR_INDEX_START</obj_property>
+   </wvobject>
+   <wvobject fp_name="/icache_tb/uut/RADDR_INDEX_END" type="other">
+      <obj_property name="ElementShortName">RADDR_INDEX_END</obj_property>
+      <obj_property name="ObjectShortName">RADDR_INDEX_END</obj_property>
+   </wvobject>
+   <wvobject fp_name="/icache_tb/uut/CACHELINE_TAG_START" type="other">
+      <obj_property name="ElementShortName">CACHELINE_TAG_START</obj_property>
+      <obj_property name="ObjectShortName">CACHELINE_TAG_START</obj_property>
+   </wvobject>
+   <wvobject fp_name="/icache_tb/uut/CACHELINE_TAG_END" type="other">
+      <obj_property name="ElementShortName">CACHELINE_TAG_END</obj_property>
+      <obj_property name="ObjectShortName">CACHELINE_TAG_END</obj_property>
+   </wvobject>
+   <wvobject fp_name="/icache_tb/uut/CACHELINE_DATA_START" type="other">
+      <obj_property name="ElementShortName">CACHELINE_DATA_START</obj_property>
+      <obj_property name="ObjectShortName">CACHELINE_DATA_START</obj_property>
+   </wvobject>
+   <wvobject fp_name="/icache_tb/uut/CACHELINE_DATA_END" type="other">
+      <obj_property name="ElementShortName">CACHELINE_DATA_END</obj_property>
+      <obj_property name="ObjectShortName">CACHELINE_DATA_END</obj_property>
+   </wvobject>
+</wave_config>

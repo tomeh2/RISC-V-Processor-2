@@ -37,17 +37,28 @@ package pkg_cpu is
     constant PHYS_REGFILE_ENTRIES : integer range 1 to 1024 := 96;
     constant PHYS_REGFILE_ADDR_BITS : integer := integer(ceil(log2(real(PHYS_REGFILE_ENTRIES))));
     
+    -- ========================= CAN BE MODIFIED =========================
     constant SCHEDULER_ENTRIES : integer range 1 to 1023 := 12;
     constant REORDER_BUFFER_ENTRIES : integer := 48;
     constant SQ_ENTRIES : integer := 8;
     constant LQ_ENTRIES : integer := 8;
     constant DECODED_INSTR_QUEUE_ENTRIES : integer := 4;
+    
     constant BRANCHING_DEPTH : integer := 4;            -- How many branches this CPU is capable of speculating against. For ex. 4 Means 4 cond. branch instructions before further fetching is halted
     constant BP_TYPE : string := "2BSP";              -- Selects a branch predictor type to implement. Options: STATIC, 2BSP (2-Bit Saturating Counters)
     constant BP_STATIC_PREDICTION : std_logic := '1';      -- Value of 1 configures the static predictor to always predict taken, 0 does the opposite
     constant BP_2BST_ENTRIES : integer := 16;           -- MUST BE POWER OF 2!
     constant BP_2BST_INIT_VAL : std_logic_vector(1 downto 0) := "00";  -- Initial value of 2-bit saturating counters
     constant BTB_ENTRIES : integer := 4;                 -- MUST BE POWER OF 2!
+    
+    constant ICACHE_ASSOCIATIVITY : integer := 2;                   -- MUST BE POWER OF 2!
+    constant ICACHE_INSTR_PER_CACHELINE : integer := 2;                  -- MUST BE MULTIPLE OF 4 SINCE INSTRUCTIONS ARE 4 BYTES LONG!
+    constant ICACHE_NUM_BLOCKS : integer := 16;
+    --constant ICACHE_REPLACEMENT_POLICY : string := "FIFO";                -- In consideration
+    
+    -- Size of a block is ASSOCIATIVITY * CACHELINE_SIZE;
+    -- Total size of ICACHE can be calculated as follows: ASSOCIATIVITY * CACHELINE_SIZE * NUM_BLOCKS;
+    -- ===================================================================
     
     constant CDB_PC_BITS : integer := integer(ceil(log2(real(BP_2BST_ENTRIES))));
     
