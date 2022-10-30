@@ -52,12 +52,9 @@ package pkg_cpu is
     constant BTB_ENTRIES : integer := 4;                 -- MUST BE POWER OF 2!
     
     constant ICACHE_ASSOCIATIVITY : integer := 2;                   -- MUST BE POWER OF 2!
-    constant ICACHE_INSTR_PER_CACHELINE : integer := 2;                  -- MUST BE MULTIPLE OF 4 SINCE INSTRUCTIONS ARE 4 BYTES LONG!
-    constant ICACHE_NUM_BLOCKS : integer := 16;
+    constant ICACHE_INSTR_PER_CACHELINE : integer := 2;
+    constant ICACHE_NUM_BLOCKS : integer := 16;                     -- MUST BE POWER OF 2!
     --constant ICACHE_REPLACEMENT_POLICY : string := "FIFO";                -- In consideration
-    
-    -- Size of a block is ASSOCIATIVITY * CACHELINE_SIZE;
-    -- Total size of ICACHE can be calculated as follows: ASSOCIATIVITY * CACHELINE_SIZE * NUM_BLOCKS;
     -- ===================================================================
     
     constant CDB_PC_BITS : integer := integer(ceil(log2(real(BP_2BST_ENTRIES))));
