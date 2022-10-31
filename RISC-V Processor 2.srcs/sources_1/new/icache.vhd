@@ -50,7 +50,8 @@ end icache;
 architecture rtl of icache is
     constant TAG_SIZE : integer := CPU_ADDR_WIDTH_BITS - integer(ceil(log2(real(ICACHE_INSTR_PER_CACHELINE)))) - integer(ceil(log2(real(ICACHE_NUM_BLOCKS)))) - 2;
     constant INDEX_SIZE : integer := integer(ceil(log2(real(ICACHE_NUM_BLOCKS))));
-    constant CACHELINE_SIZE : integer := (TAG_SIZE + ICACHE_INSTR_PER_CACHELINE * 32);     -- Total size of a cacheline in bits including control bits
+    constant CACHELINE_SIZE : integer := (TAG_SIZE + ICACHE_INSTR_PER_CACHELINE * 32);                      -- Total size of a cacheline in bits including control bits
+    constant CACHELINE_ALIGNMENT : integer := integer(ceil(log2(real(ICACHE_INSTR_PER_CACHELINE * 4))));    -- Number of bits at the end of the address which have to be 0
 
     constant RADDR_TAG_START : integer := CPU_ADDR_WIDTH_BITS - 1;
     constant RADDR_TAG_END : integer := CPU_ADDR_WIDTH_BITS - TAG_SIZE;
@@ -75,10 +76,12 @@ architecture rtl of icache is
     signal hit_bits : std_logic_vector(ICACHE_ASSOCIATIVITY - 1 downto 0);          -- Only one bit can be active at a time
     signal i_hit : std_logic;
     
-    signal read_en_pipeline_reg : std_logic;
+    signal valid_pipeline_reg : std_logic;
+    signal read_addr_pipeline_reg : std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);
     signal i_bus_addr_read : std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);
     
-    signal cacheline_update : std_logic;
+    signal cacheline_update_en : std_logic;
+    signal cacheline_update_sel : std_logic_vector(ICACHE_ASSOCIATIVITY - 1 downto 0);
     
     -- ==================== BUS SIGNALS ====================
     type bus_read_state_type is (IDLE,
@@ -102,7 +105,7 @@ begin
             end if;
             
             if (bus_read_state_next = IDLE) then
-                i_bus_addr_read <= read_addr;
+                i_bus_addr_read <= read_addr(31 downto CACHELINE_ALIGNMENT) & std_logic_vector(to_unsigned(0, CACHELINE_ALIGNMENT));
             elsif (bus_ackr = '1') then
                 i_bus_addr_read <= std_logic_vector(unsigned(i_bus_addr_read) + 4);
             end if;
@@ -122,7 +125,7 @@ begin
     bus_read_sm_next_state : process(all)
     begin
         if (bus_read_state = IDLE) then
-            if (read_en_pipeline_reg = '1' and i_hit = '0') then
+            if (valid_pipeline_reg = '1' and i_hit = '0') then
                 bus_read_state_next <= BUSY;
             else
                 bus_read_state_next <= IDLE;
@@ -140,13 +143,13 @@ begin
     
     bus_read_sm_actions : process(all)
     begin
-        cacheline_update <= '0';
+        cacheline_update_en <= '0';
         bus_stbr <= '0';
         if (bus_read_state = IDLE) then
         elsif (bus_read_state = BUSY) then
             bus_stbr <= '1';
         elsif (bus_read_state = FINALIZE) then
-            cacheline_update <= '1';
+            cacheline_update_en <= '1';
         end if;
     end process;
     
@@ -173,13 +176,27 @@ begin
     fetched_cacheline <= i_bus_addr_read(RADDR_TAG_START downto RADDR_TAG_END) & fetched_cacheline_data;
     bus_addr_read <= i_bus_addr_read;
     -- ========================================================
+    
+    -- ==================== CACHE LOGIC ====================
+    -- Used to generate pseudo-random signal used to select which cacheline to evict in case of an associative cache
+    ring_counter_inst : entity work.ring_counter(rtl)
+                        generic map(SIZE_BITS => ICACHE_ASSOCIATIVITY)
+                        port map(q => cacheline_update_sel,
+                                 clk => clk,
+                                 reset => reset);
+    
     pipeline_reg_cntrl : process(clk)
     begin
         if (rising_edge(clk)) then
             if (reset = '1') then
-                read_en_pipeline_reg <= '0';
+                valid_pipeline_reg <= '0';
+                read_addr_pipeline_reg <= (others => '0');
             end if;
-            read_en_pipeline_reg <= read_en;
+            valid_pipeline_reg <= read_en;
+            
+            if (read_en = '1') then
+                read_addr_pipeline_reg <= read_addr;
+            end if; 
         end if;
     end process;
 
@@ -198,12 +215,16 @@ begin
                 end loop;
             end if;
             
-            if (cacheline_update = '1') then
-                icache(to_integer(unsigned(i_bus_addr_read(RADDR_INDEX_START downto RADDR_INDEX_END))))(0) <= fetched_cacheline;
-                
-                icache_valid_bits(to_integer(unsigned(read_addr(RADDR_INDEX_START downto RADDR_INDEX_END))) * ICACHE_ASSOCIATIVITY + 0) <= '1';
-                icache_block_valid(0) <= '1';
-                icache_block_out(0) <= fetched_cacheline;
+            if (cacheline_update_en = '1') then
+                for i in 0 to ICACHE_ASSOCIATIVITY - 1 loop
+                    if (cacheline_update_sel(i) = '1') then
+                        icache(to_integer(unsigned(read_addr_pipeline_reg(RADDR_INDEX_START downto RADDR_INDEX_END))))(i) <= fetched_cacheline;
+                        
+                        icache_valid_bits(to_integer(unsigned(read_addr_pipeline_reg(RADDR_INDEX_START downto RADDR_INDEX_END))) * ICACHE_ASSOCIATIVITY + i) <= '1';
+                        icache_block_valid(i) <= '1';
+                        icache_block_out(i) <= fetched_cacheline;
+                    end if;
+                end loop;
             end if;
         end if;
     end process;
@@ -211,7 +232,7 @@ begin
     hit_detector_proc : process(all)
     begin
         for i in 0 to ICACHE_ASSOCIATIVITY - 1 loop
-            hit_bits(i) <= '1' when (icache_block_valid(i) = '1' and read_addr(RADDR_TAG_START downto RADDR_TAG_END) = icache_block_out(i)(CACHELINE_TAG_START downto CACHELINE_TAG_END)) else '0';
+            hit_bits(i) <= '1' when (valid_pipeline_reg = '1' and icache_block_valid(i) = '1' and read_addr_pipeline_reg(RADDR_TAG_START downto RADDR_TAG_END) = icache_block_out(i)(CACHELINE_TAG_START downto CACHELINE_TAG_END)) else '0';
         end loop;
     end process;
     
@@ -234,6 +255,7 @@ begin
             end if;
         end loop; 
     end process;
+    -- ========================================================
 
 end rtl;
 

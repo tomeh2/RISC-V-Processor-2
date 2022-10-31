@@ -12,13 +12,13 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="0.000 ns"></ZoomStartTime>
-      <ZoomEndTime time="469.405 ns"></ZoomEndTime>
-      <Cursor1Time time="6.295 ns"></Cursor1Time>
+      <ZoomStartTime time="59.276 ns"></ZoomStartTime>
+      <ZoomEndTime time="114.184 ns"></ZoomEndTime>
+      <Cursor1Time time="67.642 ns"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="385"></NameColumnWidth>
-      <ValueColumnWidth column_width="93"></ValueColumnWidth>
+      <ValueColumnWidth column_width="85"></ValueColumnWidth>
    </column_width_setting>
    <WVObjectSize size="44" />
    <wvobject fp_name="/icache_tb/clk" type="logic">
@@ -97,6 +97,10 @@
       <obj_property name="ElementShortName">bus_ackr</obj_property>
       <obj_property name="ObjectShortName">bus_ackr</obj_property>
    </wvobject>
+   <wvobject fp_name="/icache_tb/uut/ring_counter_inst/q" type="array">
+      <obj_property name="ElementShortName">q[1:0]</obj_property>
+      <obj_property name="ObjectShortName">q[1:0]</obj_property>
+   </wvobject>
    <wvobject fp_name="/icache_tb/uut/icache" type="array">
       <obj_property name="ElementShortName">icache[0:15][0:1][88:0]</obj_property>
       <obj_property name="ObjectShortName">icache[0:15][0:1][88:0]</obj_property>
@@ -128,10 +132,6 @@
    <wvobject fp_name="/icache_tb/uut/i_bus_addr_read" type="array">
       <obj_property name="ElementShortName">i_bus_addr_read[31:0]</obj_property>
       <obj_property name="ObjectShortName">i_bus_addr_read[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/icache_tb/uut/cacheline_update" type="logic">
-      <obj_property name="ElementShortName">cacheline_update</obj_property>
-      <obj_property name="ObjectShortName">cacheline_update</obj_property>
    </wvobject>
    <wvobject fp_name="/icache_tb/uut/bus_read_state" type="other">
       <obj_property name="ElementShortName">bus_read_state</obj_property>
