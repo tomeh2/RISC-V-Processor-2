@@ -48,8 +48,8 @@ entity icache is
 end icache;
 
 architecture rtl of icache is
-    constant TAG_SIZE : integer := CPU_ADDR_WIDTH_BITS - integer(ceil(log2(real(ICACHE_INSTR_PER_CACHELINE)))) - integer(ceil(log2(real(ICACHE_NUM_BLOCKS)))) - 2;
-    constant INDEX_SIZE : integer := integer(ceil(log2(real(ICACHE_NUM_BLOCKS))));
+    constant TAG_SIZE : integer := CPU_ADDR_WIDTH_BITS - integer(ceil(log2(real(ICACHE_INSTR_PER_CACHELINE)))) - integer(ceil(log2(real(ICACHE_NUM_SETS)))) - 2;
+    constant INDEX_SIZE : integer := integer(ceil(log2(real(ICACHE_NUM_SETS))));
     constant CACHELINE_SIZE : integer := (TAG_SIZE + ICACHE_INSTR_PER_CACHELINE * 32);                      -- Total size of a cacheline in bits including control bits
     constant CACHELINE_ALIGNMENT : integer := integer(ceil(log2(real(ICACHE_INSTR_PER_CACHELINE * 4))));    -- Number of bits at the end of the address which have to be 0
 
@@ -64,14 +64,14 @@ architecture rtl of icache is
     constant CACHELINE_DATA_END : integer := CACHELINE_SIZE - TAG_SIZE - ICACHE_INSTR_PER_CACHELINE * 32;
    
     type icache_block_type is array (0 to ICACHE_ASSOCIATIVITY - 1) of std_logic_vector(CACHELINE_SIZE - 1 downto 0);
-    type icache_type is array(0 to ICACHE_NUM_BLOCKS - 1) of icache_block_type;
+    type icache_type is array(0 to ICACHE_NUM_SETS - 1) of icache_block_type;
     signal icache : icache_type;
     
     -- Valid bits have to be outside of BRAM so that they can be reset
-    signal icache_valid_bits : std_logic_vector(ICACHE_NUM_BLOCKS * ICACHE_ASSOCIATIVITY - 1 downto 0);
+    signal icache_valid_bits : std_logic_vector(ICACHE_NUM_SETS * ICACHE_ASSOCIATIVITY - 1 downto 0);
     
-    signal icache_block_out : icache_block_type;
-    signal icache_block_valid : std_logic_vector(ICACHE_ASSOCIATIVITY - 1 downto 0);
+    signal icache_set_out : icache_block_type;
+    signal icache_set_valid : std_logic_vector(ICACHE_ASSOCIATIVITY - 1 downto 0);
     
     signal hit_bits : std_logic_vector(ICACHE_ASSOCIATIVITY - 1 downto 0);          -- Only one bit can be active at a time
     signal i_hit : std_logic;
@@ -208,10 +208,10 @@ begin
             end if;
             
             if (read_en = '1') then
-                icache_block_out <= icache(to_integer(unsigned(read_addr(RADDR_INDEX_START downto RADDR_INDEX_END))));
+                icache_set_out <= icache(to_integer(unsigned(read_addr(RADDR_INDEX_START downto RADDR_INDEX_END))));
                 
                 for i in 0 to ICACHE_ASSOCIATIVITY - 1 loop
-                    icache_block_valid(i) <= icache_valid_bits(to_integer(unsigned(read_addr(RADDR_INDEX_START downto RADDR_INDEX_END))) * ICACHE_ASSOCIATIVITY + i);
+                    icache_set_valid(i) <= icache_valid_bits(to_integer(unsigned(read_addr(RADDR_INDEX_START downto RADDR_INDEX_END))) * ICACHE_ASSOCIATIVITY + i);
                 end loop;
             end if;
             
@@ -221,8 +221,8 @@ begin
                         icache(to_integer(unsigned(read_addr_pipeline_reg(RADDR_INDEX_START downto RADDR_INDEX_END))))(i) <= fetched_cacheline;
                         
                         icache_valid_bits(to_integer(unsigned(read_addr_pipeline_reg(RADDR_INDEX_START downto RADDR_INDEX_END))) * ICACHE_ASSOCIATIVITY + i) <= '1';
-                        icache_block_valid(i) <= '1';
-                        icache_block_out(i) <= fetched_cacheline;
+                        icache_set_valid(i) <= '1';
+                        icache_set_out(i) <= fetched_cacheline;
                     end if;
                 end loop;
             end if;
@@ -232,7 +232,7 @@ begin
     hit_detector_proc : process(all)
     begin
         for i in 0 to ICACHE_ASSOCIATIVITY - 1 loop
-            hit_bits(i) <= '1' when (valid_pipeline_reg = '1' and icache_block_valid(i) = '1' and read_addr_pipeline_reg(RADDR_TAG_START downto RADDR_TAG_END) = icache_block_out(i)(CACHELINE_TAG_START downto CACHELINE_TAG_END)) else '0';
+            hit_bits(i) <= '1' when (valid_pipeline_reg = '1' and icache_set_valid(i) = '1' and read_addr_pipeline_reg(RADDR_TAG_START downto RADDR_TAG_END) = icache_set_out(i)(CACHELINE_TAG_START downto CACHELINE_TAG_END)) else '0';
         end loop;
     end process;
     
@@ -251,7 +251,7 @@ begin
     begin
         for i in 0 to ICACHE_ASSOCIATIVITY - 1 loop
             if (hit_bits(i) = '1') then
-                data_out <= icache_block_out(i)(CACHELINE_DATA_START downto CACHELINE_DATA_END);
+                data_out <= icache_set_out(i)(CACHELINE_DATA_START downto CACHELINE_DATA_END);
             end if;
         end loop; 
     end process;
