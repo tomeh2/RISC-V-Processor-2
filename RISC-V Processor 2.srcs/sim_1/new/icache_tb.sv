@@ -5,32 +5,55 @@ module icache_tb(
     );
     logic [31:0] read_addr, bus_addr_read, bus_data_read;
     logic read_en, hit, bus_stbr, bus_ackr, clk, reset;
-    logic [63:0] data_out;
+    logic [31:0] data_out, expected;
+    logic [3:0] debug_addr;
     
     reg [31:0] mem[15:0];
     
-    
+    task t_run();
+        forever begin
+            t_send_req($random());
+            wait (hit == 1);
+            #50;
+        end
+    endtask;
+        
     task t_reset();
-        reset <= 1;
+        reset = 1;
         @(negedge clk)
         @(negedge clk)
-        reset <= 0;
+        reset = 0;
     endtask
     
     task t_send_req(input [31:0] addr);
+        @(negedge clk)
         read_addr = addr;
         read_en = 1;
         wait (hit == 1)
-        #4
+        @(negedge clk)
         read_en = 0;
         read_addr = 0;
-        assert (data_out[63:32] == mem[addr[5:3] + 1] && data_out[31:0] == mem[addr[5:3]]);
+        debug_addr = addr[5:2]; 
+        expected = mem[debug_addr]; 
+        assert (data_out == expected)
+            else $fatal("Expected: %h | Got: %h", expected, data_out);
+    endtask
+    
+    task t_send_req_norst(input [31:0] addr);
+        @(negedge clk)
+        read_addr = addr;
+        read_en = 1;
+        wait (hit == 1)
+        debug_addr = addr[5:2];
+        expected = mem[debug_addr]; 
+        assert (data_out == expected)
+            else $fatal("Expected: %h | Got: %h", expected, data_out);
     endtask
     
     icache uut(.read_addr(read_addr),
                .data_out(data_out),
                .read_en(read_en),
-               .hit(hit),
+               .data_valid(hit),
                .bus_addr_read(bus_addr_read),
                .bus_data_read(bus_data_read),
                .bus_stbr(bus_stbr),
@@ -48,16 +71,22 @@ module icache_tb(
     
     initial begin
         $readmemh("../../../../icache_tb_mem_init.mem", mem);
-        clk <= 0;
-        bus_ackr <= 0;
+        clk = 0;
+        bus_ackr = 0;
+        read_en = 0;
 
         t_reset();
-        
-        t_send_req('h10000000);     // MISS
         #50
-        t_send_req('h10000004);     // HIT
+        t_send_req('h00000000);         //MISS
+        t_send_req('h00000004);         //HIT
+        t_send_req('h00000008);         //HIT
+        t_send_req('h0000000B);         //HIT
+        t_send_req('h00000038);         //MISS
         #50
-        t_send_req('h1000000B);     // MISS
+        t_send_req('h000001F8);         //MISS
+        #500
+        //t_run();
+        #1000000;
     end;
     
 endmodule

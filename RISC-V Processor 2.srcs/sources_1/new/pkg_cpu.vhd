@@ -52,7 +52,7 @@ package pkg_cpu is
     constant BTB_ENTRIES : integer := 4;                 -- MUST BE POWER OF 2!
     
     constant ICACHE_ASSOCIATIVITY : integer := 4;                   -- MUST BE POWER OF 2!
-    constant ICACHE_INSTR_PER_CACHELINE : integer := 2;
+    constant ICACHE_INSTR_PER_CACHELINE : integer := 4;
     constant ICACHE_NUM_SETS : integer := 32;                     -- MUST BE POWER OF 2!
     --constant ICACHE_REPLACEMENT_POLICY : string := "FIFO";                -- In consideration
     -- ===================================================================

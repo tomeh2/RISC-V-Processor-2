@@ -33,9 +33,10 @@ entity icache is
     port(
         read_addr : in std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);
         read_en : in std_logic;
-        hit : out std_logic;
         
-        data_out : out std_logic_vector(ICACHE_INSTR_PER_CACHELINE * 32 - 1 downto 0);
+        resolving_miss : out std_logic; 
+        data_valid : out std_logic;
+        data_out : out std_logic_vector(CPU_DATA_WIDTH_BITS - 1 downto 0);
     
         bus_addr_read : out std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);
         bus_data_read : in std_logic_vector(CPU_DATA_WIDTH_BITS - 1 downto 0);
@@ -67,7 +68,7 @@ architecture rtl of icache is
     type icache_type is array(0 to ICACHE_NUM_SETS - 1) of icache_block_type;
     signal icache : icache_type;
     
-    -- Valid bits have to be outside of BRAM so that they can be reset
+    -- icache_valid_bits bits have to be outside of BRAM so that they can be reset
     signal icache_valid_bits : std_logic_vector(ICACHE_NUM_SETS * ICACHE_ASSOCIATIVITY - 1 downto 0);
     
     signal icache_set_out : icache_block_type;
@@ -77,7 +78,8 @@ architecture rtl of icache is
     signal i_hit : std_logic;
     
     signal valid_pipeline_reg : std_logic;
-    signal read_addr_pipeline_reg : std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);
+    signal read_addr_tag_pipeline_reg : std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);
+    signal read_addr_offset_pipeline_reg : std_logic_vector(CACHELINE_ALIGNMENT - 1 downto 2);
     signal i_bus_addr_read : std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);
     
     signal cacheline_update_en : std_logic;
@@ -105,7 +107,7 @@ begin
             end if;
             
             if (bus_read_state_next = IDLE) then
-                i_bus_addr_read <= read_addr(31 downto CACHELINE_ALIGNMENT) & std_logic_vector(to_unsigned(0, CACHELINE_ALIGNMENT));
+                i_bus_addr_read <= read_addr(CPU_ADDR_WIDTH_BITS - 1 downto CACHELINE_ALIGNMENT) & std_logic_vector(to_unsigned(0, CACHELINE_ALIGNMENT));
             elsif (bus_ackr = '1') then
                 i_bus_addr_read <= std_logic_vector(unsigned(i_bus_addr_read) + 4);
             end if;
@@ -173,7 +175,8 @@ begin
         end if;
     end process;
     
-    fetched_cacheline <= i_bus_addr_read(RADDR_TAG_START downto RADDR_TAG_END) & fetched_cacheline_data;
+    resolving_miss <= '1' when bus_read_state /= IDLE or bus_read_state_next = BUSY else '0';
+    fetched_cacheline <= read_addr_tag_pipeline_reg(RADDR_TAG_START downto RADDR_TAG_END) & fetched_cacheline_data;
     bus_addr_read <= i_bus_addr_read;
     -- ========================================================
     
@@ -190,12 +193,16 @@ begin
         if (rising_edge(clk)) then
             if (reset = '1') then
                 valid_pipeline_reg <= '0';
-                read_addr_pipeline_reg <= (others => '0');
+                read_addr_tag_pipeline_reg <= (others => '0');
             end if;
-            valid_pipeline_reg <= read_en;
             
-            if (read_en = '1') then
-                read_addr_pipeline_reg <= read_addr;
+            if (resolving_miss = '0') then
+                valid_pipeline_reg <= read_en;
+            end if;
+            
+            if (read_en = '1' and resolving_miss = '0') then
+                read_addr_offset_pipeline_reg <= read_addr(CACHELINE_ALIGNMENT - 1 downto 2);
+                read_addr_tag_pipeline_reg <= read_addr(CPU_ADDR_WIDTH_BITS - 1 downto CACHELINE_ALIGNMENT) & std_logic_vector(to_unsigned(0, CACHELINE_ALIGNMENT));
             end if; 
         end if;
     end process;
@@ -218,9 +225,9 @@ begin
             if (cacheline_update_en = '1') then
                 for i in 0 to ICACHE_ASSOCIATIVITY - 1 loop
                     if (cacheline_update_sel(i) = '1') then
-                        icache(to_integer(unsigned(read_addr_pipeline_reg(RADDR_INDEX_START downto RADDR_INDEX_END))))(i) <= fetched_cacheline;
+                        icache(to_integer(unsigned(read_addr_tag_pipeline_reg(RADDR_INDEX_START downto RADDR_INDEX_END))))(i) <= fetched_cacheline;
                         
-                        icache_valid_bits(to_integer(unsigned(read_addr_pipeline_reg(RADDR_INDEX_START downto RADDR_INDEX_END))) * ICACHE_ASSOCIATIVITY + i) <= '1';
+                        icache_valid_bits(to_integer(unsigned(read_addr_tag_pipeline_reg(RADDR_INDEX_START downto RADDR_INDEX_END))) * ICACHE_ASSOCIATIVITY + i) <= '1';
                         icache_set_valid(i) <= '1';
                         icache_set_out(i) <= fetched_cacheline;
                     end if;
@@ -232,7 +239,7 @@ begin
     hit_detector_proc : process(all)
     begin
         for i in 0 to ICACHE_ASSOCIATIVITY - 1 loop
-            hit_bits(i) <= '1' when (valid_pipeline_reg = '1' and icache_set_valid(i) = '1' and read_addr_pipeline_reg(RADDR_TAG_START downto RADDR_TAG_END) = icache_set_out(i)(CACHELINE_TAG_START downto CACHELINE_TAG_END)) else '0';
+            hit_bits(i) <= '1' when (valid_pipeline_reg = '1' and icache_set_valid(i) = '1' and read_addr_tag_pipeline_reg(RADDR_TAG_START downto RADDR_TAG_END) = icache_set_out(i)(CACHELINE_TAG_START downto CACHELINE_TAG_END)) else '0';
         end loop;
     end process;
     
@@ -245,13 +252,17 @@ begin
         end loop;
         i_hit <= temp;
     end process;
-    hit <= i_hit;
+    data_valid <= i_hit;
     
     data_out_gen : process(all)
     begin
         for i in 0 to ICACHE_ASSOCIATIVITY - 1 loop
             if (hit_bits(i) = '1') then
-                data_out <= icache_set_out(i)(CACHELINE_DATA_START downto CACHELINE_DATA_END);
+                for j in 0 to ICACHE_INSTR_PER_CACHELINE - 1 loop
+                    if (to_integer(unsigned(read_addr_offset_pipeline_reg(ICACHE_INSTR_PER_CACHELINE - 1 downto 2))) = j) then
+                        data_out <= icache_set_out(i)(CACHELINE_DATA_END + 32 * (j + 1) - 1 downto CACHELINE_DATA_END + 32 * (j));
+                    end if;
+                end loop;
             end if;
         end loop; 
     end process;
