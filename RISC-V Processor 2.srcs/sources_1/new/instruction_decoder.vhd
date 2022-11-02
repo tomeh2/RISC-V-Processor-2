@@ -29,21 +29,15 @@ use WORK.PKG_CPU.ALL;
 
 entity instruction_decoder is
     port(
-        cdb : in cdb_type;
-    
         instruction : in std_logic_vector(31 downto 0);
-        instruction_ready : out std_logic; 
         pc : in std_logic_vector(31 downto 0);
         
         branch_taken_pc : out std_logic_vector(31 downto 0);
         branch_not_taken_pc : out std_logic_vector(31 downto 0);
-        pc_force_overwrite : out std_logic;
         
         is_speculative_branch : out std_logic;
         is_uncond_branch : out std_logic;
 
-        rom_ack : in std_logic;
-        
         uop : out uop_instr_dec_type
     );
 end instruction_decoder;
@@ -94,7 +88,7 @@ begin
 
     
     
-    process(instruction, pc, branch_op_sel, uop.immediate, cdb, rom_ack)
+    process(instruction, pc, branch_op_sel, uop.immediate)
     begin
         uop.arch_src_reg_1_addr <= instruction(19 downto 15);
         uop.arch_src_reg_2_addr <= instruction(24 downto 20);
@@ -110,8 +104,6 @@ begin
         branch_taken_pc <= std_logic_vector(unsigned(pc) + unsigned(uop.immediate));
         branch_not_taken_pc <= std_logic_vector(unsigned(pc) + 4);
         
-        pc_force_overwrite <= '0';
-    
         -- IMMEDIATE GENERATION
         uop_alu_op_sel(2 downto 0) <= instruction(14 downto 12);
     
@@ -120,21 +112,20 @@ begin
                 uop.operation_type <= OPTYPE_INTEGER;      
                 uop_alu_op_sel <= instruction(30) & instruction(14 downto 12);
                 
-                instruction_ready <= rom_ack;
             when OPCODE_ALU_REG_IMM => 
                 uop.operation_type <= OPTYPE_INTEGER;      
                 uop_uses_immediate <= '1';
                 uop_alu_op_sel <= '0' & instruction(14 downto 12);
                 
                 uop.arch_src_reg_2_addr <= (others => '0');
-                instruction_ready <= rom_ack;
+
             when OPCODE_LOAD | OPCODE_STORE => 
                 uop.operation_type <= OPTYPE_STORE when instruction(6 downto 5) = "01" else OPTYPE_LOAD;
                 uop.operation_select(7) <= '1' when instruction(6 downto 5) = "01" else '0';
                 uop.operation_select(2 downto 0) <= instruction(14 downto 12);
                 
                 uop.arch_dest_reg_addr <= "00000" when instruction(6 downto 5) = "01" else instruction(11 downto 7);
-                instruction_ready <= rom_ack;
+
             when OPCODE_LUI => 
                 uop.operation_type <= OPTYPE_INTEGER;
                 uop.operation_select(7) <= '1';
@@ -142,7 +133,6 @@ begin
                 
                 uop.arch_src_reg_1_addr <= "00000";
                 
-                instruction_ready <= rom_ack;
             when OPCODE_COND_BR => 
                 case instruction(14 downto 13) is
                     when "00" => branch_op_sel <= ALU_OP_EQ;
@@ -159,18 +149,16 @@ begin
                 is_speculative_branch <= '1';
                 
                 uop.arch_dest_reg_addr <= "00000";
-                instruction_ready <= rom_ack;
+                
             when OPCODE_JAL => 
                 uop.operation_type <= OPTYPE_INTEGER;
                 uop.operation_select(2 downto 0) <= "000";
                 
                 uop_is_jal <= '1';
                 uop_uses_pc <= '1';
-                pc_force_overwrite <= '1';
                 is_uncond_branch <= '1';
                 uop_negate_branch_cond <= '1';
 
-                instruction_ready <= rom_ack;
             when OPCODE_JALR =>
                 uop.operation_type <= OPTYPE_BRANCH;        -- This instruction gets treated like a conditional branch by the Exec. Engine, but as a branch that is always taken
                 uop.operation_select(2 downto 0) <= "001";  -- No conditional branch has this alu op sel value so it can be used to identify this as a JALR instruction
@@ -181,12 +169,9 @@ begin
                 uop_is_speculative_branch <= '1';
                 is_uncond_branch <= '1';
     
-                instruction_ready <= rom_ack;
             when others => 
                 uop.operation_type <= (others => '0');
                 uop.operation_select <= (others => '0');
-                
-                instruction_ready <= '0';
         end case;   
     end process;
     

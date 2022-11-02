@@ -33,6 +33,7 @@ entity icache is
     port(
         read_addr : in std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);
         read_en : in std_logic;
+        read_cancel : in std_logic;
         
         resolving_miss : out std_logic; 
         data_valid : out std_logic;
@@ -119,8 +120,9 @@ begin
         if (rising_edge(clk)) then
             if (reset = '1') then
                 bus_read_state <= IDLE;
+            else
+                bus_read_state <= bus_read_state_next;
             end if;
-            bus_read_state <= bus_read_state_next;
         end if;
     end process;
     
@@ -133,7 +135,9 @@ begin
                 bus_read_state_next <= IDLE;
             end if;
         elsif (bus_read_state = BUSY) then
-            if (fetched_instrs_counter = ICACHE_INSTR_PER_CACHELINE - 1 and bus_ackr = '1') then
+            if (read_cancel = '1') then
+                bus_read_state_next <= IDLE;
+            elsif (fetched_instrs_counter = ICACHE_INSTR_PER_CACHELINE - 1 and bus_ackr = '1') then
                 bus_read_state_next <= FINALIZE;
             else
                 bus_read_state_next <= BUSY;
@@ -151,7 +155,7 @@ begin
         elsif (bus_read_state = BUSY) then
             bus_stbr <= '1';
         elsif (bus_read_state = FINALIZE) then
-            cacheline_update_en <= '1';
+            cacheline_update_en <= read_en and not read_cancel;
         end if;
     end process;
     
@@ -196,7 +200,9 @@ begin
                 read_addr_tag_pipeline_reg <= (others => '0');
             end if;
             
-            if (resolving_miss = '0') then
+            if (read_cancel = '1') then
+                valid_pipeline_reg <= '0';
+            elsif (resolving_miss = '0') then
                 valid_pipeline_reg <= read_en;
             end if;
             
@@ -252,7 +258,7 @@ begin
         end loop;
         i_hit <= temp;
     end process;
-    data_valid <= i_hit;
+    data_valid <= i_hit and valid_pipeline_reg;
     
     data_out_gen : process(all)
     begin

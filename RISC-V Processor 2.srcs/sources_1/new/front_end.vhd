@@ -22,8 +22,9 @@
 --SOFTWARE.
 --===============================================================================
 
--- NOTE: This implementation of the front-end is VERY EXPERIMENTAL used to develop blocks for the FE. Future implementation will have a number of optimizations (for ex. pipelining)
--- and will be be implemented from scratch using the created blocks.
+-- TODO: Update PC logic in case branch mispredict resolved in D1 stage
+-- TODO: Re-make BTB and connect it with prediction logic in the FE
+-- TODO: Handle stalls due to a full FIFO
 
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
@@ -38,16 +39,13 @@ entity front_end is
         bus_ackr : in std_logic;
             
         cdb : in cdb_type;
-    
-        uop_decoded_tmp : out front_end_pipeline_reg_0;
-    
-        rom_ack : out std_logic;
-    
-        stall : in std_logic;
-        
+
         branch_mask : out std_logic_vector(BRANCHING_DEPTH - 1 downto 0);
         branch_predicted_pc : out std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);
         branch_prediction : out std_logic;
+        
+        decoded_uop : out uop_decoded_type;
+        decoded_uop_valid : out std_logic;
         
         reset : in std_logic;
         clk : in std_logic
@@ -55,206 +53,190 @@ entity front_end is
 end front_end;
 
 architecture Structural of front_end is
-    signal fetched_instruction : std_logic_vector(31 downto 0);
-
-    signal program_counter_reg : std_logic_vector(31 downto 0);
+    -- PIPELINE
+    signal f1_f2_pipeline_reg : f1_f2_pipeline_reg_type;
+    signal f1_f2_pipeline_reg_next : f1_f2_pipeline_reg_type;
     
-    signal rom_en : std_logic;
-    signal resetn : std_logic;
+    signal f2_d1_pipeline_reg : f2_d1_pipeline_reg_type;
+    signal f2_d1_pipeline_reg_next : f2_d1_pipeline_reg_type;
     
-    signal pc_overwrite_val : std_logic_vector(31 downto 0);
-    signal pc_overwrite_en : std_logic;
+    signal stall : std_logic;
+    signal branch_mispredicted : std_logic;
+    signal clear_pipeline : std_logic;
     
-    signal branch_taken_pc : std_logic_vector(31 downto 0);
-    signal branch_not_taken_pc : std_logic_vector(31 downto 0);
-    signal branch_alternate_pc : std_logic_vector(31 downto 0);
-    signal pc_force_overwrite : std_logic;
+    -- ICACHE
+    signal ic_wait : std_logic;
     
-    signal is_speculative_branch : std_logic;
-    signal is_uncond_branch : std_logic;
+    -- F1 STAGE
+    signal bp_in : bp_in_type;
+    signal bp_out : bp_out_type;
+        
+    signal f1_pc_reg : std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);
     
-    signal bc_speculated_branches_mask : std_logic_vector(BRANCHING_DEPTH - 1 downto 0);
-    signal bc_branch_mask : std_logic_vector(BRANCHING_DEPTH - 1 downto 0);
-    signal bc_empty : std_logic;
+    signal f1_pred_target_pc : std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);
+    signal f1_pred_is_branch : std_logic;
+    signal f1_pred_outcome : std_logic;
+    -- F2 STAGE
+    signal f2_pc : std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);
     
-    signal btb_predicted_pc : std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);
+    -- D1 STAGE
+    signal d1_pc : std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);
+    signal d1_instr : std_logic_vector(CPU_DATA_WIDTH_BITS - 1 downto 0);
+    signal d1_instr_valid : std_logic;
     
-    signal instruction_ready : std_logic;
+    signal d1_branch_taken_pc : std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);
+    signal d1_branch_not_taken_pc : std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);
     
-    signal uop_instr_dec : uop_instr_dec_type;
-
-    signal uop_decoded_pipeline_reg_next : front_end_pipeline_reg_0;
+    signal d1_speculated_branches_mask : std_logic_vector(BRANCHING_DEPTH - 1 downto 0);
+    signal d1_alloc_branch_mask : std_logic_vector(BRANCHING_DEPTH - 1 downto 0);
+    signal d1_bc_empty : std_logic;
     
-    signal stall_fe : std_logic;
+    signal d1_is_speculative_br : std_logic;
+    signal d1_is_uncond_br : std_logic;
     
-    signal bp_in : bp_input_type;
-    signal bp_out : bp_output_type;
-    
-    type state_type is (INACTIVE, ACTIVE);
-    signal state : state_type;
-    signal state_next : state_type;
-    signal pc_overwritten : std_logic;
-    
-    signal instruction_fetched : std_logic;
+    signal d1_instr_dec_uop : uop_instr_dec_type;
 begin
-    resetn <= not reset;
-
-    bp_in.fetch_addr <= program_counter_reg(CDB_PC_BITS + 1 downto 2);
-    bp_in.put_addr <= cdb.pc_low_bits;
-    bp_in.put_outcome <= cdb.branch_taken;
-    bp_in.put_en <= '1' when cdb.branch_mask /= BRANCH_MASK_ZERO and cdb.is_jalr = '0' and cdb.valid = '1' else '0';
-
-    branch_predictor_gen : if (BP_TYPE = "STATIC") generate
-        bp_static : entity work.bp_static(rtl)
-                    port map(bp_in => bp_in,
-                             bp_out => bp_out,
-                                          
-                             clk => clk,
-                             reset => reset);
-        elsif (BP_TYPE = "2BSP") generate
-        bp_2bsp : entity work.bp_saturating_counter(rtl)
-                    port map(bp_in => bp_in,
-                             bp_out => bp_out,
-                                          
-                             clk => clk,
-                             reset => reset);
-    end generate;
-
-    branch_target_buffer : entity work.branch_target_buffer(rtl)
-                           port map(read_addr => program_counter_reg(CDB_PC_BITS + 1 downto 2),
-                                    predicted_pc => btb_predicted_pc,
-                                    
-                                    write_addr => cdb.pc_low_bits,
-                                    write_en => cdb.is_jalr and cdb.valid,
-                                    target_pc => cdb.target_addr,
-                                    
-                                    clk => clk);
-
-    branch_controller : entity work.branch_controller(rtl)
-                        port map(cdb => cdb,
-                        
-                                 speculated_branches_mask => bc_speculated_branches_mask,
-                                 alloc_branch_mask => bc_branch_mask,
-                                 
-                                 branch_alloc_en => is_speculative_branch and not stall_fe and instruction_ready,
-
-                                 empty => bc_empty,
-                                 
-                                 clk => clk,
-                                 reset => reset);  
-
-    instruction_decoder : entity work.instruction_decoder(rtl)
-                          port map(cdb => cdb,
-                          
-                                   instruction => fetched_instruction,
-                                   uop => uop_instr_dec,
-                                   pc => program_counter_reg,
-                                   rom_ack => instruction_fetched,
-
-                                   branch_taken_pc => branch_taken_pc,
-                                   branch_not_taken_pc => branch_not_taken_pc,
-
-                                   is_speculative_branch => is_speculative_branch,
-                                   is_uncond_branch => is_uncond_branch,
-                                   pc_force_overwrite => pc_force_overwrite,
-                                   
-                                   instruction_ready => instruction_ready);
-
---    program_memory_temp : entity work.rom_memory(rtl)
---                          port map(addr => program_counter_reg(9 downto 0),
---                                   data => fetched_instruction,
---                                   en => rom_en,
---                                   --ack => open,
---                                   --reset => reset,
---                                   clk => clk);
-
-    fetched_instruction <= bus_data_read;
-
-    uop_decoded_pipeline_reg_next.uop_decoded.pc <= uop_instr_dec.pc;
-    uop_decoded_pipeline_reg_next.uop_decoded.operation_type <= uop_instr_dec.operation_type;
-    uop_decoded_pipeline_reg_next.uop_decoded.operation_select <= uop_instr_dec.operation_select;
-    uop_decoded_pipeline_reg_next.uop_decoded.immediate <= uop_instr_dec.immediate;
-    uop_decoded_pipeline_reg_next.uop_decoded.arch_src_reg_1_addr <= uop_instr_dec.arch_src_reg_1_addr;
-    uop_decoded_pipeline_reg_next.uop_decoded.arch_src_reg_2_addr <= uop_instr_dec.arch_src_reg_2_addr;
-    uop_decoded_pipeline_reg_next.uop_decoded.arch_dest_reg_addr <= uop_instr_dec.arch_dest_reg_addr;
-    uop_decoded_pipeline_reg_next.uop_decoded.branch_mask <= bc_branch_mask;
-    uop_decoded_pipeline_reg_next.uop_decoded.branch_predicted_outcome <= bp_out.predicted_outcome;
-    uop_decoded_pipeline_reg_next.uop_decoded.speculated_branches_mask <= bc_speculated_branches_mask and not cdb.branch_mask when cdb.branch_mispredicted = '0' and cdb.valid = '1' else bc_speculated_branches_mask;
-    uop_decoded_pipeline_reg_next.valid <= '1' when instruction_ready = '1' and stall_fe = '0' and not ((bc_speculated_branches_mask and cdb.branch_mask) /= BRANCH_MASK_ZERO and cdb.branch_mispredicted = '1' and cdb.valid = '1') else '0';
-    uop_decoded_tmp <= uop_decoded_pipeline_reg_next;
-
-    --rom_en <= '1' when program_counter_reg(31 downto 10) = X"00000" & "00" else '0';
-    --rom_ack <= '1';        
-    
-    pc_proc : process(clk)
+    -- ========================== PIPELINE CONTROL ==========================
+    pipeline_reg_cntrl : process(clk)
     begin
         if (rising_edge(clk)) then
             if (reset = '1') then
-                program_counter_reg <= (others => '0');
-            elsif (cdb.is_jalr = '1' and cdb.branch_mispredicted = '1' and cdb.valid = '1') then
-                program_counter_reg <= cdb.target_addr;
-            elsif (cdb.branch_mispredicted = '1' and cdb.valid = '1') then
-                program_counter_reg <= cdb.target_addr;
-            elsif ((bp_out.predicted_outcome = '0' and is_uncond_branch = '0') and is_speculative_branch = '1' and stall_fe = '0' and instruction_ready = '1') then
-                program_counter_reg <= branch_not_taken_pc;
-            elsif ((((bp_out.predicted_outcome = '1' or is_uncond_branch = '1') and is_speculative_branch = '1' and stall_fe = '0') or pc_force_overwrite = '1') and instruction_ready = '1') then
-                program_counter_reg <= btb_predicted_pc when uop_instr_dec.operation_select(3 downto 0) = "0001" else branch_taken_pc;
-            elsif (stall_fe = '0' and state = ACTIVE and bus_ackr = '1') then       -- We dont actually need to stall as soon as BC becomes empty, rather when BC is empty and next instruction is a branch
-                program_counter_reg <= std_logic_vector(unsigned(program_counter_reg) + 4);
+                f1_f2_pipeline_reg.valid <= '0';
+                f2_d1_pipeline_reg.valid <= '0';
+            else
+                if (stall = '0') then
+                    f1_f2_pipeline_reg <= f1_f2_pipeline_reg_next;
+                end if;
+                f2_d1_pipeline_reg <= f2_d1_pipeline_reg_next;
             end if;
         end if;
     end process;
+    
+    f1_f2_pipeline_reg_next.pc <= f1_pc_reg;
+    
+    f2_d1_pipeline_reg_next.pc <= f1_f2_pipeline_reg.pc;
+    
+    f1_f2_pipeline_reg_next.valid <= '0' when clear_pipeline else '1';
+    f2_d1_pipeline_reg_next.valid <= '0' when clear_pipeline else '1';
+    
+    stall <= ic_wait;
+    branch_mispredicted <= cdb.valid and cdb.branch_mispredicted;
+    clear_pipeline <= branch_mispredicted;
+    -- ======================================================================
 
-    branch_mask <= bc_branch_mask;
-    branch_predicted_pc <= btb_predicted_pc;
-    -- Predict taken for JALR
-    branch_prediction <= '1' when is_uncond_branch = '1' else bp_out.predicted_outcome;
-
-    stall_fe <= stall or bc_empty;
+    -- ========================== F1 STAGE ========================== 
+    branch_predictor_gen : if (BP_TYPE = "STATIC") generate
+            bp_static : entity work.bp_static(rtl)
+                        port map(bp_in => bp_in,
+                                bp_out => bp_out,
+                                          
+                                clk => clk,
+                                reset => reset);
+        elsif (BP_TYPE = "2BSP") generate
+            bp_2bsp : entity work.bp_saturating_counter(rtl)
+                      port map(bp_in => bp_in,
+                              bp_out => bp_out,
+                                          
+                              clk => clk,
+                              reset => reset);
+    end generate;
     
-    bus_addr_read <= program_counter_reg;
-    
-    pc_overwritten <= '1' when (cdb.is_jalr = '1' and cdb.branch_mispredicted = '1' and cdb.valid = '1') or
-                               (cdb.branch_mispredicted = '1' and cdb.valid = '1') or
-                               ((bp_out.predicted_outcome = '0' and is_uncond_branch = '0') and is_speculative_branch = '1' and stall_fe = '0'  and instruction_ready = '1') or
-                               ((((bp_out.predicted_outcome = '1' or is_uncond_branch = '1') and is_speculative_branch = '1' and stall_fe = '0') or pc_force_overwrite = '1') and instruction_ready = '1') or
-                               reset = '1' else '0';
-    
-    process(all)
-    begin
-        case state is
-            when INACTIVE =>
-                if (pc_overwritten = '1') then
-                    state_next <= INACTIVE;
-                else
-                    state_next <= ACTIVE;
-                end if;
-            when ACTIVE =>
-                if (pc_overwritten = '1') then
-                    state_next <= INACTIVE;
-                else
-                    state_next <= ACTIVE;
-                end if;
-        end case;
-    end process;
-    
-    process(clk)
+    pc_update_cntrl : process(clk)
     begin
         if (rising_edge(clk)) then
-            state <= state_next;
+            if (reset = '1') then
+                f1_pc_reg <= PC_VAL_INIT;
+            else
+                if (stall = '0') then
+                    if (branch_mispredicted = '1') then
+                        f1_pc_reg <= cdb.target_addr;
+                    elsif (f1_pred_is_branch = '1' and f1_pred_outcome = '1') then
+                        f1_pc_reg <= f1_pred_target_pc;
+                    else
+                        f1_pc_reg <= std_logic_vector(unsigned(f1_pc_reg) + 4);
+                    end if;
+                end if;
+            end if;
         end if;
     end process;
     
-    process(all)
-    begin
-        case state is
-            when INACTIVE =>
-                bus_stbr <= '0';
-            when ACTIVE =>
-                bus_stbr <= not stall_fe;
-        end case;
-    end process;
+    bp_in.fetch_addr <= f1_pc_reg(CDB_PC_BITS + 1 downto 2);
+    bp_in.put_addr <= cdb.pc_low_bits;
+    bp_in.put_outcome <= cdb.branch_taken;
+    bp_in.put_en <= '1' when cdb.branch_mask /= BRANCH_MASK_ZERO and cdb.is_jalr = '0' and cdb.valid = '1' else '0';
     
-    instruction_fetched <= '1' when bus_stbr = '1' and bus_ackr = '1' else '0';
+    f1_pred_target_pc <= (others => '0');
+    f1_pred_is_branch <= '0';
+    f1_pred_outcome <= bp_out.predicted_outcome and f1_pred_is_branch;
+    -- ==============================================================
     
+    -- ========================== F2 STAGE ==========================
+    icache_inst : entity work.icache(rtl)
+                  port map(read_addr => f1_pc_reg,
+                           read_en => '1',
+                           read_cancel => clear_pipeline,
+                           
+                           resolving_miss => ic_wait,
+                           data_out => f2_d1_pipeline_reg_next.instruction,
+                           data_valid => f2_d1_pipeline_reg_next.valid,
+                           
+                           bus_addr_read => bus_addr_read,
+                           bus_data_read => bus_data_read,
+                           bus_stbr => bus_stbr,
+                           bus_ackr => bus_ackr,
+                           
+                           clk => clk,
+                           reset => reset); 
+    
+    f2_d1_pipeline_reg_next.pc <= f1_f2_pipeline_reg.pc;
+    -- ==============================================================
+    
+    -- ========================== D1 STAGE ==========================
+    instruction_decoder_inst : entity work.instruction_decoder(rtl)
+                               port map(instruction => f2_d1_pipeline_reg.instruction,
+                                        pc => f2_d1_pipeline_reg.pc,
+                                        
+                                        branch_taken_pc => d1_branch_taken_pc,
+                                        branch_not_taken_pc => d1_branch_taken_pc,
+                                        
+                                        is_speculative_branch => d1_is_speculative_br,
+                                        is_uncond_branch => d1_is_uncond_br,
+                                        
+                                        uop => d1_instr_dec_uop);
+                                        
+    branch_controller_inst : entity work.branch_controller(rtl)
+                             port map(cdb => cdb,
+                             
+                                      speculated_branches_mask => d1_speculated_branches_mask,
+                                      alloc_branch_mask => d1_alloc_branch_mask,
+                                      
+                                      branch_alloc_en => d1_is_speculative_br and f2_d1_pipeline_reg.valid,
+                                      
+                                      empty => d1_bc_empty,
+                                      
+                                      reset => reset,
+                                      clk => clk);
+                                      
+    decoded_uop.pc <= f2_d1_pipeline_reg.pc;
+    decoded_uop.operation_type <= d1_instr_dec_uop.operation_type;
+    decoded_uop.operation_select <= d1_instr_dec_uop.operation_select;
+    decoded_uop.immediate <= d1_instr_dec_uop.immediate;
+    decoded_uop.arch_src_reg_1_addr <= d1_instr_dec_uop.arch_src_reg_1_addr;
+    decoded_uop.arch_src_reg_2_addr <= d1_instr_dec_uop.arch_src_reg_2_addr;
+    decoded_uop.arch_dest_reg_addr <= d1_instr_dec_uop.arch_dest_reg_addr;
+    decoded_uop.branch_mask <= d1_alloc_branch_mask;
+    decoded_uop.branch_predicted_outcome <= ;
+    decoded_uop.speculated_branches_mask <= d1_speculated_branches_mask;
+    decoded_uop_valid <= f2_d1_pipeline_reg.valid;
+    -- ==============================================================
 end Structural;
+
+
+
+
+
+
+
+
+
+

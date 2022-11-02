@@ -51,6 +51,7 @@ module icache_tb(
     endtask
     
     icache uut(.read_addr(read_addr),
+               .read_cancel(0),
                .data_out(data_out),
                .read_en(read_en),
                .data_valid(hit),

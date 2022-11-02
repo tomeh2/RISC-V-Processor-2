@@ -68,6 +68,7 @@ package pkg_cpu is
     constant INSTR_TAG_BITS : integer := integer(ceil(log2(real(REORDER_BUFFER_ENTRIES))));
     
     -- Constants
+    constant PC_VAL_INIT : std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0) := (others => '0');
     constant INSTR_TAG_ZERO : std_logic_vector(INSTR_TAG_BITS - 1 downto 0) := (others => '0');
     constant REG_ADDR_ZERO : std_logic_vector(ARCH_REGFILE_ADDR_BITS - 1 downto 0) := (others => '0');
     constant PHYS_REG_TAG_ZERO : std_logic_vector(PHYS_REGFILE_ADDR_BITS - 1 downto 0) := (others => '0');
@@ -172,14 +173,14 @@ package pkg_cpu is
         branch_predicted_outcome : std_logic;
     end record;
     
-    type bp_input_type is record
+    type bp_in_type is record
         fetch_addr : std_logic_vector(CDB_PC_BITS - 1 downto 0);      -- Last few bits of the PC for fetching a prediction from a specific address
         put_addr : std_logic_vector(CDB_PC_BITS - 1 downto 0);        -- Last few bits of the PC for for updating an entry at a specific address
         put_outcome : std_logic;                                                                -- Outcome of the branch entry to be updated   
         put_en : std_logic; 
     end record;
     
-    type bp_output_type is record
+    type bp_out_type is record
         predicted_outcome : std_logic;
     end record;
     
@@ -274,10 +275,23 @@ package pkg_cpu is
     
     function branch_mask_to_int(branch_mask : in std_logic_vector(BRANCHING_DEPTH - 1 downto 0)) return integer;
     
-    type front_end_pipeline_reg_0 is record
-        uop_decoded : uop_decoded_type;
+    type f1_f2_pipeline_reg_type is record
+        pc : std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);
         valid : std_logic;
     end record;
+    
+    type f2_d1_pipeline_reg_type is record
+        instruction : std_logic_vector(CPU_DATA_WIDTH_BITS - 1 downto 0);
+        pc : std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);
+        valid : std_logic;
+    end record; 
+    
+    constant F1_F2_PIPELINE_REG_INIT : f1_f2_pipeline_reg_type := ((others => '0'),
+                                                                   '0');
+                                                             
+    constant F2_D1_PIPELINE_REG_INIT : f2_d1_pipeline_reg_type := ((others => '0'),
+                                                                   (others => '0'),
+                                                                    '0');
 end pkg_cpu;
 
 package body pkg_cpu is
