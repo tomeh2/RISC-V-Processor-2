@@ -29,10 +29,11 @@ use IEEE.STD_LOGIC_1164.ALL;
 -- 1) EU 0 Stalls its dispatch pipeline way to often without the real need to do so which causes the CPU to often stall due to the scheduler often being full. Make it accept instructions more agressively
 -- 2) RAW hazards could still cause issues since the scheduler won't dispatch dependent instructions until the result is produced. This problem could be worsened is EU 0 becomes high latency, so cant agressively pipeline.
 -- Dispatching instructions before they are ready (if the result is about to be produced) might make sense. Reminds of more traditional forwarding.
--- 3) Instruction cache 
+-- 3) Instruction cache (Current WIP); 
 -- 4) Data cache implementation & LSU rework (will probably need to happen together)
 -- 5) Bus rework & I/O unit improvement
 
+-- FIXME: ICACHE Doesn't synthesize into BRAM
 
 entity top is
     port(

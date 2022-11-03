@@ -1,7 +1,7 @@
 // Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
 // --------------------------------------------------------------------------------
 // Tool Version: Vivado v.2022.1 (win64) Build 3526262 Mon Apr 18 15:48:16 MDT 2022
-// Date        : Sat Oct 29 17:42:13 2022
+// Date        : Thu Nov  3 18:30:36 2022
 // Host        : DESKTOP-SVM92C6 running 64-bit major release  (build 9200)
 // Command     : write_verilog -force -mode funcsim {C:/Vivado Projects/RISC-V-Processor-2/RISC-V Processor
 //               2.runs/clk_wiz_0_synth_1/clk_wiz_0_sim_netlist.v}
@@ -89,7 +89,7 @@ module clk_wiz_0_clk_wiz
     .CLKFBOUT_USE_FINE_PS("FALSE"),
     .CLKIN1_PERIOD(10.000000),
     .CLKIN2_PERIOD(0.000000),
-    .CLKOUT0_DIVIDE_F(11.000000),
+    .CLKOUT0_DIVIDE_F(9.000000),
     .CLKOUT0_DUTY_CYCLE(0.500000),
     .CLKOUT0_PHASE(0.000000),
     .CLKOUT0_USE_FINE_PS("FALSE"),

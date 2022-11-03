@@ -58,20 +58,20 @@
     <Option Name="IPStaticSourceDir" Val="$PIPUSERFILESDIR/ipstatic"/>
     <Option Name="EnableBDX" Val="FALSE"/>
     <Option Name="DSABoardId" Val="nexys-a7-100t"/>
-    <Option Name="WTXSimLaunchSim" Val="3188"/>
+    <Option Name="WTXSimLaunchSim" Val="3203"/>
     <Option Name="WTModelSimLaunchSim" Val="0"/>
     <Option Name="WTQuestaLaunchSim" Val="0"/>
     <Option Name="WTIesLaunchSim" Val="0"/>
     <Option Name="WTVcsLaunchSim" Val="0"/>
     <Option Name="WTRivieraLaunchSim" Val="0"/>
     <Option Name="WTActivehdlLaunchSim" Val="0"/>
-    <Option Name="WTXSimExportSim" Val="85"/>
-    <Option Name="WTModelSimExportSim" Val="85"/>
-    <Option Name="WTQuestaExportSim" Val="85"/>
+    <Option Name="WTXSimExportSim" Val="87"/>
+    <Option Name="WTModelSimExportSim" Val="87"/>
+    <Option Name="WTQuestaExportSim" Val="87"/>
     <Option Name="WTIesExportSim" Val="36"/>
-    <Option Name="WTVcsExportSim" Val="85"/>
-    <Option Name="WTRivieraExportSim" Val="85"/>
-    <Option Name="WTActivehdlExportSim" Val="85"/>
+    <Option Name="WTVcsExportSim" Val="87"/>
+    <Option Name="WTRivieraExportSim" Val="87"/>
+    <Option Name="WTActivehdlExportSim" Val="87"/>
     <Option Name="GenerateIPUpgradeLog" Val="TRUE"/>
     <Option Name="XSimRadix" Val="hex"/>
     <Option Name="XSimTimeUnit" Val="ns"/>
@@ -612,6 +612,7 @@
       </File>
       <File Path="$PPRDIR/icache_tb_behav.wcfg">
         <FileInfo>
+          <Attr Name="UserDisabled" Val="1"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>

@@ -33,10 +33,10 @@ entity instruction_decoder is
         pc : in std_logic_vector(31 downto 0);
         
         branch_taken_pc : out std_logic_vector(31 downto 0);
-        branch_not_taken_pc : out std_logic_vector(31 downto 0);
         
         is_speculative_branch : out std_logic;
         is_uncond_branch : out std_logic;
+        is_jalr : out std_logic;
 
         uop : out uop_instr_dec_type
     );
@@ -100,9 +100,9 @@ begin
         
         is_speculative_branch <= '0';
         is_uncond_branch <= '0';
+        is_jalr <= '0';
         
         branch_taken_pc <= std_logic_vector(unsigned(pc) + unsigned(uop.immediate));
-        branch_not_taken_pc <= std_logic_vector(unsigned(pc) + 4);
         
         -- IMMEDIATE GENERATION
         uop_alu_op_sel(2 downto 0) <= instruction(14 downto 12);
@@ -168,7 +168,8 @@ begin
                 --uop_uses_immediate <= '1';
                 uop_is_speculative_branch <= '1';
                 is_uncond_branch <= '1';
-    
+                is_jalr <= '1';
+                
             when others => 
                 uop.operation_type <= (others => '0');
                 uop.operation_select <= (others => '0');

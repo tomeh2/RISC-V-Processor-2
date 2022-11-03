@@ -45,8 +45,8 @@ entity core is
 end core;
 
 architecture structural of core is
-    signal uop_decoded_tmp : front_end_pipeline_reg_0;
     signal uop_ee_in : uop_decoded_type;
+    signal uop_fe_out : uop_decoded_type;
     signal instruction_ready : std_logic;
     
     signal stall : std_logic;
@@ -72,14 +72,15 @@ begin
     front_end : entity work.front_end(structural)
                 port map(cdb => cdb,
                 
-                        bus_data_read => bus_data_read,
-                        bus_addr_read => bus_addr_read_fe,
-                        bus_ackr => bus_ackr_fe,
-                        bus_stbr => bus_stbr_fe,
+                         fifo_full => fifo_full,
                 
-                         uop_decoded_tmp => uop_decoded_tmp,
-
-                         stall => stall,
+                         bus_data_read => bus_data_read,
+                         bus_addr_read => bus_addr_read_fe,
+                         bus_ackr => bus_ackr_fe,
+                         bus_stbr => bus_stbr_fe,
+                         
+                         decoded_uop => uop_fe_out,
+                         decoded_uop_valid => instruction_ready,
                          
                          branch_mask => branch_mask,
                          branch_predicted_pc => branch_predicted_pc,
@@ -88,16 +89,14 @@ begin
                          clk => clk,
                          reset => reset);
                          
-    stall <= fifo_full;
-
     your_instance_name : entity work.decoded_uop_fifo
         generic map(DEPTH => DECODED_INSTR_QUEUE_ENTRIES)
       PORT MAP (
         cdb => cdb,
         clk => clk,
         reset => reset or (cdb.branch_mispredicted and cdb.valid),
-        uop_in => uop_decoded_tmp.uop_decoded,
-        wr_en => uop_decoded_tmp.valid,
+        uop_in => uop_fe_out,
+        wr_en => instruction_ready,
         rd_en => fifo_read_en,
         uop_out => uop_ee_in,
         full => fifo_full,
