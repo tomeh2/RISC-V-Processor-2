@@ -64,7 +64,7 @@ architecture Structural of front_end is
     
     signal stall : std_logic;
     signal branch_mispredicted : std_logic;
-    signal clear_pipeline : std_logic;
+    signal clear_pipeline_full : std_logic;
     
     -- ICACHE
     signal ic_wait : std_logic;
@@ -107,11 +107,15 @@ begin
                 f1_f2_pipeline_reg.valid <= '0';
                 f2_d1_pipeline_reg.valid <= '0';
             else
-                if (stall = '0') then
+                if (clear_pipeline_full or d1_branch_target_mispredict) then
+                    f1_f2_pipeline_reg.valid <= '0';
+                elsif (stall = '0') then
                     f1_f2_pipeline_reg <= f1_f2_pipeline_reg_next;
                 end if;
                 
-                if (fifo_full = '0') then
+                if (clear_pipeline_full) then
+                    f2_d1_pipeline_reg.valid <= '0';
+                elsif (stall = '0') then
                     f2_d1_pipeline_reg <= f2_d1_pipeline_reg_next;
                 end if;
             end if;
@@ -126,12 +130,12 @@ begin
     f2_d1_pipeline_reg_next.branch_pred_outcome <= f1_f2_pipeline_reg.branch_pred_outcome;
     f2_d1_pipeline_reg_next.branch_pred_target <= f1_f2_pipeline_reg.branch_pred_target;
     
-    f1_f2_pipeline_reg_next.valid <= '0' when clear_pipeline else '1';
-    f2_d1_pipeline_reg_next.valid <= '0' when clear_pipeline or not f2_ic_data_valid else '1';
+    f1_f2_pipeline_reg_next.valid <= '0' when clear_pipeline_full or d1_branch_target_mispredict else '1';
+    f2_d1_pipeline_reg_next.valid <= '0' when clear_pipeline_full or d1_branch_target_mispredict or not f2_ic_data_valid else '1';
     
-    stall <= ic_wait or fifo_full;
+    stall <= ic_wait or fifo_full or d1_bc_empty;
     branch_mispredicted <= cdb.valid and cdb.branch_mispredicted;
-    clear_pipeline <= branch_mispredicted or d1_branch_target_mispredict;
+    clear_pipeline_full <= branch_mispredicted;
     -- ======================================================================
 
     -- ========================== F1 STAGE ========================== 
@@ -157,16 +161,14 @@ begin
             if (reset = '1') then
                 f1_pc_reg <= PC_VAL_INIT;
             else
-                if (stall = '0') then
-                    if (branch_mispredicted = '1') then
-                        f1_pc_reg <= cdb.target_addr;
-                    elsif (d1_branch_target_mispredict = '1') then
-                        f1_pc_reg <= d1_target_mispred_recovery_pc;
-                    elsif (f1_pred_is_branch = '1' and f1_pred_outcome = '1') then
-                        f1_pc_reg <= f1_pred_target_pc;
-                    else
-                        f1_pc_reg <= std_logic_vector(unsigned(f1_pc_reg) + 4);
-                    end if;
+                if (branch_mispredicted = '1') then
+                    f1_pc_reg <= cdb.target_addr;
+                elsif (d1_branch_target_mispredict = '1' and stall = '0') then
+                    f1_pc_reg <= d1_target_mispred_recovery_pc;
+                elsif (f1_pred_is_branch = '1' and f1_pred_outcome = '1' and stall = '0') then
+                    f1_pc_reg <= f1_pred_target_pc;
+                elsif (stall = '0') then
+                    f1_pc_reg <= std_logic_vector(unsigned(f1_pc_reg) + 4);
                 end if;
             end if;
         end if;
@@ -186,7 +188,8 @@ begin
     icache_inst : entity work.icache(rtl)
                   port map(read_addr => f1_pc_reg,
                            read_en => '1',
-                           read_cancel => clear_pipeline,
+                           read_cancel => clear_pipeline_full or d1_branch_target_mispredict,
+                           stall => stall,
                            
                            resolving_miss => ic_wait,
                            data_out => f2_d1_pipeline_reg_next.instruction,
@@ -222,7 +225,7 @@ begin
                                       speculated_branches_mask => d1_speculated_branches_mask,
                                       alloc_branch_mask => d1_alloc_branch_mask,
                                       
-                                      branch_alloc_en => d1_is_speculative_br and f2_d1_pipeline_reg.valid,
+                                      branch_alloc_en => d1_is_speculative_br and f2_d1_pipeline_reg.valid and not stall,
                                       
                                       empty => d1_bc_empty,
                                       
@@ -231,13 +234,15 @@ begin
                     
     -- Since all branch instructions (except for JALR) have target addresses which can be computed immediately,
     -- We can already resolve most branch target mispredicts
-    d1_branch_target_mispredict <= '1' when ((f2_d1_pipeline_reg.branch_pred_outcome = '1' and 
+    d1_branch_target_mispredict <= '1' when (((f2_d1_pipeline_reg.branch_pred_outcome = '1' and 
                                             ((f2_d1_pipeline_reg.branch_pred_target /= d1_branch_taken_pc and d1_is_jalr = '0') or      -- Was a branch instruction
                                             (d1_is_speculative_br = '0' and d1_is_uncond_br = '0'))) or
                                             (d1_is_uncond_br = '1' and d1_is_jalr = '0' and 
-                                            (f2_d1_pipeline_reg.branch_pred_target /= d1_branch_taken_pc or f2_d1_pipeline_reg.branch_pred_outcome = '0'))) else '0';                           -- Was not a branch instruction
+                                            (f2_d1_pipeline_reg.branch_pred_target /= d1_branch_taken_pc or f2_d1_pipeline_reg.branch_pred_outcome = '0'))) 
+                                            and f2_d1_pipeline_reg.valid = '1') else '0';                           -- Was not a branch instruction
                                        
-    d1_target_mispred_recovery_pc <= std_logic_vector(unsigned(f2_d1_pipeline_reg.pc) + 4) when (d1_is_speculative_br = '0' and d1_is_uncond_br = '0') 
+    d1_target_mispred_recovery_pc <= std_logic_vector(unsigned(f2_d1_pipeline_reg.pc) + 4) when ((d1_is_speculative_br = '0' and d1_is_uncond_br = '0') or
+                                                                                                (d1_is_speculative_br = '1' and f2_d1_pipeline_reg.branch_pred_outcome = '0'))
                                                                                            else d1_branch_taken_pc;
                                        
     decoded_uop.pc <= f2_d1_pipeline_reg.pc;
@@ -250,7 +255,11 @@ begin
     decoded_uop.branch_mask <= d1_alloc_branch_mask;
     decoded_uop.branch_predicted_outcome <= f2_d1_pipeline_reg.branch_pred_outcome;
     decoded_uop.speculated_branches_mask <= d1_speculated_branches_mask;
-    decoded_uop_valid <= f2_d1_pipeline_reg.valid;
+    decoded_uop_valid <= f2_d1_pipeline_reg.valid and not stall and not clear_pipeline_full;
+    
+    branch_mask <= d1_alloc_branch_mask;
+    branch_predicted_pc <= d1_target_mispred_recovery_pc;
+    branch_prediction <= f2_d1_pipeline_reg.branch_pred_outcome;
     -- ==============================================================
 end Structural;
 

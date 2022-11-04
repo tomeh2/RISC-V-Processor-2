@@ -34,6 +34,7 @@ entity icache is
         read_addr : in std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);
         read_en : in std_logic;
         read_cancel : in std_logic;
+        stall : in std_logic;
         
         resolving_miss : out std_logic; 
         data_valid : out std_logic;
@@ -107,7 +108,7 @@ begin
                 i_bus_addr_read <= (others => '0');
             end if;
             
-            if (bus_read_state_next = IDLE) then
+            if (bus_read_state_next = IDLE and stall = '0') then
                 i_bus_addr_read <= read_addr(CPU_ADDR_WIDTH_BITS - 1 downto CACHELINE_ALIGNMENT) & std_logic_vector(to_unsigned(0, CACHELINE_ALIGNMENT));
             elsif (bus_ackr = '1') then
                 i_bus_addr_read <= std_logic_vector(unsigned(i_bus_addr_read) + 4);
@@ -155,7 +156,7 @@ begin
         elsif (bus_read_state = BUSY) then
             bus_stbr <= '1';
         elsif (bus_read_state = FINALIZE) then
-            cacheline_update_en <= read_en and not read_cancel;
+            cacheline_update_en <= not read_cancel;
         end if;
     end process;
     
@@ -202,11 +203,11 @@ begin
             
             if (read_cancel = '1') then
                 valid_pipeline_reg <= '0';
-            elsif (resolving_miss = '0') then
+            elsif (stall = '0') then
                 valid_pipeline_reg <= read_en;
             end if;
             
-            if (read_en = '1' and resolving_miss = '0') then
+            if (stall = '0') then
                 read_addr_offset_pipeline_reg <= read_addr(CACHELINE_ALIGNMENT - 1 downto 2);
                 read_addr_tag_pipeline_reg <= read_addr(CPU_ADDR_WIDTH_BITS - 1 downto CACHELINE_ALIGNMENT) & std_logic_vector(to_unsigned(0, CACHELINE_ALIGNMENT));
             end if; 
@@ -220,7 +221,7 @@ begin
                 icache_valid_bits <= (others => '0');
             end if;
             
-            if (read_en = '1') then
+            if (stall = '0') then
                 icache_set_out <= icache(to_integer(unsigned(read_addr(RADDR_INDEX_START downto RADDR_INDEX_END))));
                 
                 for i in 0 to ICACHE_ASSOCIATIVITY - 1 loop
