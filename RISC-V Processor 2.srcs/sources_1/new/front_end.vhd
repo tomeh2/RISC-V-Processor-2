@@ -35,6 +35,8 @@ entity front_end is
     port(
         debug_sv_immediate : out std_logic_vector(31 downto 0);
         debug_sv_pc : out std_logic_vector(31 downto 0);
+        debug_clear_pipeline : in std_logic;
+        debug_stall : in std_logic;
     
         cdb : in cdb_type;
         
@@ -65,7 +67,8 @@ architecture Structural of front_end is
     signal f2_d1_pipeline_reg : f2_d1_pipeline_reg_type;
     signal f2_d1_pipeline_reg_next : f2_d1_pipeline_reg_type;
     
-    signal stall : std_logic;
+    signal stall_f1_d1 : std_logic;
+    signal stall_f2_d1 : std_logic;
     signal branch_mispredicted : std_logic;
     signal clear_pipeline_full : std_logic;
     
@@ -112,13 +115,13 @@ begin
             else
                 if (clear_pipeline_full or d1_branch_target_mispredict) then
                     f1_f2_pipeline_reg.valid <= '0';
-                elsif (stall = '0') then
+                elsif (stall_f1_d1 = '0') then
                     f1_f2_pipeline_reg <= f1_f2_pipeline_reg_next;
                 end if;
                 
                 if (clear_pipeline_full) then
                     f2_d1_pipeline_reg.valid <= '0';
-                elsif (stall = '0') then
+                elsif (stall_f2_d1 = '0') then
                     f2_d1_pipeline_reg <= f2_d1_pipeline_reg_next;
                 end if;
             end if;
@@ -136,9 +139,10 @@ begin
     f1_f2_pipeline_reg_next.valid <= '0' when clear_pipeline_full or d1_branch_target_mispredict else '1';
     f2_d1_pipeline_reg_next.valid <= '0' when clear_pipeline_full or d1_branch_target_mispredict or not f2_ic_data_valid else '1';
     
-    stall <= ic_wait or fifo_full or d1_bc_empty;
+    stall_f2_d1 <= fifo_full or d1_bc_empty;
+    stall_f1_d1 <= ic_wait or (f2_d1_pipeline_reg.valid and stall_f2_d1) or debug_stall;
     branch_mispredicted <= cdb.valid and cdb.branch_mispredicted;
-    clear_pipeline_full <= branch_mispredicted;
+    clear_pipeline_full <= branch_mispredicted or debug_clear_pipeline;
     -- ======================================================================
 
     -- ========================== F1 STAGE ========================== 
@@ -166,11 +170,11 @@ begin
             else
                 if (branch_mispredicted = '1') then
                     f1_pc_reg <= cdb.target_addr;
-                elsif (d1_branch_target_mispredict = '1' and stall = '0') then
+                elsif (d1_branch_target_mispredict = '1' and stall_f1_d1 = '0') then
                     f1_pc_reg <= d1_target_mispred_recovery_pc;
-                elsif (f1_pred_is_branch = '1' and f1_pred_outcome = '1' and stall = '0') then
+                elsif (f1_pred_is_branch = '1' and f1_pred_outcome = '1' and stall_f1_d1 = '0') then
                     f1_pc_reg <= f1_pred_target_pc;
-                elsif (stall = '0') then
+                elsif (stall_f1_d1 = '0') then
                     f1_pc_reg <= std_logic_vector(unsigned(f1_pc_reg) + 4);
                 end if;
             end if;
@@ -192,7 +196,7 @@ begin
                   port map(read_addr => f1_pc_reg,
                            read_en => '1',
                            read_cancel => clear_pipeline_full or d1_branch_target_mispredict,
-                           stall => stall,
+                           stall => stall_f1_d1,
                            
                            resolving_miss => ic_wait,
                            data_out => f2_d1_pipeline_reg_next.instruction,
@@ -228,7 +232,7 @@ begin
                                       speculated_branches_mask => d1_speculated_branches_mask,
                                       alloc_branch_mask => d1_alloc_branch_mask,
                                       
-                                      branch_alloc_en => d1_is_speculative_br and f2_d1_pipeline_reg.valid and not stall,
+                                      branch_alloc_en => d1_is_speculative_br and f2_d1_pipeline_reg.valid and not stall_f2_d1,
                                       
                                       empty => d1_bc_empty,
                                       
@@ -258,7 +262,7 @@ begin
     decoded_uop.branch_mask <= d1_alloc_branch_mask;
     decoded_uop.branch_predicted_outcome <= f2_d1_pipeline_reg.branch_pred_outcome;
     decoded_uop.speculated_branches_mask <= d1_speculated_branches_mask;
-    decoded_uop_valid <= f2_d1_pipeline_reg.valid and not stall and not clear_pipeline_full;
+    decoded_uop_valid <= f2_d1_pipeline_reg.valid and not clear_pipeline_full;
     
     branch_mask <= d1_alloc_branch_mask;
     branch_predicted_pc <= d1_target_mispred_recovery_pc;

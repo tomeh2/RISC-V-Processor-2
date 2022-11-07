@@ -70,7 +70,10 @@ architecture structural of core is
     signal cdb : cdb_type;
 begin
     front_end : entity work.front_end(structural)
-                port map(cdb => cdb,
+                port map(debug_clear_pipeline => '0',
+                         debug_stall => '0',
+                
+                         cdb => cdb,
                 
                          fifo_full => fifo_full,
                 
