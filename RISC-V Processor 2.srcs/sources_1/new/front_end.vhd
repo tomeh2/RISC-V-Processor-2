@@ -33,6 +33,9 @@ use WORK.PKG_CPU.ALL;
 
 entity front_end is
     port(
+        debug_sv_immediate : out std_logic_vector(31 downto 0);
+        debug_sv_pc : out std_logic_vector(31 downto 0);
+    
         cdb : in cdb_type;
         
         fifo_full : in std_logic;
@@ -261,6 +264,10 @@ begin
     branch_predicted_pc <= d1_target_mispred_recovery_pc;
     branch_prediction <= f2_d1_pipeline_reg.branch_pred_outcome;
     -- ==============================================================
+    
+    -- DEBUG!!!!
+    debug_sv_immediate <= decoded_uop.immediate;
+    debug_sv_pc <= decoded_uop.pc;
 end Structural;
 
 

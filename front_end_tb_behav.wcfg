@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="front_end_tb_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="front_end_tb" />
+            <top_module name="glbl" />
+            <top_module name="pkg_cpu" />
+            <top_module name="pkg_cpu" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="0.000000 us"></ZoomStartTime>
+      <ZoomEndTime time="21.957914 us"></ZoomEndTime>
+      <Cursor1Time time="20.000000 us"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="322"></NameColumnWidth>
+      <ValueColumnWidth column_width="149"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="41" />
+   <wvobject fp_name="/front_end_tb/uut/cdb" type="array">
+      <obj_property name="ElementShortName">cdb</obj_property>
+      <obj_property name="ObjectShortName">cdb</obj_property>
+   </wvobject>
+   <wvobject fp_name="/front_end_tb/uut/fifo_full" type="logic">
+      <obj_property name="ElementShortName">fifo_full</obj_property>
+      <obj_property name="ObjectShortName">fifo_full</obj_property>
+   </wvobject>
+   <wvobject fp_name="/front_end_tb/uut/bus_data_read" type="array">
+      <obj_property name="ElementShortName">bus_data_read[31:0]</obj_property>
+      <obj_property name="ObjectShortName">bus_data_read[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/front_end_tb/uut/bus_addr_read" type="array">
+      <obj_property name="ElementShortName">bus_addr_read[31:0]</obj_property>
+      <obj_property name="ObjectShortName">bus_addr_read[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/front_end_tb/uut/bus_stbr" type="logic">
+      <obj_property name="ElementShortName">bus_stbr</obj_property>
+      <obj_property name="ObjectShortName">bus_stbr</obj_property>
+   </wvobject>
+   <wvobject fp_name="/front_end_tb/uut/bus_ackr" type="logic">
+      <obj_property name="ElementShortName">bus_ackr</obj_property>
+      <obj_property name="ObjectShortName">bus_ackr</obj_property>
+   </wvobject>
+   <wvobject fp_name="/front_end_tb/uut/branch_mask" type="array">
+      <obj_property name="ElementShortName">branch_mask[3:0]</obj_property>
+      <obj_property name="ObjectShortName">branch_mask[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/front_end_tb/uut/branch_predicted_pc" type="array">
+      <obj_property name="ElementShortName">branch_predicted_pc[31:0]</obj_property>
+      <obj_property name="ObjectShortName">branch_predicted_pc[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/front_end_tb/uut/branch_prediction" type="logic">
+      <obj_property name="ElementShortName">branch_prediction</obj_property>
+      <obj_property name="ObjectShortName">branch_prediction</obj_property>
+   </wvobject>
+   <wvobject fp_name="/front_end_tb/uut/decoded_uop" type="array">
+      <obj_property name="ElementShortName">decoded_uop</obj_property>
+      <obj_property name="ObjectShortName">decoded_uop</obj_property>
+   </wvobject>
+   <wvobject fp_name="/front_end_tb/uut/decoded_uop_valid" type="logic">
+      <obj_property name="ElementShortName">decoded_uop_valid</obj_property>
+      <obj_property name="ObjectShortName">decoded_uop_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/front_end_tb/uut/reset" type="logic">
+      <obj_property name="ElementShortName">reset</obj_property>
+      <obj_property name="ObjectShortName">reset</obj_property>
+   </wvobject>
+   <wvobject fp_name="/front_end_tb/uut/clk" type="logic">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/front_end_tb/uut/f1_f2_pipeline_reg" type="array">
+      <obj_property name="ElementShortName">f1_f2_pipeline_reg</obj_property>
+      <obj_property name="ObjectShortName">f1_f2_pipeline_reg</obj_property>
+   </wvobject>
+   <wvobject fp_name="/front_end_tb/uut/f1_f2_pipeline_reg_next" type="array">
+      <obj_property name="ElementShortName">f1_f2_pipeline_reg_next</obj_property>
+      <obj_property name="ObjectShortName">f1_f2_pipeline_reg_next</obj_property>
+   </wvobject>
+   <wvobject fp_name="/front_end_tb/uut/f2_d1_pipeline_reg" type="array">
+      <obj_property name="ElementShortName">f2_d1_pipeline_reg</obj_property>
+      <obj_property name="ObjectShortName">f2_d1_pipeline_reg</obj_property>
+   </wvobject>
+   <wvobject fp_name="/front_end_tb/uut/f2_d1_pipeline_reg_next" type="array">
+      <obj_property name="ElementShortName">f2_d1_pipeline_reg_next</obj_property>
+      <obj_property name="ObjectShortName">f2_d1_pipeline_reg_next</obj_property>
+   </wvobject>
+   <wvobject fp_name="/front_end_tb/uut/stall" type="logic">
+      <obj_property name="ElementShortName">stall</obj_property>
+      <obj_property name="ObjectShortName">stall</obj_property>
+   </wvobject>
+   <wvobject fp_name="/front_end_tb/uut/branch_mispredicted" type="logic">
+      <obj_property name="ElementShortName">branch_mispredicted</obj_property>
+      <obj_property name="ObjectShortName">branch_mispredicted</obj_property>
+   </wvobject>
+   <wvobject fp_name="/front_end_tb/uut/clear_pipeline_full" type="logic">
+      <obj_property name="ElementShortName">clear_pipeline_full</obj_property>
+      <obj_property name="ObjectShortName">clear_pipeline_full</obj_property>
+   </wvobject>
+   <wvobject fp_name="/front_end_tb/uut/ic_wait" type="logic">
+      <obj_property name="ElementShortName">ic_wait</obj_property>
+      <obj_property name="ObjectShortName">ic_wait</obj_property>
+   </wvobject>
+   <wvobject fp_name="/front_end_tb/uut/bp_in" type="array">
+      <obj_property name="ElementShortName">bp_in</obj_property>
+      <obj_property name="ObjectShortName">bp_in</obj_property>
+   </wvobject>
+   <wvobject fp_name="/front_end_tb/uut/bp_out" type="array">
+      <obj_property name="ElementShortName">bp_out</obj_property>
+      <obj_property name="ObjectShortName">bp_out</obj_property>
+   </wvobject>
+   <wvobject fp_name="/front_end_tb/uut/f1_pc_reg" type="array">
+      <obj_property name="ElementShortName">f1_pc_reg[31:0]</obj_property>
+      <obj_property name="ObjectShortName">f1_pc_reg[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/front_end_tb/uut/f1_pred_target_pc" type="array">
+      <obj_property name="ElementShortName">f1_pred_target_pc[31:0]</obj_property>
+      <obj_property name="ObjectShortName">f1_pred_target_pc[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/front_end_tb/uut/f1_pred_is_branch" type="logic">
+      <obj_property name="ElementShortName">f1_pred_is_branch</obj_property>
+      <obj_property name="ObjectShortName">f1_pred_is_branch</obj_property>
+   </wvobject>
+   <wvobject fp_name="/front_end_tb/uut/f1_pred_outcome" type="logic">
+      <obj_property name="ElementShortName">f1_pred_outcome</obj_property>
+      <obj_property name="ObjectShortName">f1_pred_outcome</obj_property>
+   </wvobject>
+   <wvobject fp_name="/front_end_tb/uut/f2_ic_data_valid" type="logic">
+      <obj_property name="ElementShortName">f2_ic_data_valid</obj_property>
+      <obj_property name="ObjectShortName">f2_ic_data_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/front_end_tb/uut/d1_pc" type="array">
+      <obj_property name="ElementShortName">d1_pc[31:0]</obj_property>
+      <obj_property name="ObjectShortName">d1_pc[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/front_end_tb/uut/d1_instr" type="array">
+      <obj_property name="ElementShortName">d1_instr[31:0]</obj_property>
+      <obj_property name="ObjectShortName">d1_instr[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/front_end_tb/uut/d1_instr_valid" type="logic">
+      <obj_property name="ElementShortName">d1_instr_valid</obj_property>
+      <obj_property name="ObjectShortName">d1_instr_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/front_end_tb/uut/d1_branch_taken_pc" type="array">
+      <obj_property name="ElementShortName">d1_branch_taken_pc[31:0]</obj_property>
+      <obj_property name="ObjectShortName">d1_branch_taken_pc[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/front_end_tb/uut/d1_branch_target_mispredict" type="logic">
+      <obj_property name="ElementShortName">d1_branch_target_mispredict</obj_property>
+      <obj_property name="ObjectShortName">d1_branch_target_mispredict</obj_property>
+   </wvobject>
+   <wvobject fp_name="/front_end_tb/uut/d1_speculated_branches_mask" type="array">
+      <obj_property name="ElementShortName">d1_speculated_branches_mask[3:0]</obj_property>
+      <obj_property name="ObjectShortName">d1_speculated_branches_mask[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/front_end_tb/uut/d1_alloc_branch_mask" type="array">
+      <obj_property name="ElementShortName">d1_alloc_branch_mask[3:0]</obj_property>
+      <obj_property name="ObjectShortName">d1_alloc_branch_mask[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/front_end_tb/uut/d1_bc_empty" type="logic">
+      <obj_property name="ElementShortName">d1_bc_empty</obj_property>
+      <obj_property name="ObjectShortName">d1_bc_empty</obj_property>
+   </wvobject>
+   <wvobject fp_name="/front_end_tb/uut/d1_is_jalr" type="logic">
+      <obj_property name="ElementShortName">d1_is_jalr</obj_property>
+      <obj_property name="ObjectShortName">d1_is_jalr</obj_property>
+   </wvobject>
+   <wvobject fp_name="/front_end_tb/uut/d1_is_speculative_br" type="logic">
+      <obj_property name="ElementShortName">d1_is_speculative_br</obj_property>
+      <obj_property name="ObjectShortName">d1_is_speculative_br</obj_property>
+   </wvobject>
+   <wvobject fp_name="/front_end_tb/uut/d1_is_uncond_br" type="logic">
+      <obj_property name="ElementShortName">d1_is_uncond_br</obj_property>
+      <obj_property name="ObjectShortName">d1_is_uncond_br</obj_property>
+   </wvobject>
+   <wvobject fp_name="/front_end_tb/uut/d1_instr_dec_uop" type="array">
+      <obj_property name="ElementShortName">d1_instr_dec_uop</obj_property>
+      <obj_property name="ObjectShortName">d1_instr_dec_uop</obj_property>
+   </wvobject>
+   <wvobject fp_name="/front_end_tb/uut/d1_target_mispred_recovery_pc" type="array">
+      <obj_property name="ElementShortName">d1_target_mispred_recovery_pc[31:0]</obj_property>
+      <obj_property name="ObjectShortName">d1_target_mispred_recovery_pc[31:0]</obj_property>
+   </wvobject>
+</wave_config>
