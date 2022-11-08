@@ -81,7 +81,7 @@ architecture rtl of icache is
     
     signal valid_pipeline_reg : std_logic;
     signal read_addr_tag_pipeline_reg : std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);
-    signal read_addr_offset_pipeline_reg : std_logic_vector(CACHELINE_ALIGNMENT - 1 downto 2);
+    signal read_addr_offset_pipeline_reg : std_logic_vector(CACHELINE_ALIGNMENT - 3 downto 0);
     signal i_bus_addr_read : std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);
     
     signal cacheline_update_en : std_logic;
@@ -266,7 +266,7 @@ begin
         for i in 0 to ICACHE_ASSOCIATIVITY - 1 loop
             if (hit_bits(i) = '1') then
                 for j in 0 to ICACHE_INSTR_PER_CACHELINE - 1 loop
-                    if (to_integer(unsigned(read_addr_offset_pipeline_reg(ICACHE_INSTR_PER_CACHELINE - 1 downto 2))) = j) then
+                    if (to_integer(unsigned(read_addr_offset_pipeline_reg)) = j) then
                         data_out <= icache_set_out(i)(CACHELINE_DATA_END + 32 * (j + 1) - 1 downto CACHELINE_DATA_END + 32 * (j));
                     end if;
                 end loop;

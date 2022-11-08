@@ -37,6 +37,9 @@ entity front_end is
         debug_sv_pc : out std_logic_vector(31 downto 0);
         debug_clear_pipeline : in std_logic;
         debug_stall : in std_logic;
+        debug_cdb_valid : in std_logic;
+        debug_cdb_mispred : in std_logic;
+        debug_cdb_targ_addr : in std_logic_vector(31 downto 0);
     
         cdb : in cdb_type;
         
@@ -103,7 +106,7 @@ architecture Structural of front_end is
     signal d1_is_uncond_br : std_logic;
     
     signal d1_instr_dec_uop : uop_instr_dec_type;
-    signal d1_target_mispred_recovery_pc : std_logic_vector(CPU_ADDR_WIDTh_BITS - 1 downto 0);
+    signal d1_target_mispred_recovery_pc : std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);
 begin
     -- ========================== PIPELINE CONTROL ==========================
     pipeline_reg_cntrl : process(clk)
@@ -119,7 +122,7 @@ begin
                     f1_f2_pipeline_reg <= f1_f2_pipeline_reg_next;
                 end if;
                 
-                if (clear_pipeline_full) then
+                if (clear_pipeline_full or d1_branch_target_mispredict or (stall_f1_d1 and not d1_bc_empty and not fifo_full)) then
                     f2_d1_pipeline_reg.valid <= '0';
                 elsif (stall_f2_d1 = '0') then
                     f2_d1_pipeline_reg <= f2_d1_pipeline_reg_next;
@@ -136,12 +139,12 @@ begin
     f2_d1_pipeline_reg_next.branch_pred_outcome <= f1_f2_pipeline_reg.branch_pred_outcome;
     f2_d1_pipeline_reg_next.branch_pred_target <= f1_f2_pipeline_reg.branch_pred_target;
     
-    f1_f2_pipeline_reg_next.valid <= '0' when clear_pipeline_full or d1_branch_target_mispredict else '1';
-    f2_d1_pipeline_reg_next.valid <= '0' when clear_pipeline_full or d1_branch_target_mispredict or not f2_ic_data_valid else '1';
+    f1_f2_pipeline_reg_next.valid <= '1';
+    f2_d1_pipeline_reg_next.valid <= f1_f2_pipeline_reg.valid;
     
-    stall_f2_d1 <= fifo_full or d1_bc_empty;
+    stall_f2_d1 <= d1_bc_empty or fifo_full or stall_f1_d1;
     stall_f1_d1 <= ic_wait or (f2_d1_pipeline_reg.valid and stall_f2_d1) or debug_stall;
-    branch_mispredicted <= cdb.valid and cdb.branch_mispredicted;
+    branch_mispredicted <= (debug_cdb_mispred and debug_cdb_valid);--(cdb.valid and cdb.branch_mispredicted);----
     clear_pipeline_full <= branch_mispredicted or debug_clear_pipeline;
     -- ======================================================================
 
@@ -169,10 +172,10 @@ begin
                 f1_pc_reg <= PC_VAL_INIT;
             else
                 if (branch_mispredicted = '1') then
-                    f1_pc_reg <= cdb.target_addr;
-                elsif (d1_branch_target_mispredict = '1' and stall_f1_d1 = '0') then
+                    f1_pc_reg <= debug_cdb_targ_addr;--cdb.target_addr;
+                elsif (d1_branch_target_mispredict = '1') then --and stall_f1_d1 = '0') then
                     f1_pc_reg <= d1_target_mispred_recovery_pc;
-                elsif (f1_pred_is_branch = '1' and f1_pred_outcome = '1' and stall_f1_d1 = '0') then
+                elsif (f1_pred_is_branch = '1' and f1_pred_outcome = '1') then-- and stall_f1_d1 = '0') then
                     f1_pc_reg <= f1_pred_target_pc;
                 elsif (stall_f1_d1 = '0') then
                     f1_pc_reg <= std_logic_vector(unsigned(f1_pc_reg) + 4);
@@ -232,7 +235,8 @@ begin
                                       speculated_branches_mask => d1_speculated_branches_mask,
                                       alloc_branch_mask => d1_alloc_branch_mask,
                                       
-                                      branch_alloc_en => d1_is_speculative_br and f2_d1_pipeline_reg.valid and not stall_f2_d1,
+                                      branch_alloc_en => ((d1_is_speculative_br and f2_d1_pipeline_reg.valid) or 
+                                      (d1_is_speculative_br and f2_d1_pipeline_reg.valid and stall_f1_d1 and not d1_bc_empty and not fifo_full)),
                                       
                                       empty => d1_bc_empty,
                                       
