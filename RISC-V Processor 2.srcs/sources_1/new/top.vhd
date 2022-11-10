@@ -33,7 +33,6 @@ use IEEE.STD_LOGIC_1164.ALL;
 -- 4) Data cache implementation & LSU rework (will probably need to happen together)
 -- 5) Bus rework & I/O unit improvement
 
--- FIXME: ICACHE Doesn't synthesize into BRAM
 -- FIXME: ICACHE needs a way to invalidate certain (or all) cachelines in the event that they become stale (FENCE.I?)
 -- FIXME: UOP FIFO will report as not ready if it has only one element inside
 

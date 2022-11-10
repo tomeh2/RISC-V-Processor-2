@@ -67,8 +67,8 @@ architecture rtl of icache is
     constant CACHELINE_DATA_END : integer := CACHELINE_SIZE - TAG_SIZE - ICACHE_INSTR_PER_CACHELINE * 32;
    
     type icache_block_type is array (0 to ICACHE_ASSOCIATIVITY - 1) of std_logic_vector(CACHELINE_SIZE - 1 downto 0);
-    type icache_type is array(0 to ICACHE_NUM_SETS - 1) of icache_block_type;
-    signal icache : icache_type;
+    --type icache_type is array(0 to ICACHE_NUM_SETS - 1) of icache_block_type;
+    --signal icache : icache_type;
     
     -- icache_valid_bits bits have to be outside of BRAM so that they can be reset
     signal icache_valid_bits : std_logic_vector(ICACHE_NUM_SETS * ICACHE_ASSOCIATIVITY - 1 downto 0);
@@ -97,7 +97,6 @@ architecture rtl of icache is
     signal fetched_cacheline_data : std_logic_vector(ICACHE_INSTR_PER_CACHELINE * 32 - 1 downto 0); 
     signal fetched_cacheline : std_logic_vector(CACHELINE_SIZE - 1 downto 0);
     signal fetched_instrs_counter : unsigned(integer(ceil(log2(real(ICACHE_INSTR_PER_CACHELINE)))) - 1 downto 0);
-    
     -- =====================================================
 begin
     -- ==================== BUS SIDE LOGIC ====================
@@ -186,6 +185,23 @@ begin
     -- ========================================================
     
     -- ==================== CACHE LOGIC ====================
+    bram_gen : for i in 0 to ICACHE_ASSOCIATIVITY - 1 generate
+        bram_inst : entity work.bram_primitive(rtl)
+                    generic map(DATA_WIDTH => CACHELINE_SIZE,
+                                SIZE => ICACHE_NUM_SETS)
+                    port map(d => fetched_cacheline,
+                             q => icache_set_out(i),
+                             
+                             addr_read => read_addr(RADDR_INDEX_START downto RADDR_INDEX_END),
+                             addr_write => read_addr_tag_pipeline_reg(RADDR_INDEX_START downto RADDR_INDEX_END),
+                             
+                             read_en => not stall,
+                             write_en => cacheline_update_sel(i) and cacheline_update_en,
+                             
+                             clk => clk,
+                             reset => reset);
+    end generate;
+    
     -- Used to generate pseudo-random signal used to select which cacheline to evict in case of an associative cache
     ring_counter_inst : entity work.ring_counter(rtl)
                         generic map(SIZE_BITS => ICACHE_ASSOCIATIVITY)
@@ -222,7 +238,7 @@ begin
             end if;
             
             if (stall = '0') then
-                icache_set_out <= icache(to_integer(unsigned(read_addr(RADDR_INDEX_START downto RADDR_INDEX_END))));
+                --icache_set_out <= icache(to_integer(unsigned(read_addr(RADDR_INDEX_START downto RADDR_INDEX_END))));
                 
                 for i in 0 to ICACHE_ASSOCIATIVITY - 1 loop
                     icache_set_valid(i) <= icache_valid_bits(to_integer(unsigned(read_addr(RADDR_INDEX_START downto RADDR_INDEX_END))) * ICACHE_ASSOCIATIVITY + i);
@@ -232,11 +248,11 @@ begin
             if (cacheline_update_en = '1') then
                 for i in 0 to ICACHE_ASSOCIATIVITY - 1 loop
                     if (cacheline_update_sel(i) = '1') then
-                        icache(to_integer(unsigned(read_addr_tag_pipeline_reg(RADDR_INDEX_START downto RADDR_INDEX_END))))(i) <= fetched_cacheline;
+                        --icache(to_integer(unsigned(read_addr_tag_pipeline_reg(RADDR_INDEX_START downto RADDR_INDEX_END))))(i) <= fetched_cacheline;
                         
                         icache_valid_bits(to_integer(unsigned(read_addr_tag_pipeline_reg(RADDR_INDEX_START downto RADDR_INDEX_END))) * ICACHE_ASSOCIATIVITY + i) <= '1';
                         icache_set_valid(i) <= '1';
-                        icache_set_out(i) <= fetched_cacheline;
+                        --icache_set_out(i) <= fetched_cacheline;
                     end if;
                 end loop;
             end if;
