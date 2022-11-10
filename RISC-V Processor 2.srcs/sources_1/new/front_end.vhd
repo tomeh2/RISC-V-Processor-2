@@ -141,7 +141,8 @@ begin
     f2_d1_pipeline_reg_next.valid <= '0' when stall_f1_f2 or d1_branch_target_mispredict else f1_f2_pipeline_reg.valid;
     
     stall_f2_d1 <= d1_bc_empty or fifo_full;
-    stall_f1_f2 <= ic_wait or (stall_f2_d1 and f2_d1_pipeline_reg.valid);
+    --stall_f1_f2 <= ic_wait or (stall_f2_d1 and f2_d1_pipeline_reg.valid);
+    stall_f1_f2 <= (not ic_wait and f1_f2_pipeline_reg.valid) or (stall_f2_d1 and f2_d1_pipeline_reg.valid);
     branch_mispredicted <= (cdb.valid and cdb.branch_mispredicted);--(debug_cdb_mispred and debug_cdb_valid);
     flush_pipeline <= branch_mispredicted;-- or debug_clear_pipeline;
     -- ======================================================================
@@ -199,7 +200,7 @@ begin
                            read_cancel => flush_pipeline or d1_branch_target_mispredict,
                            stall => stall_f1_f2,
                            
-                           resolving_miss => ic_wait,
+                           hit => ic_wait,
                            data_out => f2_d1_pipeline_reg_next.instruction,
                            data_valid => f2_ic_data_valid,
                            

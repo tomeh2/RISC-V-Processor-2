@@ -28,6 +28,7 @@ end bram_primitive;
 architecture rtl of bram_primitive is
     type bram_prim_type is array (SIZE - 1 downto 0) of std_logic_vector(DATA_WIDTH - 1 downto 0);
     signal bram : bram_prim_type;
+
 begin
     process(clk)
     begin
@@ -41,8 +42,6 @@ begin
                 
                 if (write_en = '1') then
                     bram(to_integer(unsigned(addr_write))) <= d;
-                    
-                    q <= d;
                 end if;
             end if;
         end if;
