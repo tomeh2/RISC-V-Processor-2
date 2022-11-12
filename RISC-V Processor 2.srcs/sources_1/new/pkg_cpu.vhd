@@ -51,9 +51,9 @@ package pkg_cpu is
     constant BP_2BST_INIT_VAL : std_logic_vector(1 downto 0) := "00";  -- Initial value of 2-bit saturating counters
     constant BTB_ENTRIES : integer := 4;                 -- MUST BE POWER OF 2!
     
-    constant ICACHE_ASSOCIATIVITY : integer := 4;                   -- MUST BE POWER OF 2!
+    constant ICACHE_ASSOCIATIVITY : integer := 2;                   -- MUST BE POWER OF 2!
     constant ICACHE_INSTR_PER_CACHELINE : integer := 4;
-    constant ICACHE_NUM_SETS : integer := 128;                     -- MUST BE POWER OF 2!
+    constant ICACHE_NUM_SETS : integer := 16;                     -- MUST BE POWER OF 2!
     --constant ICACHE_REPLACEMENT_POLICY : string := "FIFO";                -- In consideration
     -- ===================================================================
     

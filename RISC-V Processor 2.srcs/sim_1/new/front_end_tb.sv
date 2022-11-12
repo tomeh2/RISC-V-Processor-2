@@ -7,14 +7,16 @@ module front_end_tb(
     );
     logic [31:0] read_addr, bus_addr_read, bus_data_read;
     logic bus_stbr, bus_ackr, clk, reset;
-    logic [31:0] data_out, expected, dbg_imm, dbg_pc, debug_cdb_targ_addr;
+    logic [31:0] data_out, expected, dbg_imm, dbg_pc, debug_cdb_targ_addr, debug_f2_d1_pc, debug_f2_d1_instr;
     logic [3:0] debug_addr;
-    logic uop_valid, dbg_clr_pipe, dbg_stall, debug_cdb_valid, debug_cdb_mispred;
+    logic uop_valid, dbg_clr_pipe, dbg_stall, debug_cdb_valid, debug_cdb_mispred, debug_f2_d1_valid;
     
     reg [31:0] mem[31:0];
     
     cdb_type cdb1;
     uop_decoded_type uop;
+    
+    static int simulated_pc = 0;
     
     task t_run();
         forever begin
@@ -29,62 +31,68 @@ module front_end_tb(
         reset = 0;
     endtask
     
-    task t_seq_n_instr(int n, int start_index);
-        automatic int i = start_index;
-        
-        while (i < n)
-        begin
-            if (uop_valid == 1) begin
-                assert (dbg_imm == {5'h00000, mem[i][31:20]}) else $fatal("EXPECTED IMM: %h | GOT IMM: %h!", {5'h00000, mem[i][31:20]}, dbg_imm);
-                $display("t_seq_n_instr: EXPECTED IMM: %h | GOT IMM: %h!", {5'h00000, mem[i][31:20]}, dbg_imm);
-                i++;
-            end
-            @(negedge clk);
+    task t_seq_n_instr(int n, logic [31:0] start_pc);
+        for (int i = 0; i < n; i++) begin
+            wait (debug_f2_d1_valid == 1'b1);
+            
+            /* Make sure that the PC corresponds to the correct instruction in memory */
+            assert (mem[debug_f2_d1_pc[6:2]] == debug_f2_d1_instr && debug_f2_d1_pc == start_pc) else 
+                $fatal("Instruction mismatch! F2_D1_PC = %h | INSTR_F2_D1 = %h | PC = %h | INSTR_MEM = %h\n", debug_f2_d1_pc, debug_f2_d1_instr, start_pc, mem[debug_f2_d1_pc[6:2]]);
+                
+            start_pc += 4;
+            @(posedge clk);
+            #1;
         end
-        $display("t_seq_n_instr: FINISHED");
+        $info("OK");
     endtask;
-    
-    // Jump to addr zero and load first 16 instructions
-    task t_after_mispred(int n);
+
+    task t_cdb_mispred(logic [31:0] targ_addr);
         debug_cdb_valid = 1;
         debug_cdb_mispred = 1;
-        debug_cdb_targ_addr = 8'h0000_0010;
+        debug_cdb_targ_addr = targ_addr;
         
-        @(negedge clk);
+        @(posedge clk);
+        #1;
         
         debug_cdb_valid = 0;
         debug_cdb_mispred = 0;
         debug_cdb_targ_addr = 0;
         
-        t_seq_n_instr(n, 4);
+        //t_seq_n_instr(n, 4);
+    endtask;
+    
+    task t_run_stall_run(int n, logic [31:0] start_pc);
+        t_seq_n_instr(n / 2, start_pc);
+        
+        dbg_stall = 1;
+        #1000;
+        dbg_stall = 0;
+        
+        t_seq_n_instr(n / 2, start_pc + (n / 2 * 4));
     endtask;
     
     task t_seq_exec();
         dbg_stall = 0;
-        t_seq_n_instr(31, 0);
         
-        dbg_stall = 1;
-        #500;
-        dbg_stall = 0;
-        #1
-        t_after_mispred(31);
-        
-        dbg_stall = 1;
-        #500;
-        dbg_stall = 0;
-        #1;
+        t_seq_n_instr(32, 8'h0000_0000);
+        t_cdb_mispred(8'h0000_0020);
+        t_seq_n_instr(32, 8'h0000_0020);
+        t_cdb_mispred(8'h0000_0000);
+        t_run_stall_run(32, 8'h0000_0000);
     endtask;
     
     front_end uut(.cdb(0),
-               .fifo_full(1'b0),
                .debug_sv_immediate(dbg_imm),
                .debug_sv_pc(dbg_pc),
                .debug_clear_pipeline(0),
-               .debug_stall(dbg_stall),
                .debug_cdb_valid(debug_cdb_valid),
                .debug_cdb_targ_addr(debug_cdb_targ_addr),
                .debug_cdb_mispred(debug_cdb_mispred),
+               .debug_f2_d1_pc(debug_f2_d1_pc),
+               .debug_f2_d1_instr(debug_f2_d1_instr),
+               .debug_f2_d1_valid(debug_f2_d1_valid),
                .decoded_uop_valid(uop_valid),
+               .fifo_full(dbg_stall),
                .bus_addr_read(bus_addr_read),
                .bus_data_read(bus_data_read),
                .bus_stbr(bus_stbr),

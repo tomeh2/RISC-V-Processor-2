@@ -34,10 +34,12 @@ entity front_end is
         debug_sv_immediate : out std_logic_vector(31 downto 0);
         debug_sv_pc : out std_logic_vector(31 downto 0);
 --        debug_clear_pipeline : in std_logic;
---        debug_stall : in std_logic;
 --        debug_cdb_valid : in std_logic;
 --        debug_cdb_mispred : in std_logic;
 --        debug_cdb_targ_addr : in std_logic_vector(31 downto 0);
+        debug_f2_d1_pc : out std_logic_vector(31 downto 0);
+        debug_f2_d1_instr : out std_logic_vector(31 downto 0);
+        debug_f2_d1_valid : out std_logic;
     
         cdb : in cdb_type;
         
@@ -122,7 +124,7 @@ begin
                 
                 if ((stall_f1_f2 and d1_fifo_insert_ready) or flush_pipeline) then
                     f2_d1_pipeline_reg.valid <= '0';
-                elsif (stall_f2_d1 = '0') then
+                elsif (stall_f2_d1 = '0' or (f2_d1_pipeline_reg.valid = '0' and stall_f1_f2 = '0')) then
                     f2_d1_pipeline_reg <= f2_d1_pipeline_reg_next;
                 end if;
             end if;
@@ -141,9 +143,8 @@ begin
     f2_d1_pipeline_reg_next.valid <= '0' when stall_f1_f2 or d1_branch_target_mispredict else f1_f2_pipeline_reg.valid;
     
     stall_f2_d1 <= d1_bc_empty or fifo_full;
-    --stall_f1_f2 <= ic_wait or (stall_f2_d1 and f2_d1_pipeline_reg.valid);
     stall_f1_f2 <= (not ic_wait and f1_f2_pipeline_reg.valid) or (stall_f2_d1 and f2_d1_pipeline_reg.valid);
-    branch_mispredicted <= (cdb.valid and cdb.branch_mispredicted);--(debug_cdb_mispred and debug_cdb_valid);
+    branch_mispredicted <= (cdb.valid and cdb.branch_mispredicted);--(debug_cdb_mispred and debug_cdb_valid);----
     flush_pipeline <= branch_mispredicted;-- or debug_clear_pipeline;
     -- ======================================================================
 
@@ -276,6 +277,9 @@ begin
     -- DEBUG!!!!
     debug_sv_immediate <= decoded_uop.immediate;
     debug_sv_pc <= decoded_uop.pc;
+    debug_f2_d1_pc <= f2_d1_pipeline_reg.pc;
+    debug_f2_d1_instr <= f2_d1_pipeline_reg.instruction;
+    debug_f2_d1_valid <= f2_d1_pipeline_reg.valid;
 end Structural;
 
 
