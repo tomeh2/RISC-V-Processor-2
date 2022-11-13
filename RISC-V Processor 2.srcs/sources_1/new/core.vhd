@@ -29,6 +29,15 @@ use WORK.PKG_AXI.ALL;
 
 entity core is
     port(
+        debug_reg_1_addr : in std_logic_vector(4 downto 0);
+        debug_reg_2_addr : in std_logic_vector(4 downto 0);
+        debug_reg_3_addr : in std_logic_vector(4 downto 0);
+        debug_reg_4_addr : in std_logic_vector(4 downto 0);
+        
+        debug_reg_1_data : out std_logic_vector(CPU_DATA_WIDTH_BITS - 1 downto 0);
+        debug_reg_2_data : out std_logic_vector(CPU_DATA_WIDTH_BITS - 1 downto 0);
+        debug_reg_3_data : out std_logic_vector(CPU_DATA_WIDTH_BITS - 1 downto 0);
+        debug_reg_4_data : out std_logic_vector(CPU_DATA_WIDTH_BITS - 1 downto 0);
         -- TEMPORARY BUS STUFF
         bus_addr_read : out std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);
         bus_addr_write : out std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);
@@ -104,7 +113,17 @@ begin
       );
 
     execution_engine : entity work.execution_engine(structural)
-                       port map(bus_addr_read => bus_addr_read_ee,
+                       port map(debug_reg_1_addr => debug_reg_1_addr,
+                                debug_reg_2_addr => debug_reg_2_addr,
+                                debug_reg_3_addr => debug_reg_3_addr,
+                                debug_reg_4_addr => debug_reg_4_addr,
+                       
+                                debug_reg_1_data => debug_reg_1_data,
+                                debug_reg_2_data => debug_reg_2_data,
+                                debug_reg_3_data => debug_reg_3_data,
+                                debug_reg_4_data => debug_reg_4_data,
+                       
+                                bus_addr_read => bus_addr_read_ee,
                                 bus_addr_write => bus_addr_write,
                                 bus_data_read => bus_data_read,
                                 bus_data_write => bus_data_write,

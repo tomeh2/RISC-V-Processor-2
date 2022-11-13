@@ -16,15 +16,15 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="900,969.909 ns"></ZoomStartTime>
-      <ZoomEndTime time="901,829.910 ns"></ZoomEndTime>
-      <Cursor1Time time="901,298.440 ns"></Cursor1Time>
+      <ZoomStartTime time="19,202.683 ns"></ZoomStartTime>
+      <ZoomEndTime time="20,159.464 ns"></ZoomEndTime>
+      <Cursor1Time time="20,000.000 ns"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="322"></NameColumnWidth>
-      <ValueColumnWidth column_width="137"></ValueColumnWidth>
+      <ValueColumnWidth column_width="133"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="15" />
+   <WVObjectSize size="23" />
    <wvobject fp_name="/cpu_tb/clk" type="logic">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
@@ -32,6 +32,38 @@
    <wvobject fp_name="/cpu_tb/reset" type="logic">
       <obj_property name="ElementShortName">reset</obj_property>
       <obj_property name="ObjectShortName">reset</obj_property>
+   </wvobject>
+   <wvobject fp_name="/cpu_tb/cpu/debug_reg_1_addr" type="array">
+      <obj_property name="ElementShortName">debug_reg_1_addr[4:0]</obj_property>
+      <obj_property name="ObjectShortName">debug_reg_1_addr[4:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/cpu_tb/cpu/debug_reg_2_addr" type="array">
+      <obj_property name="ElementShortName">debug_reg_2_addr[4:0]</obj_property>
+      <obj_property name="ObjectShortName">debug_reg_2_addr[4:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/cpu_tb/cpu/debug_reg_3_addr" type="array">
+      <obj_property name="ElementShortName">debug_reg_3_addr[4:0]</obj_property>
+      <obj_property name="ObjectShortName">debug_reg_3_addr[4:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/cpu_tb/cpu/debug_reg_4_addr" type="array">
+      <obj_property name="ElementShortName">debug_reg_4_addr[4:0]</obj_property>
+      <obj_property name="ObjectShortName">debug_reg_4_addr[4:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/cpu_tb/cpu/debug_reg_1_data" type="array">
+      <obj_property name="ElementShortName">debug_reg_1_data[31:0]</obj_property>
+      <obj_property name="ObjectShortName">debug_reg_1_data[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/cpu_tb/cpu/debug_reg_2_data" type="array">
+      <obj_property name="ElementShortName">debug_reg_2_data[31:0]</obj_property>
+      <obj_property name="ObjectShortName">debug_reg_2_data[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/cpu_tb/cpu/debug_reg_3_data" type="array">
+      <obj_property name="ElementShortName">debug_reg_3_data[31:0]</obj_property>
+      <obj_property name="ObjectShortName">debug_reg_3_data[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/cpu_tb/cpu/debug_reg_4_data" type="array">
+      <obj_property name="ElementShortName">debug_reg_4_data[31:0]</obj_property>
+      <obj_property name="ObjectShortName">debug_reg_4_data[31:0]</obj_property>
    </wvobject>
    <wvobject fp_name="group18631" type="group">
       <obj_property name="label">BRANCH PREDICTOR</obj_property>
@@ -401,6 +433,14 @@
             <obj_property name="ElementShortName">.valid</obj_property>
             <obj_property name="ObjectShortName">.valid</obj_property>
          </wvobject>
+         <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/pipeline_reg_2_0.uop" type="array">
+            <obj_property name="ElementShortName">.uop</obj_property>
+            <obj_property name="ObjectShortName">.uop</obj_property>
+         </wvobject>
+         <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/pipeline_reg_2_0.valid" type="logic">
+            <obj_property name="ElementShortName">.valid</obj_property>
+            <obj_property name="ObjectShortName">.valid</obj_property>
+         </wvobject>
       </wvobject>
       <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/pipeline_reg_2_1" type="array">
          <obj_property name="ElementShortName">pipeline_reg_2_1</obj_property>
@@ -415,6 +455,14 @@
             <obj_property name="ElementShortName">.valid</obj_property>
             <obj_property name="ObjectShortName">.valid</obj_property>
          </wvobject>
+         <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/pipeline_reg_2_1.uop" type="array">
+            <obj_property name="ElementShortName">.uop</obj_property>
+            <obj_property name="ObjectShortName">.uop</obj_property>
+         </wvobject>
+         <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/pipeline_reg_2_1.valid" type="logic">
+            <obj_property name="ElementShortName">.valid</obj_property>
+            <obj_property name="ObjectShortName">.valid</obj_property>
+         </wvobject>
       </wvobject>
       <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/pipeline_reg_3_0" type="array">
          <obj_property name="ElementShortName">pipeline_reg_3_0</obj_property>
@@ -423,6 +471,14 @@
             <obj_property name="ElementShortName">.uop</obj_property>
             <obj_property name="ObjectShortName">.uop</obj_property>
             <obj_property name="isExpanded"></obj_property>
+         </wvobject>
+         <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/pipeline_reg_3_0.valid" type="logic">
+            <obj_property name="ElementShortName">.valid</obj_property>
+            <obj_property name="ObjectShortName">.valid</obj_property>
+         </wvobject>
+         <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/pipeline_reg_3_0.uop" type="array">
+            <obj_property name="ElementShortName">.uop</obj_property>
+            <obj_property name="ObjectShortName">.uop</obj_property>
          </wvobject>
          <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/pipeline_reg_3_0.valid" type="logic">
             <obj_property name="ElementShortName">.valid</obj_property>
@@ -446,6 +502,14 @@
             <obj_property name="ElementShortName">.valid</obj_property>
             <obj_property name="ObjectShortName">.valid</obj_property>
          </wvobject>
+         <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/pipeline_reg_3_1.uop" type="array">
+            <obj_property name="ElementShortName">.uop</obj_property>
+            <obj_property name="ObjectShortName">.uop</obj_property>
+         </wvobject>
+         <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/pipeline_reg_3_1.valid" type="logic">
+            <obj_property name="ElementShortName">.valid</obj_property>
+            <obj_property name="ObjectShortName">.valid</obj_property>
+         </wvobject>
       </wvobject>
       <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/pipeline_reg_4_0_next" type="array">
          <obj_property name="ElementShortName">pipeline_reg_4_0_next</obj_property>
@@ -463,6 +527,14 @@
             <obj_property name="ElementShortName">.valid</obj_property>
             <obj_property name="ObjectShortName">.valid</obj_property>
          </wvobject>
+         <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/pipeline_reg_4_0.eu_input" type="array">
+            <obj_property name="ElementShortName">.eu_input</obj_property>
+            <obj_property name="ObjectShortName">.eu_input</obj_property>
+         </wvobject>
+         <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/pipeline_reg_4_0.valid" type="logic">
+            <obj_property name="ElementShortName">.valid</obj_property>
+            <obj_property name="ObjectShortName">.valid</obj_property>
+         </wvobject>
       </wvobject>
       <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/pipeline_reg_4_1" type="array">
          <obj_property name="ElementShortName">pipeline_reg_4_1</obj_property>
@@ -472,6 +544,14 @@
             <obj_property name="ElementShortName">.eu_input</obj_property>
             <obj_property name="ObjectShortName">.eu_input</obj_property>
             <obj_property name="isExpanded"></obj_property>
+         </wvobject>
+         <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/pipeline_reg_4_1.valid" type="logic">
+            <obj_property name="ElementShortName">.valid</obj_property>
+            <obj_property name="ObjectShortName">.valid</obj_property>
+         </wvobject>
+         <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/pipeline_reg_4_1.eu_input" type="array">
+            <obj_property name="ElementShortName">.eu_input</obj_property>
+            <obj_property name="ObjectShortName">.eu_input</obj_property>
          </wvobject>
          <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/pipeline_reg_4_1.valid" type="logic">
             <obj_property name="ElementShortName">.valid</obj_property>

@@ -28,6 +28,16 @@ use WORK.PKG_CPU.ALL;
 
 entity cpu is
     port(
+        debug_reg_1_addr : in std_logic_vector(4 downto 0);
+        debug_reg_2_addr : in std_logic_vector(4 downto 0);
+        debug_reg_3_addr : in std_logic_vector(4 downto 0);
+        debug_reg_4_addr : in std_logic_vector(4 downto 0);
+        
+        debug_reg_1_data : out std_logic_vector(CPU_DATA_WIDTH_BITS - 1 downto 0);
+        debug_reg_2_data : out std_logic_vector(CPU_DATA_WIDTH_BITS - 1 downto 0);
+        debug_reg_3_data : out std_logic_vector(CPU_DATA_WIDTH_BITS - 1 downto 0);
+        debug_reg_4_data : out std_logic_vector(CPU_DATA_WIDTH_BITS - 1 downto 0);
+    
         uart_rx : in std_logic;
         uart_tx : out std_logic;
         uart_cts : out std_logic;
@@ -83,7 +93,17 @@ architecture structural of cpu is
     signal ackw_gpio : std_logic;
 begin
     core_1 : entity work.core(structural)
-             port map(bus_addr_read => bus_addr_read,
+             port map(debug_reg_1_addr => debug_reg_1_addr,
+                      debug_reg_2_addr => debug_reg_2_addr,
+                      debug_reg_3_addr => debug_reg_3_addr,
+                      debug_reg_4_addr => debug_reg_4_addr,
+                       
+                      debug_reg_1_data => debug_reg_1_data,
+                      debug_reg_2_data => debug_reg_2_data,
+                      debug_reg_3_data => debug_reg_3_data,
+                      debug_reg_4_data => debug_reg_4_data,
+             
+                      bus_addr_read => bus_addr_read,
                       bus_addr_write => bus_addr_write,
                       bus_data_read => bus_data_read,
                       bus_data_write => bus_data_write,

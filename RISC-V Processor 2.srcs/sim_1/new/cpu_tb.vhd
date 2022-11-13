@@ -12,7 +12,12 @@ architecture Behavioral of cpu_tb is
     constant T_BAUD : time := 104us;    -- 9600 baud rate
 begin
     cpu : entity work.cpu(structural)
-          port map(clk_cpu => clk,
+          port map(debug_reg_1_addr => "00001",
+                   debug_reg_2_addr => "00010",
+                   debug_reg_3_addr => "01010",
+                   debug_reg_4_addr => "01011",
+          
+                   clk_cpu => clk,
                    
                    gpio_i => (others => '0'),
                    
