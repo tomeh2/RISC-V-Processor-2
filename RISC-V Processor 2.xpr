@@ -58,7 +58,7 @@
     <Option Name="IPStaticSourceDir" Val="$PIPUSERFILESDIR/ipstatic"/>
     <Option Name="EnableBDX" Val="FALSE"/>
     <Option Name="DSABoardId" Val="nexys-a7-100t"/>
-    <Option Name="WTXSimLaunchSim" Val="3457"/>
+    <Option Name="WTXSimLaunchSim" Val="3493"/>
     <Option Name="WTModelSimLaunchSim" Val="0"/>
     <Option Name="WTQuestaLaunchSim" Val="0"/>
     <Option Name="WTIesLaunchSim" Val="0"/>
@@ -685,6 +685,7 @@
         <Option Name="XSimWcfgFile" Val="$PPRDIR/icache_tb_behav.wcfg"/>
         <Option Name="XSimWcfgFile" Val="$PPRDIR/front_end_tb_behav.wcfg"/>
         <Option Name="xsim.simulate.runtime" Val="20us"/>
+        <Option Name="NLNetlistMode" Val="funcsim"/>
       </Config>
     </FileSet>
     <FileSet Name="utils_1" Type="Utils" RelSrcDir="$PSRCDIR/utils_1" RelGenDir="$PGENDIR/utils_1">

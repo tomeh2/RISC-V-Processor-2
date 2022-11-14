@@ -36,17 +36,22 @@ use IEEE.STD_LOGIC_1164.ALL;
 -- FIXME: ICACHE needs a way to invalidate certain (or all) cachelines in the event that they become stale (FENCE.I?)
 -- FIXME: UOP FIFO will report as not ready if it has only one element inside
 
+-- NOTE: Patched an already known issue in the ROB that was previously present in the decoded uop FIFO aswell. The problem would appear in a very specific case when 
+-- the FIFO was supposed to empty in the next cycle, but another entry gets written in the same cycle. That could cause the the FIFO to give old value in memory as a data output
+-- instead of the required new one and could cause the FIFO to completely skip a value. Cause is the "smart" prediction which enables the FIFOs to sustain 1 read per cycle 
+-- while they are implemented in memories with a 1-cycle delay. Consider a replacing with a properly tested FIFO since more issues may be present. 
+
 entity top is
     port(
-        debug_reg_1_addr : in std_logic_vector(4 downto 0);
-        debug_reg_2_addr : in std_logic_vector(4 downto 0);
-        debug_reg_3_addr : in std_logic_vector(4 downto 0);
-        debug_reg_4_addr : in std_logic_vector(4 downto 0);
+--        debug_reg_1_addr : in std_logic_vector(4 downto 0);
+--        debug_reg_2_addr : in std_logic_vector(4 downto 0);
+--        debug_reg_3_addr : in std_logic_vector(4 downto 0);
+--        debug_reg_4_addr : in std_logic_vector(4 downto 0);
         
-        debug_reg_1_data : out std_logic_vector(32 - 1 downto 0);
-        debug_reg_2_data : out std_logic_vector(32 - 1 downto 0);
-        debug_reg_3_data : out std_logic_vector(32 - 1 downto 0);
-        debug_reg_4_data : out std_logic_vector(32 - 1 downto 0);
+--        debug_reg_1_data : out std_logic_vector(32 - 1 downto 0);
+--        debug_reg_2_data : out std_logic_vector(32 - 1 downto 0);
+--        debug_reg_3_data : out std_logic_vector(32 - 1 downto 0);
+--        debug_reg_4_data : out std_logic_vector(32 - 1 downto 0);
     
         LED : out std_logic_vector(15 downto 0);
         CLK100MHZ : in std_logic;

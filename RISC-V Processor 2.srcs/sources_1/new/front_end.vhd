@@ -173,9 +173,9 @@ begin
             else
                 if (branch_mispredicted = '1') then
                     f1_pc_reg <= cdb.target_addr;--debug_cdb_targ_addr;
-                elsif (d1_branch_target_mispredict = '1') then --and stall_f1_f2 = '0') then
+                elsif (d1_branch_target_mispredict = '1') then
                     f1_pc_reg <= d1_target_mispred_recovery_pc;
-                elsif (f1_pred_is_branch = '1' and f1_pred_outcome = '1') then-- and stall_f1_f2 = '0') then
+                elsif (f1_pred_is_branch = '1' and f1_pred_outcome = '1') then
                     f1_pc_reg <= f1_pred_target_pc;
                 elsif (stall_f1_f2 = '0') then
                     f1_pc_reg <= std_logic_vector(unsigned(f1_pc_reg) + 4);

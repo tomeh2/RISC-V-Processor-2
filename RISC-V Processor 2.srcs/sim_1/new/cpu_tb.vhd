@@ -14,8 +14,8 @@ begin
     cpu : entity work.cpu(structural)
           port map(debug_reg_1_addr => "00001",
                    debug_reg_2_addr => "00010",
-                   debug_reg_3_addr => "01010",
-                   debug_reg_4_addr => "01011",
+                   debug_reg_3_addr => "01000",
+                   debug_reg_4_addr => "01111",
           
                    clk_cpu => clk,
                    

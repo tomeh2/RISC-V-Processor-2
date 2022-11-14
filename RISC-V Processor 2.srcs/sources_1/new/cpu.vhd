@@ -158,7 +158,7 @@ begin
                           bus_wdata => bus_data_write,
                           bus_rdata => bus_data_read_ram,
                           bus_rstrb => re_ram,
-                          bus_wstrb => bus_stbw,
+                          bus_wstrb => stbw_ram,
                           bus_ackr => ackr_ram,
                           bus_ackw => ackw_ram,
 
