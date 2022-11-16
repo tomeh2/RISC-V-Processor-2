@@ -16,13 +16,13 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="0.000000 us"></ZoomStartTime>
-      <ZoomEndTime time="5,020.000001 us"></ZoomEndTime>
-      <Cursor1Time time="2,445.150000 us"></Cursor1Time>
+      <ZoomStartTime time="105,896,350.011 ns"></ZoomStartTime>
+      <ZoomEndTime time="105,898,237.007 ns"></ZoomEndTime>
+      <Cursor1Time time="103,169,407.584 ns"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="322"></NameColumnWidth>
-      <ValueColumnWidth column_width="113"></ValueColumnWidth>
+      <ValueColumnWidth column_width="109"></ValueColumnWidth>
    </column_width_setting>
    <WVObjectSize size="23" />
    <wvobject fp_name="/cpu_tb/clk" type="logic">
@@ -726,7 +726,6 @@
          <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/unified_scheduler/sched_entries" type="array">
             <obj_property name="ElementShortName">sched_entries[11:0]</obj_property>
             <obj_property name="ObjectShortName">sched_entries[11:0]</obj_property>
-            <obj_property name="isExpanded"></obj_property>
          </wvobject>
          <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/unified_scheduler/sched_sel_write_1" type="array">
             <obj_property name="ElementShortName">sched_sel_write_1[3:0]</obj_property>
@@ -1318,63 +1317,6 @@
       <obj_property name="DisplayName">label</obj_property>
       <obj_property name="isExpanded"></obj_property>
    </wvobject>
-   <wvobject fp_name="group3592" type="group">
-      <obj_property name="label">RAM MEMORY</obj_property>
-      <obj_property name="DisplayName">label</obj_property>
-      <wvobject fp_name="/cpu_tb/cpu/ram_memory/bus_raddr" type="array">
-         <obj_property name="ElementShortName">bus_raddr[13:0]</obj_property>
-         <obj_property name="ObjectShortName">bus_raddr[13:0]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/cpu_tb/cpu/ram_memory/bus_waddr" type="array">
-         <obj_property name="ElementShortName">bus_waddr[13:0]</obj_property>
-         <obj_property name="ObjectShortName">bus_waddr[13:0]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/cpu_tb/cpu/ram_memory/bus_wdata" type="array">
-         <obj_property name="ElementShortName">bus_wdata[31:0]</obj_property>
-         <obj_property name="ObjectShortName">bus_wdata[31:0]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/cpu_tb/cpu/ram_memory/bus_rdata" type="array">
-         <obj_property name="ElementShortName">bus_rdata[31:0]</obj_property>
-         <obj_property name="ObjectShortName">bus_rdata[31:0]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/cpu_tb/cpu/ram_memory/bus_rstrb" type="logic">
-         <obj_property name="ElementShortName">bus_rstrb</obj_property>
-         <obj_property name="ObjectShortName">bus_rstrb</obj_property>
-      </wvobject>
-      <wvobject fp_name="/cpu_tb/cpu/ram_memory/bus_wstrb" type="array">
-         <obj_property name="ElementShortName">bus_wstrb[3:0]</obj_property>
-         <obj_property name="ObjectShortName">bus_wstrb[3:0]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/cpu_tb/cpu/ram_memory/bus_ackr" type="logic">
-         <obj_property name="ElementShortName">bus_ackr</obj_property>
-         <obj_property name="ObjectShortName">bus_ackr</obj_property>
-      </wvobject>
-      <wvobject fp_name="/cpu_tb/cpu/ram_memory/bus_ackw" type="logic">
-         <obj_property name="ElementShortName">bus_ackw</obj_property>
-         <obj_property name="ObjectShortName">bus_ackw</obj_property>
-      </wvobject>
-      <wvobject fp_name="/cpu_tb/cpu/ram_memory/ram" type="array">
-         <obj_property name="ElementShortName">ram[0:4095][31:0]</obj_property>
-         <obj_property name="ObjectShortName">ram[0:4095][31:0]</obj_property>
-         <obj_property name="isExpanded"></obj_property>
-      </wvobject>
-      <wvobject fp_name="/cpu_tb/cpu/ram_memory/SIZE_BYTES" type="other">
-         <obj_property name="ElementShortName">SIZE_BYTES</obj_property>
-         <obj_property name="ObjectShortName">SIZE_BYTES</obj_property>
-      </wvobject>
-      <wvobject fp_name="/cpu_tb/cpu/ram_memory/NB_COL" type="other">
-         <obj_property name="ElementShortName">NB_COL</obj_property>
-         <obj_property name="ObjectShortName">NB_COL</obj_property>
-      </wvobject>
-      <wvobject fp_name="/cpu_tb/cpu/ram_memory/COL_WIDTH" type="other">
-         <obj_property name="ElementShortName">COL_WIDTH</obj_property>
-         <obj_property name="ObjectShortName">COL_WIDTH</obj_property>
-      </wvobject>
-      <wvobject fp_name="/cpu_tb/cpu/ram_memory/BUS_ADDR_BITS" type="other">
-         <obj_property name="ElementShortName">BUS_ADDR_BITS</obj_property>
-         <obj_property name="ObjectShortName">BUS_ADDR_BITS</obj_property>
-      </wvobject>
-   </wvobject>
    <wvobject fp_name="group2027" type="group">
       <obj_property name="label">BUS</obj_property>
       <obj_property name="DisplayName">label</obj_property>
@@ -1463,7 +1405,6 @@
    <wvobject fp_name="group1957" type="group">
       <obj_property name="label">UART CONTROLLER</obj_property>
       <obj_property name="DisplayName">label</obj_property>
-      <obj_property name="isExpanded"></obj_property>
       <wvobject fp_name="/cpu_tb/cpu/uart_controller/tx" type="logic">
          <obj_property name="ElementShortName">tx</obj_property>
          <obj_property name="ObjectShortName">tx</obj_property>
@@ -1580,6 +1521,64 @@
       <wvobject fp_name="/cpu_tb/cpu/gpio_controller/bus_ackr_i" type="logic">
          <obj_property name="ElementShortName">bus_ackr_i</obj_property>
          <obj_property name="ObjectShortName">bus_ackr_i</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group3592" type="group">
+      <obj_property name="label">RAM MEMORY</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject fp_name="/cpu_tb/cpu/ram_memory/bus_raddr" type="array">
+         <obj_property name="ElementShortName">bus_raddr[13:0]</obj_property>
+         <obj_property name="ObjectShortName">bus_raddr[13:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/ram_memory/bus_waddr" type="array">
+         <obj_property name="ElementShortName">bus_waddr[13:0]</obj_property>
+         <obj_property name="ObjectShortName">bus_waddr[13:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/ram_memory/bus_wdata" type="array">
+         <obj_property name="ElementShortName">bus_wdata[31:0]</obj_property>
+         <obj_property name="ObjectShortName">bus_wdata[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/ram_memory/bus_rdata" type="array">
+         <obj_property name="ElementShortName">bus_rdata[31:0]</obj_property>
+         <obj_property name="ObjectShortName">bus_rdata[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/ram_memory/bus_rstrb" type="logic">
+         <obj_property name="ElementShortName">bus_rstrb</obj_property>
+         <obj_property name="ObjectShortName">bus_rstrb</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/ram_memory/bus_wstrb" type="array">
+         <obj_property name="ElementShortName">bus_wstrb[3:0]</obj_property>
+         <obj_property name="ObjectShortName">bus_wstrb[3:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/ram_memory/bus_ackr" type="logic">
+         <obj_property name="ElementShortName">bus_ackr</obj_property>
+         <obj_property name="ObjectShortName">bus_ackr</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/ram_memory/bus_ackw" type="logic">
+         <obj_property name="ElementShortName">bus_ackw</obj_property>
+         <obj_property name="ObjectShortName">bus_ackw</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/ram_memory/ram" type="array">
+         <obj_property name="ElementShortName">ram[0:4095][31:0]</obj_property>
+         <obj_property name="ObjectShortName">ram[0:4095][31:0]</obj_property>
+         <obj_property name="isExpanded"></obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/ram_memory/SIZE_BYTES" type="other">
+         <obj_property name="ElementShortName">SIZE_BYTES</obj_property>
+         <obj_property name="ObjectShortName">SIZE_BYTES</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/ram_memory/NB_COL" type="other">
+         <obj_property name="ElementShortName">NB_COL</obj_property>
+         <obj_property name="ObjectShortName">NB_COL</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/ram_memory/COL_WIDTH" type="other">
+         <obj_property name="ElementShortName">COL_WIDTH</obj_property>
+         <obj_property name="ObjectShortName">COL_WIDTH</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/ram_memory/BUS_ADDR_BITS" type="other">
+         <obj_property name="ElementShortName">BUS_ADDR_BITS</obj_property>
+         <obj_property name="ObjectShortName">BUS_ADDR_BITS</obj_property>
       </wvobject>
    </wvobject>
 </wave_config>

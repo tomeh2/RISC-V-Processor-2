@@ -30,7 +30,7 @@ use STD.TEXTIO.ALL;
 entity rom_memory is
     generic(
         DATA_WIDTH_BITS : integer := 32;
-        ADDR_WIDTH_BITS : integer := 10
+        ADDR_WIDTH_BITS : integer := 12
     );
     port(
         data : out std_logic_vector(DATA_WIDTH_BITS - 1 downto 0);

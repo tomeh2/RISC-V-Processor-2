@@ -145,7 +145,7 @@ begin
   
   rom_memory : entity work.rom_memory(rtl) 
                port map(data => bus_data_read_rom,
-                        addr => bus_addr_read(11 downto 2),
+                        addr => bus_addr_read(13 downto 2),
                         en => re_rom,
                         ack => ackr_rom,
                         reset => reset_cpu,
