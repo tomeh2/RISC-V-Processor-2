@@ -122,8 +122,8 @@ begin
     phys_reg_addr_read_1 <= rat(to_integer(unsigned(arch_reg_addr_read_1)));
     phys_reg_addr_read_2 <= rat(to_integer(unsigned(arch_reg_addr_read_2)));
     
-    debug_reg_1_paddr <= rat(to_integer(unsigned(debug_reg_1_addr)));
-    debug_reg_2_paddr <= rat(to_integer(unsigned(debug_reg_2_addr)));
-    debug_reg_3_paddr <= rat(to_integer(unsigned(debug_reg_3_addr)));
-    debug_reg_4_paddr <= rat(to_integer(unsigned(debug_reg_4_addr)));
+--    debug_reg_1_paddr <= rat(to_integer(unsigned(debug_reg_1_addr)));
+--    debug_reg_2_paddr <= rat(to_integer(unsigned(debug_reg_2_addr)));
+--    debug_reg_3_paddr <= rat(to_integer(unsigned(debug_reg_3_addr)));
+--    debug_reg_4_paddr <= rat(to_integer(unsigned(debug_reg_4_addr)));
 end rtl;

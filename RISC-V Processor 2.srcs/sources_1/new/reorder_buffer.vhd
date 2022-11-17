@@ -63,6 +63,8 @@ entity reorder_buffer is
 
         full : out std_logic;
         empty : out std_logic;
+        
+        perf_commit_ready : out std_logic;
     
         clk : in std_logic;
         reset : in std_logic
@@ -130,6 +132,7 @@ architecture rtl of reorder_buffer is
     signal rob_empty_delayed : std_logic;
     -- ===========================
 begin
+    perf_commit_ready <= commit_ready;
     commit_ready <= '1' when commit_1_en = '1' and rob_empty_delayed = '0' and rob_almost_empty_delayed = '0' and rob_valid_bits(to_integer(unsigned(rob_head_counter_reg))) = '1' and rob_empty = '0' else '0';
     head_valid <= commit_ready;
 

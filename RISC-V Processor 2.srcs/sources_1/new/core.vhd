@@ -48,6 +48,20 @@ entity core is
         bus_ackr : in std_logic;
         bus_ackw : in std_logic;
     
+        -- FE
+        perf_targ_mispred : out std_logic;
+        perf_icache_miss : out std_logic;
+        perf_bc_empty : out std_logic;
+        perf_fifo_full : out std_logic;
+        
+        -- EE
+        perf_cdb_mispred : out std_logic;
+        perf_commit_ready : out std_logic;
+        perf_sched_full : out std_logic;
+        perf_lq_full : out std_logic;
+        perf_sq_full : out std_logic;
+        perf_reg_alloc_empty : out std_logic;
+    
         clk : in std_logic;
         reset : in std_logic
     );
@@ -95,6 +109,10 @@ begin
                          branch_predicted_pc => branch_predicted_pc,
                          branch_prediction => branch_prediction,
                         
+                         perf_targ_mispred => perf_targ_mispred,
+                         perf_icache_miss => perf_icache_miss,
+                         perf_bc_empty => perf_bc_empty,
+                        
                          clk => clk,
                          reset => reset);
                          
@@ -111,6 +129,7 @@ begin
         full => fifo_full,
         rd_ready => fifo_ready
       );
+      perf_fifo_full <= fifo_full;
 
     execution_engine : entity work.execution_engine(structural)
                        port map(debug_reg_1_addr => debug_reg_1_addr,
@@ -140,6 +159,12 @@ begin
                                 fe_branch_mask => branch_mask,
                                 fe_branch_predicted_pc => branch_predicted_pc,
                                 fe_branch_prediction => branch_prediction,
+                                   
+                                perf_commit_ready => perf_commit_ready,
+                                perf_sched_full => perf_sched_full,
+                                perf_lq_full => perf_lq_full,
+                                perf_sq_full => perf_sq_full,
+                                perf_reg_alloc_empty => perf_reg_alloc_empty,
                                    
                                 next_uop => uop_ee_in,
                                 clk => clk,
@@ -191,6 +216,8 @@ begin
             end if;
         end if;
     end process;
+    
+    perf_cdb_mispred <= cdb.branch_mispredicted and cdb.valid;
 
 end structural;
 

@@ -67,6 +67,12 @@ entity execution_engine is
         fe_branch_predicted_pc : in std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);
         fe_branch_prediction : in std_logic;
         
+        perf_commit_ready : out std_logic;
+        perf_sched_full : out std_logic;
+        perf_lq_full : out std_logic;
+        perf_sq_full : out std_logic;
+        perf_reg_alloc_empty : out std_logic;
+        
         reset : in std_logic;
         clk : in std_logic
     );
@@ -533,6 +539,8 @@ begin
                               head_valid => rob_commit_ready,
                               full => rob_full,
                               empty => rob_empty,
+
+                              perf_commit_ready => perf_commit_ready,
                               
                               clk => clk,
                               reset => reset);
@@ -660,5 +668,11 @@ begin
     
     cdb_granted_1 <= cdb_request_1;
     --cdb_granted_1 <= '0';
+    
+    -- PERFORMANCE COUNTER SIGNALS
+    perf_sched_full <= sched_full;
+    perf_lq_full <= lq_full;
+    perf_sq_full <= sq_full;
+    perf_reg_alloc_empty <= raa_empty;
    
 end structural;

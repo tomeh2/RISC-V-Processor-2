@@ -57,6 +57,10 @@ entity front_end is
         decoded_uop : out uop_decoded_type;
         decoded_uop_valid : out std_logic;
         
+        perf_targ_mispred : out std_logic;
+        perf_icache_miss : out std_logic;
+        perf_bc_empty : out std_logic;
+        
         reset : in std_logic;
         clk : in std_logic
     );
@@ -89,6 +93,7 @@ architecture Structural of front_end is
     signal f1_pred_outcome : std_logic;
     -- F2 STAGE
     signal f2_ic_data_valid : std_logic;
+    signal f2_icache_miss : std_logic;
 
     -- D1 STAGE
     signal d1_pc : std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);
@@ -202,6 +207,7 @@ begin
                            stall => stall_f1_f2,
                            
                            hit => ic_wait,
+                           miss => f2_icache_miss,
                            data_out => f2_d1_pipeline_reg_next.instruction,
                            data_valid => f2_ic_data_valid,
                            
@@ -273,6 +279,11 @@ begin
     branch_predicted_pc <= d1_target_mispred_recovery_pc;
     branch_prediction <= f2_d1_pipeline_reg.branch_pred_outcome;
     -- ==============================================================
+    
+    -- PERFORMANCE COUNTER SIGNALS
+    perf_targ_mispred <= d1_branch_target_mispredict;
+    perf_icache_miss <= f2_icache_miss;
+    perf_bc_empty <= d1_bc_empty;
     
     -- DEBUG!!!!
     debug_sv_immediate <= decoded_uop.immediate;

@@ -55,6 +55,9 @@ package pkg_cpu is
     constant ICACHE_INSTR_PER_CACHELINE : integer := 4;
     constant ICACHE_NUM_SETS : integer := 16;                     -- MUST BE POWER OF 2!
     --constant ICACHE_REPLACEMENT_POLICY : string := "FIFO";                -- In consideration
+    
+    constant PERF_COUNTERS_EN : boolean := false;
+    constant PERF_COUNTERS_WIDTH_BITS : integer := 32;
     -- ===================================================================
     
     constant CDB_PC_BITS : integer := integer(ceil(log2(real(BP_2BST_ENTRIES))));

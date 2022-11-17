@@ -37,7 +37,7 @@ entity icache is
         stall : in std_logic;
         
         hit : out std_logic;
-        resolving_miss : out std_logic; 
+        miss : out std_logic; 
         data_valid : out std_logic;
         data_out : out std_logic_vector(CPU_DATA_WIDTH_BITS - 1 downto 0);
     
@@ -111,12 +111,12 @@ begin
         if (rising_edge(clk)) then
             if (reset = '1') then
                 i_bus_addr_read <= (others => '0');
-            end if;
-            
-            if (bus_read_state = IDLE and valid_pipeline_reg = '1' and i_hit = '0') then
-                i_bus_addr_read <= read_addr_tag_pipeline_reg(CPU_ADDR_WIDTH_BITS - 1 downto CACHELINE_ALIGNMENT) & std_logic_vector(to_unsigned(0, CACHELINE_ALIGNMENT));
-            elsif (bus_ackr = '1') then
-                i_bus_addr_read <= std_logic_vector(unsigned(i_bus_addr_read) + 4);
+            else
+                if (bus_read_state = IDLE and valid_pipeline_reg = '1' and i_hit = '0') then
+                    i_bus_addr_read <= read_addr_tag_pipeline_reg(CPU_ADDR_WIDTH_BITS - 1 downto CACHELINE_ALIGNMENT) & std_logic_vector(to_unsigned(0, CACHELINE_ALIGNMENT));
+                elsif (bus_ackr = '1') then
+                    i_bus_addr_read <= std_logic_vector(unsigned(i_bus_addr_read) + 4);
+                end if;
             end if;
         end if;
     end process;
@@ -157,7 +157,11 @@ begin
     begin
         cacheline_update_en <= '0';
         bus_stbr <= '0';
+        miss <= '0';
         if (bus_read_state = IDLE) then
+            if (valid_pipeline_reg = '1' and i_hit = '0' and read_cancel = '0') then
+                miss <= '1';
+            end if;
         elsif (bus_read_state = BUSY) then
             bus_stbr <= '1';
         elsif (bus_read_state = CACHE_WRITE) then
@@ -185,7 +189,6 @@ begin
         end if;
     end process;
     
-    resolving_miss <= '1' when bus_read_state /= IDLE or bus_read_state_next = BUSY else '0';
     fetched_cacheline <= read_addr_tag_pipeline_reg(RADDR_TAG_START downto RADDR_TAG_END) & fetched_cacheline_data;
     bus_addr_read <= i_bus_addr_read;
     -- ========================================================
@@ -222,20 +225,20 @@ begin
             if (reset = '1') then
                 valid_pipeline_reg <= '0';
                 read_addr_tag_pipeline_reg <= (others => '0');
+            else
+                if (read_cancel = '1') then
+                    valid_pipeline_reg <= '0';
+                elsif (stall = '0') then
+                    valid_pipeline_reg <= read_en;
+                end if;
+                
+                if (stall = '0') then
+                    read_addr_offset_pipeline_reg <= read_addr(CACHELINE_ALIGNMENT - 1 downto 2);
+                    read_addr_tag_pipeline_reg <= read_addr(CPU_ADDR_WIDTH_BITS - 1 downto CACHELINE_ALIGNMENT) & std_logic_vector(to_unsigned(0, CACHELINE_ALIGNMENT));
+                end if; 
+                cacheline_update_en_delayed <= cacheline_update_en;
+                cacheline_update_sel_delayed <= cacheline_update_sel;
             end if;
-            
-            if (read_cancel = '1') then
-                valid_pipeline_reg <= '0';
-            elsif (stall = '0') then
-                valid_pipeline_reg <= read_en;
-            end if;
-            
-            if (stall = '0') then
-                read_addr_offset_pipeline_reg <= read_addr(CACHELINE_ALIGNMENT - 1 downto 2);
-                read_addr_tag_pipeline_reg <= read_addr(CPU_ADDR_WIDTH_BITS - 1 downto CACHELINE_ALIGNMENT) & std_logic_vector(to_unsigned(0, CACHELINE_ALIGNMENT));
-            end if; 
-            cacheline_update_en_delayed <= cacheline_update_en;
-            cacheline_update_sel_delayed <= cacheline_update_sel;
         end if;
     end process;
 
@@ -244,26 +247,26 @@ begin
         if (rising_edge(clk)) then
             if (reset = '1') then
                 icache_valid_bits <= (others => '0');
-            end if;
-            
-            if (stall = '0') then
-                for i in 0 to ICACHE_ASSOCIATIVITY - 1 loop
-                    icache_set_valid(i) <= icache_valid_bits(to_integer(unsigned(read_addr(RADDR_INDEX_START downto RADDR_INDEX_END))) * ICACHE_ASSOCIATIVITY + i);
-                end loop;
             else
-                for i in 0 to ICACHE_ASSOCIATIVITY - 1 loop
-                    icache_set_valid(i) <= icache_valid_bits(to_integer(unsigned(read_addr_tag_pipeline_reg(RADDR_INDEX_START downto RADDR_INDEX_END))) * ICACHE_ASSOCIATIVITY + i);
-                end loop;
-            end if;
-            
-            if (cacheline_update_en = '1') then
-                for i in 0 to ICACHE_ASSOCIATIVITY - 1 loop
-                    if (cacheline_update_sel(i) = '1') then
-                    
-                        icache_valid_bits(to_integer(unsigned(read_addr_tag_pipeline_reg(RADDR_INDEX_START downto RADDR_INDEX_END))) * ICACHE_ASSOCIATIVITY + i) <= '1';
-                        icache_set_valid(i) <= '1';
-                    end if;
-                end loop;
+                if (stall = '0') then
+                    for i in 0 to ICACHE_ASSOCIATIVITY - 1 loop
+                        icache_set_valid(i) <= icache_valid_bits(to_integer(unsigned(read_addr(RADDR_INDEX_START downto RADDR_INDEX_END))) * ICACHE_ASSOCIATIVITY + i);
+                    end loop;
+                else
+                    for i in 0 to ICACHE_ASSOCIATIVITY - 1 loop
+                        icache_set_valid(i) <= icache_valid_bits(to_integer(unsigned(read_addr_tag_pipeline_reg(RADDR_INDEX_START downto RADDR_INDEX_END))) * ICACHE_ASSOCIATIVITY + i);
+                    end loop;
+                end if;
+                
+                if (cacheline_update_en = '1') then
+                    for i in 0 to ICACHE_ASSOCIATIVITY - 1 loop
+                        if (cacheline_update_sel(i) = '1') then
+                        
+                            icache_valid_bits(to_integer(unsigned(read_addr_tag_pipeline_reg(RADDR_INDEX_START downto RADDR_INDEX_END))) * ICACHE_ASSOCIATIVITY + i) <= '1';
+                            icache_set_valid(i) <= '1';
+                        end if;
+                    end loop;
+                end if;
             end if;
         end if;
     end process;
