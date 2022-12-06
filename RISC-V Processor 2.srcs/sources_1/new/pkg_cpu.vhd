@@ -34,14 +34,14 @@ package pkg_cpu is
     constant ARCH_REGFILE_ENTRIES : integer range 1 to 1024 := 32;
     constant ARCH_REGFILE_ADDR_BITS : integer := integer(ceil(log2(real(ARCH_REGFILE_ENTRIES))));
     
-    constant PHYS_REGFILE_ENTRIES : integer range 1 to 1024 := 96;
+    constant PHYS_REGFILE_ENTRIES : integer range 1 to 1024 := 48;
     constant PHYS_REGFILE_ADDR_BITS : integer := integer(ceil(log2(real(PHYS_REGFILE_ENTRIES))));
     
     -- ========================= CAN BE MODIFIED =========================
-    constant SCHEDULER_ENTRIES : integer range 1 to 1023 := 12;
-    constant REORDER_BUFFER_ENTRIES : integer := 48;
-    constant SQ_ENTRIES : integer := 8;
-    constant LQ_ENTRIES : integer := 8;
+    constant SCHEDULER_ENTRIES : integer range 1 to 1023 := 8;
+    constant REORDER_BUFFER_ENTRIES : integer := 16;
+    constant SQ_ENTRIES : integer := 4;
+    constant LQ_ENTRIES : integer := 4;
     constant DECODED_INSTR_QUEUE_ENTRIES : integer := 4;
     
     constant BRANCHING_DEPTH : integer := 4;            -- How many branches this CPU is capable of speculating against. For ex. 4 Means 4 cond. branch instructions before further fetching is halted
