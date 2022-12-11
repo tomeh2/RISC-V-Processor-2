@@ -12,15 +12,15 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="0.000 ns"></ZoomStartTime>
-      <ZoomEndTime time="540.541 ns"></ZoomEndTime>
-      <Cursor1Time time="143.436 ns"></Cursor1Time>
+      <ZoomStartTime time="70.000 ns"></ZoomStartTime>
+      <ZoomEndTime time="244.739 ns"></ZoomEndTime>
+      <Cursor1Time time="185.000 ns"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
-      <NameColumnWidth column_width="385"></NameColumnWidth>
-      <ValueColumnWidth column_width="65"></ValueColumnWidth>
+      <NameColumnWidth column_width="384"></NameColumnWidth>
+      <ValueColumnWidth column_width="58"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="47" />
+   <WVObjectSize size="27" />
    <wvobject fp_name="/icache_tb/clk" type="logic">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
@@ -58,8 +58,8 @@
       <obj_property name="ObjectShortName">bus_ackr</obj_property>
    </wvobject>
    <wvobject fp_name="/icache_tb/data_out" type="array">
-      <obj_property name="ElementShortName">data_out[127:0]</obj_property>
-      <obj_property name="ObjectShortName">data_out[127:0]</obj_property>
+      <obj_property name="ElementShortName">data_out[31:0]</obj_property>
+      <obj_property name="ObjectShortName">data_out[31:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/icache_tb/uut/data_valid" type="logic">
       <obj_property name="ElementShortName">data_valid</obj_property>
@@ -68,18 +68,6 @@
    <wvobject type="divider" fp_name="divider371">
       <obj_property name="label">CACHE</obj_property>
       <obj_property name="DisplayName">label</obj_property>
-   </wvobject>
-   <wvobject fp_name="/icache_tb/uut/resolving_miss" type="logic">
-      <obj_property name="ElementShortName">resolving_miss</obj_property>
-      <obj_property name="ObjectShortName">resolving_miss</obj_property>
-   </wvobject>
-   <wvobject fp_name="/icache_tb/uut/icache_set_out" type="array">
-      <obj_property name="ElementShortName">icache_set_out[0:3][150:0]</obj_property>
-      <obj_property name="ObjectShortName">icache_set_out[0:3][150:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/icache_tb/uut/icache_set_valid" type="array">
-      <obj_property name="ElementShortName">icache_set_valid[3:0]</obj_property>
-      <obj_property name="ObjectShortName">icache_set_valid[3:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/icache_tb/uut/read_addr" type="array">
       <obj_property name="ElementShortName">read_addr[31:0]</obj_property>
@@ -90,8 +78,8 @@
       <obj_property name="ObjectShortName">read_en</obj_property>
    </wvobject>
    <wvobject fp_name="/icache_tb/uut/data_out" type="array">
-      <obj_property name="ElementShortName">data_out[127:0]</obj_property>
-      <obj_property name="ObjectShortName">data_out[127:0]</obj_property>
+      <obj_property name="ElementShortName">data_out[31:0]</obj_property>
+      <obj_property name="ObjectShortName">data_out[31:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/icache_tb/uut/bus_addr_read" type="array">
       <obj_property name="ElementShortName">bus_addr_read[31:0]</obj_property>
@@ -108,31 +96,6 @@
    <wvobject fp_name="/icache_tb/uut/bus_ackr" type="logic">
       <obj_property name="ElementShortName">bus_ackr</obj_property>
       <obj_property name="ObjectShortName">bus_ackr</obj_property>
-   </wvobject>
-   <wvobject fp_name="/icache_tb/uut/ring_counter_inst/q" type="array">
-      <obj_property name="ElementShortName">q[3:0]</obj_property>
-      <obj_property name="ObjectShortName">q[3:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/icache_tb/uut/icache" type="array">
-      <obj_property name="ElementShortName">icache[0:31][0:3][150:0]</obj_property>
-      <obj_property name="ObjectShortName">icache[0:31][0:3][150:0]</obj_property>
-      <obj_property name="isExpanded"></obj_property>
-   </wvobject>
-   <wvobject fp_name="/icache_tb/uut/icache_valid_bits" type="array">
-      <obj_property name="ElementShortName">icache_valid_bits[127:0]</obj_property>
-      <obj_property name="ObjectShortName">icache_valid_bits[127:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/icache_tb/uut/read_addr_pipeline_reg" type="array">
-      <obj_property name="ElementShortName">read_addr_pipeline_reg[31:0]</obj_property>
-      <obj_property name="ObjectShortName">read_addr_pipeline_reg[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/icache_tb/uut/hit_bits" type="array">
-      <obj_property name="ElementShortName">hit_bits[3:0]</obj_property>
-      <obj_property name="ObjectShortName">hit_bits[3:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/icache_tb/uut/i_hit" type="logic">
-      <obj_property name="ElementShortName">i_hit</obj_property>
-      <obj_property name="ObjectShortName">i_hit</obj_property>
    </wvobject>
    <wvobject fp_name="/icache_tb/uut/i_bus_addr_read" type="array">
       <obj_property name="ElementShortName">i_bus_addr_read[31:0]</obj_property>
@@ -151,8 +114,8 @@
       <obj_property name="ObjectShortName">fetched_cacheline_data[127:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/icache_tb/uut/fetched_cacheline" type="array">
-      <obj_property name="ElementShortName">fetched_cacheline[150:0]</obj_property>
-      <obj_property name="ObjectShortName">fetched_cacheline[150:0]</obj_property>
+      <obj_property name="ElementShortName">fetched_cacheline[151:0]</obj_property>
+      <obj_property name="ObjectShortName">fetched_cacheline[151:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/icache_tb/uut/fetched_instrs_counter" type="array">
       <obj_property name="ElementShortName">fetched_instrs_counter[1:0]</obj_property>
@@ -162,52 +125,197 @@
       <obj_property name="ElementShortName">cacheline_update_en</obj_property>
       <obj_property name="ObjectShortName">cacheline_update_en</obj_property>
    </wvobject>
-   <wvobject fp_name="/icache_tb/uut/cacheline_update_sel" type="array">
-      <obj_property name="ElementShortName">cacheline_update_sel[3:0]</obj_property>
-      <obj_property name="ObjectShortName">cacheline_update_sel[3:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/icache_tb/uut/TAG_SIZE" type="other">
-      <obj_property name="ElementShortName">TAG_SIZE</obj_property>
-      <obj_property name="ObjectShortName">TAG_SIZE</obj_property>
-   </wvobject>
-   <wvobject fp_name="/icache_tb/uut/INDEX_SIZE" type="other">
-      <obj_property name="ElementShortName">INDEX_SIZE</obj_property>
-      <obj_property name="ObjectShortName">INDEX_SIZE</obj_property>
-   </wvobject>
-   <wvobject fp_name="/icache_tb/uut/CACHELINE_SIZE" type="other">
-      <obj_property name="ElementShortName">CACHELINE_SIZE</obj_property>
-      <obj_property name="ObjectShortName">CACHELINE_SIZE</obj_property>
-   </wvobject>
-   <wvobject fp_name="/icache_tb/uut/RADDR_TAG_START" type="other">
-      <obj_property name="ElementShortName">RADDR_TAG_START</obj_property>
-      <obj_property name="ObjectShortName">RADDR_TAG_START</obj_property>
-   </wvobject>
-   <wvobject fp_name="/icache_tb/uut/RADDR_TAG_END" type="other">
-      <obj_property name="ElementShortName">RADDR_TAG_END</obj_property>
-      <obj_property name="ObjectShortName">RADDR_TAG_END</obj_property>
-   </wvobject>
-   <wvobject fp_name="/icache_tb/uut/RADDR_INDEX_START" type="other">
-      <obj_property name="ElementShortName">RADDR_INDEX_START</obj_property>
-      <obj_property name="ObjectShortName">RADDR_INDEX_START</obj_property>
-   </wvobject>
-   <wvobject fp_name="/icache_tb/uut/RADDR_INDEX_END" type="other">
-      <obj_property name="ElementShortName">RADDR_INDEX_END</obj_property>
-      <obj_property name="ObjectShortName">RADDR_INDEX_END</obj_property>
-   </wvobject>
-   <wvobject fp_name="/icache_tb/uut/CACHELINE_TAG_START" type="other">
-      <obj_property name="ElementShortName">CACHELINE_TAG_START</obj_property>
-      <obj_property name="ObjectShortName">CACHELINE_TAG_START</obj_property>
-   </wvobject>
-   <wvobject fp_name="/icache_tb/uut/CACHELINE_TAG_END" type="other">
-      <obj_property name="ElementShortName">CACHELINE_TAG_END</obj_property>
-      <obj_property name="ObjectShortName">CACHELINE_TAG_END</obj_property>
-   </wvobject>
-   <wvobject fp_name="/icache_tb/uut/CACHELINE_DATA_START" type="other">
-      <obj_property name="ElementShortName">CACHELINE_DATA_START</obj_property>
-      <obj_property name="ObjectShortName">CACHELINE_DATA_START</obj_property>
-   </wvobject>
-   <wvobject fp_name="/icache_tb/uut/CACHELINE_DATA_END" type="other">
-      <obj_property name="ElementShortName">CACHELINE_DATA_END</obj_property>
-      <obj_property name="ObjectShortName">CACHELINE_DATA_END</obj_property>
+   <wvobject fp_name="group1278" type="group">
+      <obj_property name="label">CACHE</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject fp_name="/icache_tb/uut/cache_bram_inst/cacheline_data_write" type="array">
+         <obj_property name="ElementShortName">cacheline_data_write[127:0]</obj_property>
+         <obj_property name="ObjectShortName">cacheline_data_write[127:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/icache_tb/uut/cache_bram_inst/cacheline_data_read" type="array">
+         <obj_property name="ElementShortName">cacheline_data_read[127:0]</obj_property>
+         <obj_property name="ObjectShortName">cacheline_data_read[127:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/icache_tb/uut/cache_bram_inst/read_addr" type="array">
+         <obj_property name="ElementShortName">read_addr[31:0]</obj_property>
+         <obj_property name="ObjectShortName">read_addr[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/icache_tb/uut/cache_bram_inst/write_addr" type="array">
+         <obj_property name="ElementShortName">write_addr[31:0]</obj_property>
+         <obj_property name="ObjectShortName">write_addr[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/icache_tb/uut/cache_bram_inst/clear_pipeline" type="logic">
+         <obj_property name="ElementShortName">clear_pipeline</obj_property>
+         <obj_property name="ObjectShortName">clear_pipeline</obj_property>
+      </wvobject>
+      <wvobject fp_name="/icache_tb/uut/cache_bram_inst/stall" type="logic">
+         <obj_property name="ElementShortName">stall</obj_property>
+         <obj_property name="ObjectShortName">stall</obj_property>
+      </wvobject>
+      <wvobject fp_name="/icache_tb/uut/cache_bram_inst/read_en" type="logic">
+         <obj_property name="ElementShortName">read_en</obj_property>
+         <obj_property name="ObjectShortName">read_en</obj_property>
+      </wvobject>
+      <wvobject fp_name="/icache_tb/uut/cache_bram_inst/write_en" type="logic">
+         <obj_property name="ElementShortName">write_en</obj_property>
+         <obj_property name="ObjectShortName">write_en</obj_property>
+      </wvobject>
+      <wvobject fp_name="/icache_tb/uut/cache_bram_inst/miss" type="logic">
+         <obj_property name="ElementShortName">miss</obj_property>
+         <obj_property name="ObjectShortName">miss</obj_property>
+      </wvobject>
+      <wvobject fp_name="/icache_tb/uut/cache_bram_inst/miss_cacheline_addr" type="array">
+         <obj_property name="ElementShortName">miss_cacheline_addr[31:0]</obj_property>
+         <obj_property name="ObjectShortName">miss_cacheline_addr[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/icache_tb/uut/cache_bram_inst/cacheline_valid" type="logic">
+         <obj_property name="ElementShortName">cacheline_valid</obj_property>
+         <obj_property name="ObjectShortName">cacheline_valid</obj_property>
+      </wvobject>
+      <wvobject fp_name="/icache_tb/uut/cache_bram_inst/icache_valid_bits" type="array">
+         <obj_property name="ElementShortName">icache_valid_bits[31:0]</obj_property>
+         <obj_property name="ObjectShortName">icache_valid_bits[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/icache_tb/uut/cache_bram_inst/icache_set_out_bram" type="array">
+         <obj_property name="ElementShortName">icache_set_out_bram[0:1][151:0]</obj_property>
+         <obj_property name="ObjectShortName">icache_set_out_bram[0:1][151:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/icache_tb/uut/cache_bram_inst/icache_set_out" type="array">
+         <obj_property name="ElementShortName">icache_set_out[0:1][151:0]</obj_property>
+         <obj_property name="ObjectShortName">icache_set_out[0:1][151:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/icache_tb/uut/cache_bram_inst/icache_set_valid" type="array">
+         <obj_property name="ElementShortName">icache_set_valid[1:0]</obj_property>
+         <obj_property name="ObjectShortName">icache_set_valid[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/icache_tb/uut/cache_bram_inst/hit_bits" type="array">
+         <obj_property name="ElementShortName">hit_bits[1:0]</obj_property>
+         <obj_property name="ObjectShortName">hit_bits[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/icache_tb/uut/cache_bram_inst/i_hit" type="logic">
+         <obj_property name="ElementShortName">i_hit</obj_property>
+         <obj_property name="ObjectShortName">i_hit</obj_property>
+      </wvobject>
+      <wvobject fp_name="/icache_tb/uut/cache_bram_inst/valid_pipeline_reg" type="logic">
+         <obj_property name="ElementShortName">valid_pipeline_reg</obj_property>
+         <obj_property name="ObjectShortName">valid_pipeline_reg</obj_property>
+      </wvobject>
+      <wvobject fp_name="/icache_tb/uut/cache_bram_inst/read_addr_tag_pipeline_reg" type="array">
+         <obj_property name="ElementShortName">read_addr_tag_pipeline_reg[31:0]</obj_property>
+         <obj_property name="ObjectShortName">read_addr_tag_pipeline_reg[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/icache_tb/uut/cache_bram_inst/read_addr_offset_pipeline_reg" type="array">
+         <obj_property name="ElementShortName">read_addr_offset_pipeline_reg[1:0]</obj_property>
+         <obj_property name="ObjectShortName">read_addr_offset_pipeline_reg[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/icache_tb/uut/cache_bram_inst/i_bus_addr_read" type="array">
+         <obj_property name="ElementShortName">i_bus_addr_read[31:0]</obj_property>
+         <obj_property name="ObjectShortName">i_bus_addr_read[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/icache_tb/uut/cache_bram_inst/cacheline_write" type="array">
+         <obj_property name="ElementShortName">cacheline_write[151:0]</obj_property>
+         <obj_property name="ObjectShortName">cacheline_write[151:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/icache_tb/uut/cache_bram_inst/cacheline_update_en" type="logic">
+         <obj_property name="ElementShortName">cacheline_update_en</obj_property>
+         <obj_property name="ObjectShortName">cacheline_update_en</obj_property>
+      </wvobject>
+      <wvobject fp_name="/icache_tb/uut/cache_bram_inst/cacheline_update_en_delayed" type="logic">
+         <obj_property name="ElementShortName">cacheline_update_en_delayed</obj_property>
+         <obj_property name="ObjectShortName">cacheline_update_en_delayed</obj_property>
+      </wvobject>
+      <wvobject fp_name="/icache_tb/uut/cache_bram_inst/cacheline_update_sel" type="array">
+         <obj_property name="ElementShortName">cacheline_update_sel[1:0]</obj_property>
+         <obj_property name="ObjectShortName">cacheline_update_sel[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/icache_tb/uut/cache_bram_inst/cacheline_update_sel_delayed" type="array">
+         <obj_property name="ElementShortName">cacheline_update_sel_delayed[1:0]</obj_property>
+         <obj_property name="ObjectShortName">cacheline_update_sel_delayed[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/icache_tb/uut/cache_bram_inst/addr_read_cache" type="array">
+         <obj_property name="ElementShortName">addr_read_cache[3:0]</obj_property>
+         <obj_property name="ObjectShortName">addr_read_cache[3:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/icache_tb/uut/cache_bram_inst/fetched_cacheline" type="array">
+         <obj_property name="ElementShortName">fetched_cacheline[151:0]</obj_property>
+         <obj_property name="ObjectShortName">fetched_cacheline[151:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/icache_tb/uut/cache_bram_inst/ADDR_SIZE_BITS" type="other">
+         <obj_property name="ElementShortName">ADDR_SIZE_BITS</obj_property>
+         <obj_property name="ObjectShortName">ADDR_SIZE_BITS</obj_property>
+      </wvobject>
+      <wvobject fp_name="/icache_tb/uut/cache_bram_inst/ENTRY_SIZE_BYTES" type="other">
+         <obj_property name="ElementShortName">ENTRY_SIZE_BYTES</obj_property>
+         <obj_property name="ObjectShortName">ENTRY_SIZE_BYTES</obj_property>
+      </wvobject>
+      <wvobject fp_name="/icache_tb/uut/cache_bram_inst/ENTRIES_PER_CACHELINE" type="other">
+         <obj_property name="ElementShortName">ENTRIES_PER_CACHELINE</obj_property>
+         <obj_property name="ObjectShortName">ENTRIES_PER_CACHELINE</obj_property>
+      </wvobject>
+      <wvobject fp_name="/icache_tb/uut/cache_bram_inst/ASSOCIATIVITY" type="other">
+         <obj_property name="ElementShortName">ASSOCIATIVITY</obj_property>
+         <obj_property name="ObjectShortName">ASSOCIATIVITY</obj_property>
+      </wvobject>
+      <wvobject fp_name="/icache_tb/uut/cache_bram_inst/NUM_SETS" type="other">
+         <obj_property name="ElementShortName">NUM_SETS</obj_property>
+         <obj_property name="ObjectShortName">NUM_SETS</obj_property>
+      </wvobject>
+      <wvobject fp_name="/icache_tb/uut/cache_bram_inst/TAG_SIZE" type="other">
+         <obj_property name="ElementShortName">TAG_SIZE</obj_property>
+         <obj_property name="ObjectShortName">TAG_SIZE</obj_property>
+      </wvobject>
+      <wvobject fp_name="/icache_tb/uut/cache_bram_inst/INDEX_SIZE" type="other">
+         <obj_property name="ElementShortName">INDEX_SIZE</obj_property>
+         <obj_property name="ObjectShortName">INDEX_SIZE</obj_property>
+      </wvobject>
+      <wvobject fp_name="/icache_tb/uut/cache_bram_inst/CACHELINE_SIZE" type="other">
+         <obj_property name="ElementShortName">CACHELINE_SIZE</obj_property>
+         <obj_property name="ObjectShortName">CACHELINE_SIZE</obj_property>
+      </wvobject>
+      <wvobject fp_name="/icache_tb/uut/cache_bram_inst/CACHELINE_ALIGNMENT" type="other">
+         <obj_property name="ElementShortName">CACHELINE_ALIGNMENT</obj_property>
+         <obj_property name="ObjectShortName">CACHELINE_ALIGNMENT</obj_property>
+      </wvobject>
+      <wvobject fp_name="/icache_tb/uut/cache_bram_inst/RADDR_TAG_START" type="other">
+         <obj_property name="ElementShortName">RADDR_TAG_START</obj_property>
+         <obj_property name="ObjectShortName">RADDR_TAG_START</obj_property>
+      </wvobject>
+      <wvobject fp_name="/icache_tb/uut/cache_bram_inst/RADDR_TAG_END" type="other">
+         <obj_property name="ElementShortName">RADDR_TAG_END</obj_property>
+         <obj_property name="ObjectShortName">RADDR_TAG_END</obj_property>
+      </wvobject>
+      <wvobject fp_name="/icache_tb/uut/cache_bram_inst/RADDR_INDEX_START" type="other">
+         <obj_property name="ElementShortName">RADDR_INDEX_START</obj_property>
+         <obj_property name="ObjectShortName">RADDR_INDEX_START</obj_property>
+      </wvobject>
+      <wvobject fp_name="/icache_tb/uut/cache_bram_inst/RADDR_INDEX_END" type="other">
+         <obj_property name="ElementShortName">RADDR_INDEX_END</obj_property>
+         <obj_property name="ObjectShortName">RADDR_INDEX_END</obj_property>
+      </wvobject>
+      <wvobject fp_name="/icache_tb/uut/cache_bram_inst/CACHELINE_TAG_START" type="other">
+         <obj_property name="ElementShortName">CACHELINE_TAG_START</obj_property>
+         <obj_property name="ObjectShortName">CACHELINE_TAG_START</obj_property>
+      </wvobject>
+      <wvobject fp_name="/icache_tb/uut/cache_bram_inst/CACHELINE_TAG_END" type="other">
+         <obj_property name="ElementShortName">CACHELINE_TAG_END</obj_property>
+         <obj_property name="ObjectShortName">CACHELINE_TAG_END</obj_property>
+      </wvobject>
+      <wvobject fp_name="/icache_tb/uut/cache_bram_inst/CACHELINE_DATA_START" type="other">
+         <obj_property name="ElementShortName">CACHELINE_DATA_START</obj_property>
+         <obj_property name="ObjectShortName">CACHELINE_DATA_START</obj_property>
+      </wvobject>
+      <wvobject fp_name="/icache_tb/uut/cache_bram_inst/CACHELINE_DATA_END" type="other">
+         <obj_property name="ElementShortName">CACHELINE_DATA_END</obj_property>
+         <obj_property name="ObjectShortName">CACHELINE_DATA_END</obj_property>
+      </wvobject>
+      <wvobject fp_name="/icache_tb/uut/cache_bram_inst/\bram_gen(0)\/bram_inst/bram" type="array">
+         <obj_property name="ElementShortName">bram[15:0][151:0]</obj_property>
+         <obj_property name="ObjectShortName">bram[15:0][151:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/icache_tb/uut/cache_bram_inst/\bram_gen(1)\/bram_inst/bram" type="array">
+         <obj_property name="ElementShortName">bram[15:0][151:0]</obj_property>
+         <obj_property name="ObjectShortName">bram[15:0][151:0]</obj_property>
+      </wvobject>
    </wvobject>
 </wave_config>

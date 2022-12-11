@@ -261,7 +261,7 @@ begin
 
     cs_uart <= we_uart or re_uart;
 
-    bus_ackr <= ackr_ram or ackr_uart or ackr_rom or ackr_gpio or ackr_perfc;
+    bus_ackr <= ackr_ram or ackr_uart or ackr_rom or ackr_gpio; --or ackr_perfc;
     bus_ackw <= ackw_ram or ackw_uart or ackw_gpio;
 
     resetn <= not reset_cpu;          

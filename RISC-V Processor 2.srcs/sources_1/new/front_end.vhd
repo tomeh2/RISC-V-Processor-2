@@ -71,10 +71,13 @@ architecture Structural of front_end is
     signal f1_f2_pipeline_reg : f1_f2_pipeline_reg_type;
     signal f1_f2_pipeline_reg_next : f1_f2_pipeline_reg_type;
     
-    signal f2_d1_pipeline_reg : f2_d1_pipeline_reg_type;
-    signal f2_d1_pipeline_reg_next : f2_d1_pipeline_reg_type;
+    signal f2_f3_pipeline_reg : f2_f3_pipeline_reg_type;
+    signal f2_f3_pipeline_reg_next : f2_f3_pipeline_reg_type;
     
-    signal stall_f1_f2 : std_logic;
+    signal f3_d1_pipeline_reg : f3_d1_pipeline_reg_type;
+    signal f3_d1_pipeline_reg_next : f3_d1_pipeline_reg_type;
+    
+    signal stall_f1_f3 : std_logic;
     signal stall_f2_d1 : std_logic;
     signal branch_mispredicted : std_logic;
     signal flush_pipeline : std_logic;
@@ -119,18 +122,21 @@ begin
         if (rising_edge(clk)) then
             if (reset = '1') then
                 f1_f2_pipeline_reg.valid <= '0';
-                f2_d1_pipeline_reg.valid <= '0';
+                f2_f3_pipeline_reg.valid <= '0';
+                f3_d1_pipeline_reg.valid <= '0';
             else
                 if (flush_pipeline or d1_branch_target_mispredict) then
                     f1_f2_pipeline_reg.valid <= '0';
-                elsif (stall_f1_f2 = '0') then
+                    f2_f3_pipeline_reg.valid <= '0';
+                elsif (stall_f1_f3 = '0') then
                     f1_f2_pipeline_reg <= f1_f2_pipeline_reg_next;
+                    f2_f3_pipeline_reg <= f2_f3_pipeline_reg_next;
                 end if;
                 
-                if ((stall_f1_f2 and d1_fifo_insert_ready) or flush_pipeline) then
-                    f2_d1_pipeline_reg.valid <= '0';
-                elsif (stall_f2_d1 = '0' or (f2_d1_pipeline_reg.valid = '0' and stall_f1_f2 = '0')) then
-                    f2_d1_pipeline_reg <= f2_d1_pipeline_reg_next;
+                if ((stall_f1_f3 and d1_fifo_insert_ready) or flush_pipeline) then
+                    f3_d1_pipeline_reg.valid <= '0';
+                elsif (stall_f2_d1 = '0' or (f3_d1_pipeline_reg.valid = '0' and stall_f1_f3 = '0')) then
+                    f3_d1_pipeline_reg <= f3_d1_pipeline_reg_next;
                 end if;
             end if;
         end if;
@@ -140,15 +146,20 @@ begin
     f1_f2_pipeline_reg_next.branch_pred_outcome <= f1_pred_outcome;
     f1_f2_pipeline_reg_next.branch_pred_target <= f1_pred_target_pc;
     
-    f2_d1_pipeline_reg_next.pc <= f1_f2_pipeline_reg.pc;
-    f2_d1_pipeline_reg_next.branch_pred_outcome <= f1_f2_pipeline_reg.branch_pred_outcome;
-    f2_d1_pipeline_reg_next.branch_pred_target <= f1_f2_pipeline_reg.branch_pred_target;
+    f2_f3_pipeline_reg_next.pc <= f1_f2_pipeline_reg.pc;
+    f2_f3_pipeline_reg_next.branch_pred_target <= f1_f2_pipeline_reg.branch_pred_target;
+    f2_f3_pipeline_reg_next.branch_pred_outcome <= f1_f2_pipeline_reg.branch_pred_outcome;
+    
+    f3_d1_pipeline_reg_next.pc <= f2_f3_pipeline_reg.pc;
+    f3_d1_pipeline_reg_next.branch_pred_outcome <= f2_f3_pipeline_reg.branch_pred_outcome;
+    f3_d1_pipeline_reg_next.branch_pred_target <= f2_f3_pipeline_reg.branch_pred_target;
     
     f1_f2_pipeline_reg_next.valid <= '1';
-    f2_d1_pipeline_reg_next.valid <= '0' when stall_f1_f2 or d1_branch_target_mispredict else f1_f2_pipeline_reg.valid;
+    f2_f3_pipeline_reg_next.valid <= f1_f2_pipeline_reg.valid;
+    f3_d1_pipeline_reg_next.valid <= '0' when stall_f1_f3 or d1_branch_target_mispredict else f2_f3_pipeline_reg.valid;
     
     stall_f2_d1 <= d1_bc_empty or fifo_full;
-    stall_f1_f2 <= (not ic_wait and f1_f2_pipeline_reg.valid) or (stall_f2_d1 and f2_d1_pipeline_reg.valid);
+    stall_f1_f3 <= (ic_wait and f2_f3_pipeline_reg.valid) or (stall_f2_d1 and f3_d1_pipeline_reg.valid);
     branch_mispredicted <= (cdb.valid and cdb.branch_mispredicted);--(debug_cdb_mispred and debug_cdb_valid);----
     flush_pipeline <= branch_mispredicted;-- or debug_clear_pipeline;
     -- ======================================================================
@@ -182,7 +193,7 @@ begin
                     f1_pc_reg <= d1_target_mispred_recovery_pc;
                 elsif (f1_pred_is_branch = '1' and f1_pred_outcome = '1') then
                     f1_pc_reg <= f1_pred_target_pc;
-                elsif (stall_f1_f2 = '0') then
+                elsif (stall_f1_f3 = '0') then
                     f1_pc_reg <= std_logic_vector(unsigned(f1_pc_reg) + 4);
                 end if;
             end if;
@@ -204,11 +215,12 @@ begin
                   port map(read_addr => f1_pc_reg,
                            read_en => '1',
                            read_cancel => flush_pipeline or d1_branch_target_mispredict,
-                           stall => stall_f1_f2,
+                           stall => stall_f1_f3,
                            
-                           hit => ic_wait,
+                           fetching => ic_wait,
+                           --hit => ic_wait,
                            miss => f2_icache_miss,
-                           data_out => f2_d1_pipeline_reg_next.instruction,
+                           data_out => f3_d1_pipeline_reg_next.instruction,
                            data_valid => f2_ic_data_valid,
                            
                            bus_addr_read => bus_addr_read,
@@ -219,13 +231,13 @@ begin
                            clk => clk,
                            reset => reset); 
     
-    f2_d1_pipeline_reg_next.pc <= f1_f2_pipeline_reg.pc;
+    f3_d1_pipeline_reg_next.pc <= f2_f3_pipeline_reg.pc;
     -- ==============================================================
     
     -- ========================== D1 STAGE ==========================
     instruction_decoder_inst : entity work.instruction_decoder(rtl)
-                               port map(instruction => f2_d1_pipeline_reg.instruction,
-                                        pc => f2_d1_pipeline_reg.pc,
+                               port map(instruction => f3_d1_pipeline_reg.instruction,
+                                        pc => f3_d1_pipeline_reg.pc,
                                         
                                         branch_taken_pc => d1_branch_taken_pc,
                                         
@@ -241,7 +253,7 @@ begin
                                       speculated_branches_mask => d1_speculated_branches_mask,
                                       alloc_branch_mask => d1_alloc_branch_mask,
                                       
-                                      branch_alloc_en => ((d1_is_speculative_br and f2_d1_pipeline_reg.valid and not d1_bc_empty and not fifo_full)),
+                                      branch_alloc_en => ((d1_is_speculative_br and f3_d1_pipeline_reg.valid and not d1_bc_empty and not fifo_full)),
                                       
                                       empty => d1_bc_empty,
                                       
@@ -250,20 +262,20 @@ begin
                     
     -- Since all branch instructions (except for JALR) have target addresses which can be computed immediately,
     -- We can already resolve most branch target mispredicts
-    d1_branch_target_mispredict <= '1' when (((f2_d1_pipeline_reg.branch_pred_outcome = '1' and 
-                                            ((f2_d1_pipeline_reg.branch_pred_target /= d1_branch_taken_pc and d1_is_jalr = '0') or      -- Was a branch instruction
+    d1_branch_target_mispredict <= '1' when (((f3_d1_pipeline_reg.branch_pred_outcome = '1' and 
+                                            ((f3_d1_pipeline_reg.branch_pred_target /= d1_branch_taken_pc and d1_is_jalr = '0') or      -- Was a branch instruction
                                             (d1_is_speculative_br = '0' and d1_is_uncond_br = '0'))) or
                                             (d1_is_uncond_br = '1' and d1_is_jalr = '0' and 
-                                            (f2_d1_pipeline_reg.branch_pred_target /= d1_branch_taken_pc or f2_d1_pipeline_reg.branch_pred_outcome = '0'))) 
-                                            and f2_d1_pipeline_reg.valid = '1') else '0';                           -- Was not a branch instruction
+                                            (f3_d1_pipeline_reg.branch_pred_target /= d1_branch_taken_pc or f3_d1_pipeline_reg.branch_pred_outcome = '0'))) 
+                                            and f3_d1_pipeline_reg.valid = '1') else '0';                           -- Was not a branch instruction
                                        
-    d1_target_mispred_recovery_pc <= std_logic_vector(unsigned(f2_d1_pipeline_reg.pc) + 4) when ((d1_is_speculative_br = '0' and d1_is_uncond_br = '0') or
-                                                                                                (d1_is_speculative_br = '1' and f2_d1_pipeline_reg.branch_pred_outcome = '0'))
+    d1_target_mispred_recovery_pc <= std_logic_vector(unsigned(f3_d1_pipeline_reg.pc) + 4) when ((d1_is_speculative_br = '0' and d1_is_uncond_br = '0') or
+                                                                                                (d1_is_speculative_br = '1' and f3_d1_pipeline_reg.branch_pred_outcome = '0'))
                                                                                            else d1_branch_taken_pc;
                                        
-    d1_fifo_insert_ready <= not d1_bc_empty and not fifo_full and f2_d1_pipeline_reg.valid;
+    d1_fifo_insert_ready <= not d1_bc_empty and not fifo_full and f3_d1_pipeline_reg.valid;
                                        
-    decoded_uop.pc <= f2_d1_pipeline_reg.pc;
+    decoded_uop.pc <= f3_d1_pipeline_reg.pc;
     decoded_uop.operation_type <= d1_instr_dec_uop.operation_type;
     decoded_uop.operation_select <= d1_instr_dec_uop.operation_select;
     decoded_uop.immediate <= d1_instr_dec_uop.immediate;
@@ -271,13 +283,13 @@ begin
     decoded_uop.arch_src_reg_2_addr <= d1_instr_dec_uop.arch_src_reg_2_addr;
     decoded_uop.arch_dest_reg_addr <= d1_instr_dec_uop.arch_dest_reg_addr;
     decoded_uop.branch_mask <= d1_alloc_branch_mask;
-    decoded_uop.branch_predicted_outcome <= f2_d1_pipeline_reg.branch_pred_outcome;
+    decoded_uop.branch_predicted_outcome <= f3_d1_pipeline_reg.branch_pred_outcome;
     decoded_uop.speculated_branches_mask <= d1_speculated_branches_mask;
-    decoded_uop_valid <= f2_d1_pipeline_reg.valid and not flush_pipeline;
+    decoded_uop_valid <= f3_d1_pipeline_reg.valid and not flush_pipeline;
     
     branch_mask <= d1_alloc_branch_mask;
     branch_predicted_pc <= d1_target_mispred_recovery_pc;
-    branch_prediction <= f2_d1_pipeline_reg.branch_pred_outcome;
+    branch_prediction <= f3_d1_pipeline_reg.branch_pred_outcome;
     -- ==============================================================
     
     -- PERFORMANCE COUNTER SIGNALS
@@ -288,9 +300,9 @@ begin
     -- DEBUG!!!!
     debug_sv_immediate <= decoded_uop.immediate;
     debug_sv_pc <= decoded_uop.pc;
-    debug_f2_d1_pc <= f2_d1_pipeline_reg.pc;
-    debug_f2_d1_instr <= f2_d1_pipeline_reg.instruction;
-    debug_f2_d1_valid <= f2_d1_pipeline_reg.valid;
+    debug_f2_d1_pc <= f3_d1_pipeline_reg.pc;
+    debug_f2_d1_instr <= f3_d1_pipeline_reg.instruction;
+    debug_f2_d1_valid <= f3_d1_pipeline_reg.valid;
 end Structural;
 
 

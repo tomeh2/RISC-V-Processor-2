@@ -55,6 +55,7 @@ module icache_tb(
                .data_out(data_out),
                .read_en(read_en),
                .data_valid(hit),
+               .stall(0),
                .bus_addr_read(bus_addr_read),
                .bus_data_read(bus_data_read),
                .bus_stbr(bus_stbr),
@@ -81,7 +82,7 @@ module icache_tb(
         t_send_req('h00000000);         //MISS
         t_send_req('h00000004);         //HIT
         t_send_req('h00000008);         //HIT
-        t_send_req('h0000000B);         //HIT
+        t_send_req('h0000000C);         //HIT
         t_send_req('h00000038);         //MISS
         #50
         t_send_req('h000001F8);         //MISS

@@ -285,7 +285,14 @@ package pkg_cpu is
         valid : std_logic;
     end record;
     
-    type f2_d1_pipeline_reg_type is record
+    type f2_f3_pipeline_reg_type is record
+        pc : std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);
+        branch_pred_target : std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);
+        branch_pred_outcome : std_logic;
+        valid : std_logic;
+    end record;
+    
+    type f3_d1_pipeline_reg_type is record
         instruction : std_logic_vector(CPU_DATA_WIDTH_BITS - 1 downto 0);
         pc : std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);
         branch_pred_target : std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);
@@ -297,8 +304,13 @@ package pkg_cpu is
                                                                    (others => '0'),
                                                                    '0',
                                                                    '0');
+                                                                   
+    constant F2_F3_PIPELINE_REG_INIT : f2_f3_pipeline_reg_type := ((others => '0'),
+                                                                   (others => '0'),
+                                                                   '0',
+                                                                   '0');
                                                              
-    constant F2_D1_PIPELINE_REG_INIT : f2_d1_pipeline_reg_type := ((others => '0'),
+    constant F3_D1_PIPELINE_REG_INIT : f3_d1_pipeline_reg_type := ((others => '0'),
                                                                    (others => '0'),
                                                                    (others => '0'),
                                                                    '0',
