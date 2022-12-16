@@ -58,20 +58,20 @@
     <Option Name="IPStaticSourceDir" Val="$PIPUSERFILESDIR/ipstatic"/>
     <Option Name="EnableBDX" Val="FALSE"/>
     <Option Name="DSABoardId" Val="nexys-a7-100t"/>
-    <Option Name="WTXSimLaunchSim" Val="3591"/>
+    <Option Name="WTXSimLaunchSim" Val="3607"/>
     <Option Name="WTModelSimLaunchSim" Val="0"/>
     <Option Name="WTQuestaLaunchSim" Val="0"/>
     <Option Name="WTIesLaunchSim" Val="0"/>
     <Option Name="WTVcsLaunchSim" Val="0"/>
     <Option Name="WTRivieraLaunchSim" Val="0"/>
     <Option Name="WTActivehdlLaunchSim" Val="0"/>
-    <Option Name="WTXSimExportSim" Val="102"/>
-    <Option Name="WTModelSimExportSim" Val="102"/>
-    <Option Name="WTQuestaExportSim" Val="102"/>
+    <Option Name="WTXSimExportSim" Val="111"/>
+    <Option Name="WTModelSimExportSim" Val="111"/>
+    <Option Name="WTQuestaExportSim" Val="111"/>
     <Option Name="WTIesExportSim" Val="36"/>
-    <Option Name="WTVcsExportSim" Val="102"/>
-    <Option Name="WTRivieraExportSim" Val="102"/>
-    <Option Name="WTActivehdlExportSim" Val="102"/>
+    <Option Name="WTVcsExportSim" Val="111"/>
+    <Option Name="WTRivieraExportSim" Val="111"/>
+    <Option Name="WTActivehdlExportSim" Val="111"/>
     <Option Name="GenerateIPUpgradeLog" Val="TRUE"/>
     <Option Name="XSimRadix" Val="hex"/>
     <Option Name="XSimTimeUnit" Val="ns"/>
@@ -141,6 +141,12 @@
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
+      <File Path="$PSRCDIR/sources_1/new/cache.vhd">
+        <FileInfo SFType="VHDL2008">
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
       <File Path="$PSRCDIR/sources_1/new/barrel_shifter_2.vhd">
         <FileInfo SFType="VHDL2008">
           <Attr Name="UsedIn" Val="synthesis"/>
@@ -166,12 +172,6 @@
         </FileInfo>
       </File>
       <File Path="$PSRCDIR/sources_1/new/branch_controller.vhd">
-        <FileInfo SFType="VHDL2008">
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PSRCDIR/sources_1/new/cache.vhd">
         <FileInfo SFType="VHDL2008">
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="simulation"/>
@@ -321,6 +321,13 @@
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
+      <File Path="$PSRCDIR/sources_1/new/bram_dp_primitive.vhd">
+        <FileInfo>
+          <Attr Name="AutoDisabled" Val="1"/>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
       <File Path="$PSRCDIR/sources_1/new/branch_target_buffer.vhd">
         <FileInfo>
           <Attr Name="AutoDisabled" Val="1"/>
@@ -392,6 +399,13 @@
         </FileInfo>
       </File>
       <File Path="$PSRCDIR/sources_1/new/lfsr.vhd">
+        <FileInfo>
+          <Attr Name="AutoDisabled" Val="1"/>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PSRCDIR/sources_1/new/dcache.vhd">
         <FileInfo>
           <Attr Name="AutoDisabled" Val="1"/>
           <Attr Name="UsedIn" Val="synthesis"/>
