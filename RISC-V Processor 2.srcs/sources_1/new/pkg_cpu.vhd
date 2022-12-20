@@ -64,6 +64,9 @@ package pkg_cpu is
     constant PERF_COUNTERS_WIDTH_BITS : integer := 32;
     -- ===================================================================
     
+    constant DCACHE_CACHELINE_SIZE : integer := (CPU_ADDR_WIDTH_BITS - integer(ceil(log2(real(DCACHE_ENTRIES_PER_CACHELINE)))) - 
+                                              integer(ceil(log2(real(DCACHE_NUM_SETS)))) - 2 + DCACHE_ENTRIES_PER_CACHELINE * 4 * 8);
+    
     constant CDB_PC_BITS : integer := integer(ceil(log2(real(BP_2BST_ENTRIES))));
     
     constant OPCODE_BITS : integer := 5;

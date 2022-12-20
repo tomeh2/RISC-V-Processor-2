@@ -37,9 +37,9 @@ entity cache is
     );
 
     port(
-        cacheline_data_write : in std_logic_vector(ENTRY_SIZE_BYTES * 8 * ENTRIES_PER_CACHELINE - 1 downto 0);
+        cacheline_write_1 : in std_logic_vector(ENTRY_SIZE_BYTES * 8 * ENTRIES_PER_CACHELINE - 1 downto 0);
         data_read : out std_logic_vector(ENTRY_SIZE_BYTES * 8 - 1 downto 0);
-        cacheline_read : out std_logic_vector((ADDR_SIZE_BITS - integer(ceil(log2(real(ENTRIES_PER_CACHELINE)))) - integer(ceil(log2(real(NUM_SETS)))) - integer(ceil(log2(real(ENTRY_SIZE_BYTES))))
+        cacheline_read_1 : out std_logic_vector((ADDR_SIZE_BITS - integer(ceil(log2(real(ENTRIES_PER_CACHELINE)))) - integer(ceil(log2(real(NUM_SETS)))) - integer(ceil(log2(real(ENTRY_SIZE_BYTES))))
                                                  + ENTRIES_PER_CACHELINE * ENTRY_SIZE_BYTES * 8) - 1 downto 0);
                                     
         read_addr : in std_logic_vector(ADDR_SIZE_BITS - 1 downto 0);
@@ -71,6 +71,8 @@ architecture rtl of cache is
     constant RADDR_TAG_END : integer := ADDR_SIZE_BITS - TAG_SIZE;
     constant RADDR_INDEX_START : integer := ADDR_SIZE_BITS - TAG_SIZE - 1;
     constant RADDR_INDEX_END : integer := ADDR_SIZE_BITS - TAG_SIZE - INDEX_SIZE;
+    constant RADDR_OFFSET_START : integer := ADDR_SIZE_BITS - TAG_SIZE - INDEX_SIZE - 1;
+    constant RADDR_OFFSET_END : integer := ADDR_SIZE_BITS - TAG_SIZE - INDEX_SIZE - integer(ceil(log2(real(ENTRIES_PER_CACHELINE))));
     
     constant CACHELINE_TAG_START : integer := CACHELINE_SIZE - 1;
     constant CACHELINE_TAG_END : integer := CACHELINE_SIZE - TAG_SIZE;
@@ -103,14 +105,13 @@ architecture rtl of cache is
     
     type c1_c2_pipeline_reg_type is record
         valid : std_logic;
-        read_addr_tag : std_logic_vector(ADDR_SIZE_BITS - 1 downto 0);
+        addr : std_logic_vector(ADDR_SIZE_BITS - 1 downto 0);
         read_addr_offset : std_logic_vector(CACHELINE_ALIGNMENT - 3 downto 0);
     end record;
     
     type c2_c3_pipeline_reg_type is record
         valid : std_logic;
-        read_addr_tag : std_logic_vector(ADDR_SIZE_BITS - 1 downto 0);
-        read_addr_offset : std_logic_vector(CACHELINE_ALIGNMENT - 3 downto 0);
+        addr : std_logic_vector(ADDR_SIZE_BITS - 1 downto 0);
         cacheline : std_logic_vector(CACHELINE_SIZE - 1 downto 0);
         hit : std_logic;
     end record;
@@ -122,7 +123,7 @@ architecture rtl of cache is
     signal c2_c3_pipeline_reg_2 : c2_c3_pipeline_reg_type;
 begin
     cacheline_update_en <= write_en;
-    cacheline_write <= write_addr(RADDR_TAG_START downto RADDR_TAG_END) & cacheline_data_write;
+    cacheline_write <= write_addr(RADDR_TAG_START downto RADDR_TAG_END) & cacheline_write_1;
 
     bram_gen : for i in 0 to ASSOCIATIVITY - 1 generate
         bram_inst : entity work.bram_primitive(rtl)
@@ -140,7 +141,7 @@ begin
                              clk => clk,
                              reset => reset);
     end generate;
-    addr_read_cache <= read_addr(RADDR_INDEX_START downto RADDR_INDEX_END) when stall = '0' else c1_c2_pipeline_reg_1.read_addr_tag(RADDR_INDEX_START downto RADDR_INDEX_END);
+    addr_read_cache <= read_addr(RADDR_INDEX_START downto RADDR_INDEX_END) when stall = '0' else c1_c2_pipeline_reg_1.addr(RADDR_INDEX_START downto RADDR_INDEX_END);
     
     -- Used to generate pseudo-random signal used to select which cacheline to evict in case of an associative cache
     ring_counter_inst : entity work.ring_counter(rtl)
@@ -154,12 +155,11 @@ begin
         if (rising_edge(clk)) then
             if (reset = '1') then
                 c1_c2_pipeline_reg_1.valid <= '0';
-                c1_c2_pipeline_reg_1.read_addr_tag <= (others => '0');
+                c1_c2_pipeline_reg_1.addr <= (others => '0');
                 
                 c2_c3_pipeline_reg_1.cacheline <= (others => '0');
-                c2_c3_pipeline_reg_1.read_addr_tag <= (others => '0');
+                c2_c3_pipeline_reg_1.addr <= (others => '0');
                 c2_c3_pipeline_reg_1.hit <= '0';
-                c2_c3_pipeline_reg_1.read_addr_offset <= (others => '0');
                 c2_c3_pipeline_reg_1.valid <= '0';
             else
                 if (clear_pipeline = '1') then
@@ -172,12 +172,11 @@ begin
                 
                 if (stall = '0') then
                     c1_c2_pipeline_reg_1.read_addr_offset <= read_addr(CACHELINE_ALIGNMENT - 1 downto 2);
-                    c1_c2_pipeline_reg_1.read_addr_tag <= read_addr(ADDR_SIZE_BITS - 1 downto CACHELINE_ALIGNMENT) & std_logic_vector(to_unsigned(0, CACHELINE_ALIGNMENT));
+                    c1_c2_pipeline_reg_1.addr <= read_addr;
                     
                     c2_c3_pipeline_reg_1.cacheline <= cacheline_with_hit;
-                    c2_c3_pipeline_reg_1.read_addr_tag <= c1_c2_pipeline_reg_1.read_addr_tag;
+                    c2_c3_pipeline_reg_1.addr <= c1_c2_pipeline_reg_1.addr;
                     c2_c3_pipeline_reg_1.hit <= i_hit;
-                    c2_c3_pipeline_reg_1.read_addr_offset <= c1_c2_pipeline_reg_1.read_addr_offset;
                 else
                     c2_c3_pipeline_reg_1.hit <= write_en;
                     c2_c3_pipeline_reg_1.cacheline <= cacheline_write;
@@ -200,7 +199,7 @@ begin
                     end loop;
                 else
                     for i in 0 to ASSOCIATIVITY - 1 loop
-                        icache_set_valid(i) <= icache_valid_bits(to_integer(unsigned(c1_c2_pipeline_reg_1.read_addr_tag(RADDR_INDEX_START downto RADDR_INDEX_END))) * ASSOCIATIVITY + i);
+                        icache_set_valid(i) <= icache_valid_bits(to_integer(unsigned(c1_c2_pipeline_reg_1.addr(RADDR_INDEX_START downto RADDR_INDEX_END))) * ASSOCIATIVITY + i);
                     end loop;
                 end if;
                 
@@ -227,7 +226,7 @@ begin
     begin
         for i in 0 to ASSOCIATIVITY - 1 loop
             hit_bits(i) <= '1' when (c1_c2_pipeline_reg_1.valid = '1' and icache_set_valid(i) = '1' and 
-                                     c1_c2_pipeline_reg_1.read_addr_tag(RADDR_TAG_START downto RADDR_TAG_END) = icache_set_out(i)(CACHELINE_TAG_START downto CACHELINE_TAG_END)) 
+                                     c1_c2_pipeline_reg_1.addr(RADDR_TAG_START downto RADDR_TAG_END) = icache_set_out(i)(CACHELINE_TAG_START downto CACHELINE_TAG_END)) 
                                      else '0';
         end loop;
     end process;
@@ -254,10 +253,10 @@ begin
     
     data_out_gen : process(all)
     begin
-        cacheline_read <= c2_c3_pipeline_reg_1.cacheline;
+        cacheline_read_1 <= c2_c3_pipeline_reg_1.cacheline;
         data_read <= (others => '0');
         for j in 0 to ENTRIES_PER_CACHELINE - 1 loop
-            if (to_integer(unsigned(c2_c3_pipeline_reg_1.read_addr_offset)) = j) then
+            if (to_integer(unsigned(c2_c3_pipeline_reg_1.addr(RADDR_OFFSET_START downto RADDR_OFFSET_END))) = j) then
                 data_read <= c2_c3_pipeline_reg_1.cacheline(CACHELINE_DATA_END + ENTRY_SIZE_BYTES * 8 * (j + 1) - 1 downto CACHELINE_DATA_END + ENTRY_SIZE_BYTES * 8 * (j));
             end if;
         end loop;
@@ -265,6 +264,6 @@ begin
     
     hit <= c2_c3_pipeline_reg_1.hit and c2_c3_pipeline_reg_1.valid;
     miss <= not c2_c3_pipeline_reg_1.hit and c2_c3_pipeline_reg_1.valid;
-    miss_cacheline_addr <= c2_c3_pipeline_reg_1.read_addr_tag;
+    miss_cacheline_addr <= c2_c3_pipeline_reg_1.addr(RADDR_TAG_START downto RADDR_INDEX_END) & std_logic_vector(to_unsigned(0, CACHELINE_ALIGNMENT));
     cacheline_valid <= c2_c3_pipeline_reg_1.valid and c2_c3_pipeline_reg_1.hit;
 end rtl;

@@ -179,7 +179,7 @@ begin
                                   ENTRIES_PER_CACHELINE => ICACHE_INSTR_PER_CACHELINE,
                                   ASSOCIATIVITY => ICACHE_ASSOCIATIVITY,
                                   NUM_SETS => ICACHE_NUM_SETS)
-                      port map(cacheline_data_write => fetched_cacheline_data,
+                      port map(cacheline_write_1 => fetched_cacheline_data,
                                data_read => data_out,
                                
                                read_addr => read_addr,

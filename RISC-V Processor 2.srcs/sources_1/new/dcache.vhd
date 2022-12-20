@@ -24,19 +24,28 @@
 
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.MATH_REAL.ALL;
 use WORK.PKG_CPU.ALL;
 
 entity dcache is
     port(
         read_addr_1 : in std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);
+        read_tag_1 : in std_logic_vector(LOAD_QUEUE_TAG_BITS - 1 downto 0);
         read_valid_1 : in std_logic;
-        read_ready_1 : in std_logic;
+        read_ready_1 : out std_logic;
         
         write_addr_1 : in std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);
         write_data_1 : in std_logic_vector(CPU_DATA_WIDTH_BITS - 1 downto 0);
+        write_size_1 : in std_logic_vector(1 downto 0);                         -- 00: 32-bit | 01: 16-bit | 10: 8-bit
+        write_tag_1 : in std_logic_vector(STORE_QUEUE_TAG_BITS - 1 downto 0);
         write_valid_1 : in std_logic;
-        write_ready_1 : in std_logic;
+        write_ready_1 : out std_logic;
         
+        read_miss_1 : out std_logic;
+        read_miss_tag_1 : out std_logic_vector(LOAD_QUEUE_TAG_BITS - 1 downto 0);
+        
+        write_miss_1 : out std_logic;
+        write_miss_tag_1 : out std_logic_vector(STORE_QUEUE_TAG_BITS - 1 downto 0);
     
         clk : in std_logic;
         reset : in std_logic
@@ -44,13 +53,32 @@ entity dcache is
 end dcache;
 
 architecture rtl of dcache is
+    constant ADDR_OFFSET_SIZE : integer := integer(ceil(log2(real(DCACHE_ENTRIES_PER_CACHELINE)))) + 2;
+    constant ADDR_OFFSET_START : integer := integer(ceil(log2(real(DCACHE_ENTRIES_PER_CACHELINE)))) + 2;
+    constant ADDR_OFFSET_END : integer := 0;
+
     type c1_c2_pipeline_reg_type is record
+        --addr_1 : std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);
+        write_size : std_logic_vector(1 downto 0);
+        is_write : std_logic;
         valid : std_logic;
     end record;
     
     type c2_c3_pipeline_reg_type is record
+        --addr_1 : std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);
+        write_size : std_logic_vector(1 downto 0);
+        is_write : std_logic;
         valid : std_logic;
     end record;
+    
+    signal c1_addr : std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);
+
+    signal c3_cacheline_writeback : std_logic_vector(DCACHE_CACHELINE_SIZE - 1 downto 0);
+    signal c3_cacheline : std_logic_vector(DCACHE_CACHELINE_SIZE - 1 downto 0);
+    signal c3_data : std_logic_vector(DCACHE_CACHELINE_SIZE - 1 downto 0);
+
+    signal i_read_ready_1 : std_logic;
+    signal i_write_ready_1 : std_logic;
     
     signal c1_c2_pipeline_reg : c1_c2_pipeline_reg_type;
     signal c2_c3_pipeline_reg : c2_c3_pipeline_reg_type;
@@ -62,30 +90,47 @@ begin
                 c1_c2_pipeline_reg.valid <= '0';
                 c2_c3_pipeline_reg.valid <= '0';
             else
-                c1_c2_pipeline_reg.valid <= (read_valid_1 and read_ready_1) or (write_valid_1 and write_ready_1);
+                c1_c2_pipeline_reg.valid <= (i_read_ready_1) or (i_write_ready_1);
                 c2_c3_pipeline_reg.valid <= c1_c2_pipeline_reg.valid;
+                
+                if (i_read_ready_1 = '1') then
+                    --c1_c2_pipeline_reg.addr_1 <= read_addr_1;
+                elsif (i_write_ready_1 = '1') then
+                    --c1_c2_pipeline_reg.addr_1 <= write_addr_1;
+                else
+                    --c1_c2_pipeline_reg.addr_1 <= (others => '0');
+                end if;
+                
+                c1_c2_pipeline_reg.write_size <= write_size_1;
+                c1_c2_pipeline_reg.is_write <= i_write_ready_1;
+                
+                --c2_c3_pipeline_reg.addr_1 <= c1_c2_pipeline_reg.addr_1;
+                c2_c3_pipeline_reg.write_size <= c1_c2_pipeline_reg.write_size;
+                c2_c3_pipeline_reg.is_write <= c1_c2_pipeline_reg.is_write;
             end if;
         end if;
     end process;
+
+    c1_addr <= read_addr_1 when i_read_ready_1 else write_addr_1;    
 
     cache_bram_inst : entity work.cache(rtl)
                       generic map(ADDR_SIZE_BITS => CPU_ADDR_WIDTH_BITS,
                                   ENTRY_SIZE_BYTES => 4,
                                   ENTRIES_PER_CACHELINE => DCACHE_ENTRIES_PER_CACHELINE,
                                   ASSOCIATIVITY => DCACHE_ASSOCIATIVITY,
-                                  NUM_SETS => DCACHE_NUM_SETS,
-                                  CACHELINE_AS_OUTPUT => true)
-                      port map(cacheline_data_write => ,
-                               data_read => ,
+                                  NUM_SETS => DCACHE_NUM_SETS)
+                      port map(cacheline_write_1 => c3_cacheline_writeback,
+                               cacheline_read_1 => c3_cacheline,
+                               data_read => c3_data,
                                
-                               read_addr => ,
-                               write_addr => ,
+                               read_addr => c1_addr,
+                               write_addr => c2_c3_pipeline_reg.addr_1,
                                
-                               read_en => ,
-                               write_en => ,
+                               read_en => i_read_ready_1 or i_write_ready_1,
+                               write_en => c2_c3_pipeline_reg.is_write,
                                
-                               clear_pipeline => ,
-                               stall => ,
+                               clear_pipeline => '0',
+                               stall => '0',
                                
                                hit => ,
                                miss => ,
@@ -94,5 +139,11 @@ begin
                                
                                clk => clk,
                                reset => reset);
+                               
+    i_read_ready_1 <= read_valid_1;
+    i_write_ready_1 <= write_valid_1 and not read_valid_1;
+    
+    read_ready_1 <= i_read_ready_1;
+    write_ready_1 <= i_write_ready_1;
 
 end rtl;
