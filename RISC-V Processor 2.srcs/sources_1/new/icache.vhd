@@ -178,11 +178,17 @@ begin
                                   ENTRY_SIZE_BYTES => 4,
                                   ENTRIES_PER_CACHELINE => ICACHE_INSTR_PER_CACHELINE,
                                   ASSOCIATIVITY => ICACHE_ASSOCIATIVITY,
-                                  NUM_SETS => ICACHE_NUM_SETS)
+                                  NUM_SETS => ICACHE_NUM_SETS,
+                                  
+                                  ENABLE_WRITES => 0,
+                                  ENABLE_FORWARDING => 1)
                       port map(cacheline_write_1 => fetched_cacheline_data,
                                data_read => data_out,
                                
-                               read_addr => read_addr,
+                               addr_1 => read_addr,
+                               data_1 => (others => '0'),
+                               is_write => '0',
+                               write_size => (others => '0'),
                                write_addr => icache_miss_cacheline_addr_reg,
                                
                                read_en => read_en,
