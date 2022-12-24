@@ -132,9 +132,8 @@ architecture rtl of cache is
     signal c1_c2_pipeline_reg_1 : c1_c2_pipeline_reg_type;
     signal c2_c3_pipeline_reg_1 : c2_c3_pipeline_reg_type;
 begin
-    cacheline_update_en <= write_en;
-    
     cacheline_write_gen_on : if ENABLE_WRITES = 1 generate
+        cacheline_update_en <= write_en or c2_c3_pipeline_reg_1.is_write;
         process(all)
         begin
             if (c2_c3_pipeline_reg_1.is_write = '0') then
@@ -146,6 +145,7 @@ begin
     end generate;
     
     cacheline_write_gen_off : if ENABLE_WRITES = 0 generate
+        cacheline_update_en <= write_en;
         cacheline_write <= write_addr(RADDR_TAG_START downto RADDR_TAG_END) & cacheline_write_1;
     end generate;
 
@@ -190,7 +190,7 @@ begin
                     c1_c2_pipeline_reg_1.valid <= '0';
                     c2_c3_pipeline_reg_1.valid <= '0';
                 elsif (stall = '0') then
-                    c1_c2_pipeline_reg_1.valid <= read_en;
+                    c1_c2_pipeline_reg_1.valid <= read_en or write_en;
                     c2_c3_pipeline_reg_1.valid <= c1_c2_pipeline_reg_1.valid;
                 end if;
                 
@@ -287,13 +287,13 @@ begin
         begin
             cacheline_update <= c2_c3_pipeline_reg_1.cacheline;
             if (write_size = "00") then
-                cacheline_update(to_integer(unsigned((c2_c3_pipeline_reg_1.addr(CACHELINE_ALIGNMENT - 1 downto 0))) + 1) * 8 downto to_integer(unsigned(c2_c3_pipeline_reg_1.addr(CACHELINE_ALIGNMENT - 1 downto 0))) * 8)
+                cacheline_update((to_integer(unsigned((c2_c3_pipeline_reg_1.addr(CACHELINE_ALIGNMENT - 1 downto 0)))) + 1) * 8 - 1 downto to_integer(unsigned(c2_c3_pipeline_reg_1.addr(CACHELINE_ALIGNMENT - 1 downto 0))) * 8)
                     <= c2_c3_pipeline_reg_1.data(7 downto 0);
             elsif (write_size = "01") then
-                cacheline_update(to_integer(unsigned((c2_c3_pipeline_reg_1.addr(CACHELINE_ALIGNMENT - 1 downto 0))) + 1) * 16 downto to_integer(unsigned(c2_c3_pipeline_reg_1.addr(CACHELINE_ALIGNMENT - 1 downto 0))) * 16)
+                cacheline_update((to_integer(unsigned((c2_c3_pipeline_reg_1.addr(CACHELINE_ALIGNMENT - 1 downto 0)))) + 1) * 16 - 1 downto to_integer(unsigned(c2_c3_pipeline_reg_1.addr(CACHELINE_ALIGNMENT - 1 downto 0))) * 16)
                     <= c2_c3_pipeline_reg_1.data(15 downto 0);
             elsif (write_size = "10") then
-                cacheline_update(to_integer(unsigned((c2_c3_pipeline_reg_1.addr(CACHELINE_ALIGNMENT - 1 downto 0))) + 1) * 32 downto to_integer(unsigned(c2_c3_pipeline_reg_1.addr(CACHELINE_ALIGNMENT - 1 downto 0))) * 32)
+                cacheline_update((to_integer(unsigned((c2_c3_pipeline_reg_1.addr(CACHELINE_ALIGNMENT - 1 downto 0)))) + 1) * 32 - 1 downto to_integer(unsigned(c2_c3_pipeline_reg_1.addr(CACHELINE_ALIGNMENT - 1 downto 0))) * 32)
                     <= c2_c3_pipeline_reg_1.data(31 downto 0);
             end if;
         end process;
