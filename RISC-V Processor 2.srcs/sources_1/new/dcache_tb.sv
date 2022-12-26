@@ -27,7 +27,7 @@ module dcache_tb(
     logic[153:0] cacheline_read;
     logic[31:0] data_read, addr_1, data_1, write_addr, miss_cacheline_addr, bus_data_read, bus_addr_read;
     logic is_write, clear_pipeline, stall, valid_1, hit, miss, cacheline_valid, clk, reset, bus_ackr, bus_stbr;
-    logic[1:0] write_size;
+    logic[1:0] write_size_1;
     reg [31:0] mem[15:0];
    
     cache #(.ADDR_SIZE_BITS(32),
@@ -48,7 +48,7 @@ module dcache_tb(
               .addr_1(addr_1),
               .data_1(data_1),
               .is_write_1(is_write),
-              .write_size_1(write_size),
+              .write_size_1(write_size_1),
               .clear_pipeline(clear_pipeline),
               .stall(stall),
               .valid_1(valid_1),
@@ -86,16 +86,18 @@ module dcache_tb(
         #1;
     endtask;
     
-    task t_write_req(input [31:0] addr, input [31:0] data);
+    task t_write_req(input [31:0] addr, input [31:0] data, input [1:0] write_size);
         addr_1 = addr;
         data_1 = data;
         is_write = 1;
         valid_1 = 1;
+        write_size_1 = write_size;
         @(posedge clk);
         #1;
         is_write = 0;
         valid_1 = 0;
         addr_1 = 0;
+        write_size_1 = 0;
         @(posedge clk);
         #1;
         @(posedge clk);
@@ -114,10 +116,10 @@ module dcache_tb(
         t_read_req('h0000_0008, 'h0000_0000, 0);
         t_read_req('h0000_000C, 'h0000_0000, 0);
         
-        t_write_req('h0000_0000, 'h0000_FFFF);
-        t_write_req('h0000_0004, 'h0000_FFFF);
-        t_write_req('h0000_0008, 'h0000_FFFF);
-        t_write_req('h0000_000C, 'h0000_FFFF);
+        t_write_req('h0000_0000, 'hF0F0_F0F0, 'b10);
+        t_write_req('h0000_0004, 'hF0F0_F0F0, 'b10);
+        t_write_req('h0000_0008, 'hF0F0_F0F0, 'b10);
+        t_write_req('h0000_000C, 'hF0F0_F0F0, 'b10);
     endtask;
     
     initial begin
@@ -128,7 +130,7 @@ module dcache_tb(
         write_addr = 0;
         valid_1 = 0;
         clear_pipeline = 0;
-        write_size = 0;
+        write_size_1 = 0;
         
         t_reset();
         t_run();
