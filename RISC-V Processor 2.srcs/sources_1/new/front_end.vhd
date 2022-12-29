@@ -28,6 +28,7 @@ library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
 use WORK.PKG_CPU.ALL;
+use STD.TEXTIO.ALL;
 
 entity front_end is
     port(
@@ -67,6 +68,30 @@ entity front_end is
 end front_end;
 
 architecture Structural of front_end is
+    -- DEBUG 
+    type ram_type is array (2 ** 12 - 1 downto 0) of std_logic_vector (32 - 1 downto 0);
+
+    impure function init_ram_hex return ram_type is
+        file text_file : text open read_mode is "../../../firmware.hex";
+        variable text_line : line;
+        variable ram_content : ram_type;
+        variable temp : std_logic_vector(31 downto 0);
+        begin
+            for i in 0 to 2 ** 12 - 1 loop
+                readline(text_file, text_line);
+                hread(text_line, temp);
+
+                ram_content(i) := temp;
+				--for j in 0 to 3 loop
+                --    ram_content(i)(8 * (j + 1) - 1 downto 8 * j) := temp(8 * (4 - j) - 1 downto 8 * (3 - j));
+                --end loop;
+            end loop;    
+ 
+        return ram_content;
+    end function;
+
+    signal progmem_debug : ram_type := init_ram_hex;
+
     -- PIPELINE
     signal f1_f2_pipeline_reg : f1_f2_pipeline_reg_type;
     signal f1_f2_pipeline_reg_next : f1_f2_pipeline_reg_type;
@@ -298,6 +323,14 @@ begin
     perf_bc_empty <= d1_bc_empty;
     
     -- DEBUG!!!!
+    process(all)
+    begin
+        if f3_d1_pipeline_reg.valid = '1' then
+            assert f3_d1_pipeline_reg.instruction = progmem_debug(to_integer(unsigned(f3_d1_pipeline_reg.pc(14 downto 2)))) report "Instruction fetch mismatch!" severity failure;
+        end if;
+    end process;
+     
+    
     debug_sv_immediate <= decoded_uop.immediate;
     debug_sv_pc <= decoded_uop.pc;
     debug_f2_d1_pc <= f3_d1_pipeline_reg.pc;

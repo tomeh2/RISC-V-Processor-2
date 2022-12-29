@@ -58,6 +58,7 @@ entity cache is
                              
         clear_pipeline : in std_logic;       
         stall : in std_logic;
+        stall_o : out std_logic;
         
         hit : out std_logic;
         miss : out std_logic;
@@ -111,12 +112,14 @@ architecture rtl of cache is
     signal cacheline_update_sel : std_logic_vector(ASSOCIATIVITY - 1 downto 0);
     signal cacheline_update_sel_delayed : std_logic_vector(ASSOCIATIVITY - 1 downto 0);
 
+    signal cbc_fwd_en : std_logic;
     signal cbc_writeback_cacheline : std_logic_vector(CACHELINE_SIZE - TAG_SIZE - 1 downto 0);
     signal cbc_writeback_addr : std_logic_vector(ADDR_SIZE_BITS - 1 downto 0);
     signal cbc_writeback_en : std_logic;
     signal cbc_loader_busy : std_logic;
 
     signal addr_read_cache : std_logic_vector(INDEX_SIZE - 1 downto 0);
+    signal addr_write_cache : std_logic_vector(INDEX_SIZE - 1 downto 0);
     
     type c1_c2_pipeline_reg_type is record
         valid : std_logic;
@@ -160,6 +163,8 @@ begin
                                          cache_writeback_addr => cbc_writeback_addr,
                                          cache_writeback_cacheline => cbc_writeback_cacheline,
                                          
+                                         fwd_en => cbc_fwd_en,
+                                         
                                          clk => clk,
                                          reset => reset);
 
@@ -172,21 +177,38 @@ begin
     end generate;
 
     cacheline_write_gen_on : if ENABLE_WRITES = 1 generate
-        
-        cacheline_update_en <= cbc_writeback_en or c2_c3_pipeline_reg_1.is_write_1;
+        cacheline_update_en <= cbc_writeback_en or (c2_c3_pipeline_reg_1.is_write_1 and c2_c3_pipeline_reg_1.valid);
         process(all)
         begin
             if (c2_c3_pipeline_reg_1.is_write_1 = '0') then
+                addr_write_cache <= cbc_writeback_addr(RADDR_INDEX_START downto RADDR_INDEX_END);
                 i_write_set_select <= cacheline_update_sel;
                 cacheline_write <= cbc_writeback_addr(RADDR_TAG_START downto RADDR_TAG_END) & cbc_writeback_cacheline;
             else 
+                addr_write_cache <= c2_c3_pipeline_reg_1.addr(RADDR_INDEX_START downto RADDR_INDEX_END);
                 i_write_set_select <= c2_c3_pipeline_reg_1.hit_mask;
                 cacheline_write <= cacheline_update;
+            end if;
+        end process;
+        
+        cacheline_update_proc : process(all)
+        begin
+            cacheline_update <= c2_c3_pipeline_reg_1.cacheline;
+            if (c2_c3_pipeline_reg_1.write_size_1 = "00") then
+                cacheline_update((to_integer(unsigned((c2_c3_pipeline_reg_1.addr(CACHELINE_ALIGNMENT - 1 downto 0)))) + 1) * 8 - 1 downto to_integer(unsigned(c2_c3_pipeline_reg_1.addr(CACHELINE_ALIGNMENT - 1 downto 0))) * 8)
+                    <= c2_c3_pipeline_reg_1.data(7 downto 0);
+            elsif (c2_c3_pipeline_reg_1.write_size_1 = "01") then
+                cacheline_update((to_integer(unsigned((c2_c3_pipeline_reg_1.addr(CACHELINE_ALIGNMENT - 1 downto 1)))) + 1) * 16 - 1 downto to_integer(unsigned(c2_c3_pipeline_reg_1.addr(CACHELINE_ALIGNMENT - 1 downto 1))) * 16)
+                    <= c2_c3_pipeline_reg_1.data(15 downto 0);
+            elsif (c2_c3_pipeline_reg_1.write_size_1 = "10") then
+                cacheline_update((to_integer(unsigned((c2_c3_pipeline_reg_1.addr(CACHELINE_ALIGNMENT - 1 downto 2)))) + 1) * 32 - 1 downto to_integer(unsigned(c2_c3_pipeline_reg_1.addr(CACHELINE_ALIGNMENT - 1 downto 2))) * 32)
+                    <= c2_c3_pipeline_reg_1.data(31 downto 0);
             end if;
         end process;
     end generate;
     
     cacheline_write_gen_off : if ENABLE_WRITES = 0 generate
+        addr_write_cache <= cbc_writeback_addr(RADDR_INDEX_START downto RADDR_INDEX_END);
         i_write_set_select <= cacheline_update_sel;
         cacheline_update_en <= cbc_writeback_en;
         cacheline_write <= cbc_writeback_addr(RADDR_TAG_START downto RADDR_TAG_END) & cbc_writeback_cacheline;
@@ -200,7 +222,7 @@ begin
                              q => icache_set_out_bram(i),
                                
                              addr_read => addr_read_cache,
-                             addr_write => cbc_writeback_addr(RADDR_INDEX_START downto RADDR_INDEX_END),
+                             addr_write => addr_write_cache,
                                 
                              read_en => valid_1,
                              write_en => i_write_set_select(i) and cacheline_update_en,
@@ -252,8 +274,10 @@ begin
                     c2_c3_pipeline_reg_1.data <= c1_c2_pipeline_reg_1.data;
                 else
                     if (ENABLE_FORWARDING = 1) then
-                        c2_c3_pipeline_reg_1.hit <= cbc_writeback_en;
-                        c2_c3_pipeline_reg_1.cacheline <= cacheline_write;
+                        if (cbc_fwd_en = '1' and c2_c3_pipeline_reg_1.addr(RADDR_TAG_START downto RADDR_INDEX_END) = cbc_writeback_addr(RADDR_TAG_START downto RADDR_INDEX_END)) then
+                            c2_c3_pipeline_reg_1.hit <= '1';
+                            c2_c3_pipeline_reg_1.cacheline <= cacheline_write;
+                        end if;
                     end if;
                 end if; 
                 cacheline_update_en_delayed <= cacheline_update_en;
@@ -300,7 +324,7 @@ begin
     hit_detector_proc : process(all)
     begin
         for i in 0 to ASSOCIATIVITY - 1 loop
-            hit_bits(i) <= '1' when (c1_c2_pipeline_reg_1.valid = '1' and icache_set_valid(i) = '1' and 
+            hit_bits(i) <= '1' when (c1_c2_pipeline_reg_1.valid = '1' and (icache_set_valid(i) = '1') and 
                                      c1_c2_pipeline_reg_1.addr(RADDR_TAG_START downto RADDR_TAG_END) = icache_set_out(i)(CACHELINE_TAG_START downto CACHELINE_TAG_END)) 
                                      else '0';
         end loop;
@@ -326,23 +350,6 @@ begin
         end loop; 
     end process;
     
-    enable_writes_gen : if ENABLE_WRITES = 1 generate
-        cacheline_update_proc : process(all)
-        begin
-            cacheline_update <= c2_c3_pipeline_reg_1.cacheline;
-            if (c2_c3_pipeline_reg_1.write_size_1 = "00") then
-                cacheline_update((to_integer(unsigned((c2_c3_pipeline_reg_1.addr(CACHELINE_ALIGNMENT - 1 downto 0)))) + 1) * 8 - 1 downto to_integer(unsigned(c2_c3_pipeline_reg_1.addr(CACHELINE_ALIGNMENT - 1 downto 0))) * 8)
-                    <= c2_c3_pipeline_reg_1.data(7 downto 0);
-            elsif (c2_c3_pipeline_reg_1.write_size_1 = "01") then
-                cacheline_update((to_integer(unsigned((c2_c3_pipeline_reg_1.addr(CACHELINE_ALIGNMENT - 1 downto 1)))) + 1) * 16 - 1 downto to_integer(unsigned(c2_c3_pipeline_reg_1.addr(CACHELINE_ALIGNMENT - 1 downto 1))) * 16)
-                    <= c2_c3_pipeline_reg_1.data(15 downto 0);
-            elsif (c2_c3_pipeline_reg_1.write_size_1 = "10") then
-                cacheline_update((to_integer(unsigned((c2_c3_pipeline_reg_1.addr(CACHELINE_ALIGNMENT - 1 downto 2)))) + 1) * 32 - 1 downto to_integer(unsigned(c2_c3_pipeline_reg_1.addr(CACHELINE_ALIGNMENT - 1 downto 2))) * 32)
-                    <= c2_c3_pipeline_reg_1.data(31 downto 0);
-            end if;
-        end process;
-    end generate;
-    
     data_out_gen : process(all)
     begin
         cacheline_read_1 <= c2_c3_pipeline_reg_1.cacheline;
@@ -356,5 +363,6 @@ begin
     
     hit <= c2_c3_pipeline_reg_1.hit and c2_c3_pipeline_reg_1.valid;
     miss <= not c2_c3_pipeline_reg_1.hit and c2_c3_pipeline_reg_1.valid;
+    stall_o <= cbc_loader_busy;
     cacheline_valid <= c2_c3_pipeline_reg_1.valid and c2_c3_pipeline_reg_1.hit;
 end rtl;

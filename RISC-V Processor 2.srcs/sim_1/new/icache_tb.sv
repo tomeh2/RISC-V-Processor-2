@@ -29,6 +29,9 @@ module icache_tb(
         @(negedge clk)
         read_addr = addr;
         read_en = 1;
+        @(posedge clk)
+        #1;
+        read_en = 0;
         wait (hit == 1)
         @(negedge clk)
         read_en = 0;

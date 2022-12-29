@@ -67,6 +67,8 @@ architecture rtl of icache is
     signal cacheline_update_en : std_logic;
     -- ==================== BUS SIGNALS ====================
     signal i_bus_addr_read : std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);
+    signal i_miss : std_logic;
+    signal i_stall : std_logic;
     
     type bus_read_state_type is (IDLE,
                                 BUSY,
@@ -82,94 +84,94 @@ architecture rtl of icache is
     -- =====================================================
 begin
     -- ==================== BUS SIDE LOGIC ====================
-    bus_addr_read_cntrl : process(clk)
-    begin
-        if (rising_edge(clk)) then
-            if (reset = '1') then
-                i_bus_addr_read <= (others => '0');
-                icache_miss_cacheline_addr_reg <= (others => '0');
-            else
-                if (bus_read_state = IDLE and icache_miss = '1') then
-                    i_bus_addr_read <= icache_miss_cacheline_addr;--(CPU_ADDR_WIDTH_BITS - 1 downto CACHELINE_ALIGNMENT) & std_logic_vector(to_unsigned(0, CACHELINE_ALIGNMENT));
-                    icache_miss_cacheline_addr_reg <= icache_miss_cacheline_addr;
-                elsif (bus_ackr = '1') then
-                    i_bus_addr_read <= std_logic_vector(unsigned(i_bus_addr_read) + 4);
-                end if;
-            end if;
-        end if;
-    end process;
+--    bus_addr_read_cntrl : process(clk)
+--    begin
+--        if (rising_edge(clk)) then
+--            if (reset = '1') then
+--                i_bus_addr_read <= (others => '0');
+--                icache_miss_cacheline_addr_reg <= (others => '0');
+--            else
+--                if (bus_read_state = IDLE and icache_miss = '1') then
+--                    i_bus_addr_read <= icache_miss_cacheline_addr;--(CPU_ADDR_WIDTH_BITS - 1 downto CACHELINE_ALIGNMENT) & std_logic_vector(to_unsigned(0, CACHELINE_ALIGNMENT));
+--                    icache_miss_cacheline_addr_reg <= icache_miss_cacheline_addr;
+--                elsif (bus_ackr = '1') then
+--                    i_bus_addr_read <= std_logic_vector(unsigned(i_bus_addr_read) + 4);
+--                end if;
+--            end if;
+--        end if;
+--    end process;
     
-    bus_read_sm_state_reg_cntrl : process(clk)
-    begin
-        if (rising_edge(clk)) then
-            if (reset = '1') then
-                bus_read_state <= IDLE;
-            else
-                bus_read_state <= bus_read_state_next;
-            end if;
-        end if;
-    end process;
+--    bus_read_sm_state_reg_cntrl : process(clk)
+--    begin
+--        if (rising_edge(clk)) then
+--            if (reset = '1') then
+--                bus_read_state <= IDLE;
+--            else
+--                bus_read_state <= bus_read_state_next;
+--            end if;
+--        end if;
+--    end process;
     
-    bus_read_sm_next_state : process(all)
-    begin
-        if (bus_read_state = IDLE) then
-            if (icache_miss = '1' and read_cancel = '0' and read_en = '1') then
-                bus_read_state_next <= BUSY;
-            else
-                bus_read_state_next <= IDLE;
-            end if;
-        elsif (bus_read_state = BUSY) then
-            if (read_cancel = '1') then
-                bus_read_state_next <= IDLE;
-            elsif (fetched_instrs_counter = ICACHE_INSTR_PER_CACHELINE - 1 and bus_ackr = '1') then
-                bus_read_state_next <= CACHE_WRITE;
-            else
-                bus_read_state_next <= BUSY;
-            end if;
-        elsif (bus_read_state = CACHE_WRITE) then
-            bus_read_state_next <= IDLE;
-        end if;
-    end process;
+--    bus_read_sm_next_state : process(all)
+--    begin
+--        if (bus_read_state = IDLE) then
+--            if (icache_miss = '1' and read_cancel = '0' and read_en = '1') then
+--                bus_read_state_next <= BUSY;
+--            else
+--                bus_read_state_next <= IDLE;
+--            end if;
+--        elsif (bus_read_state = BUSY) then
+--            if (read_cancel = '1') then
+--                bus_read_state_next <= IDLE;
+--            elsif (fetched_instrs_counter = ICACHE_INSTR_PER_CACHELINE - 1 and bus_ackr = '1') then
+--                bus_read_state_next <= CACHE_WRITE;
+--            else
+--                bus_read_state_next <= BUSY;
+--            end if;
+--        elsif (bus_read_state = CACHE_WRITE) then
+--            bus_read_state_next <= IDLE;
+--        end if;
+--    end process;
     
-    bus_read_sm_actions : process(all)
-    begin
-        cacheline_update_en <= '0';
-        bus_stbr <= '0';
-        loader_busy <= '1';
+--    bus_read_sm_actions : process(all)
+--    begin
+--        cacheline_update_en <= '0';
+--        bus_stbr <= '0';
+--        loader_busy <= '1';
 
-        if (bus_read_state = IDLE) then
-           loader_busy <= '0';
-        elsif (bus_read_state = BUSY) then
-            bus_stbr <= '1';
-        elsif (bus_read_state = CACHE_WRITE) then
-            cacheline_update_en <= not read_cancel;
-        end if;
-    end process;
+--        if (bus_read_state = IDLE) then
+--           loader_busy <= '0';
+--        elsif (bus_read_state = BUSY) then
+--            bus_stbr <= '1';
+--        elsif (bus_read_state = CACHE_WRITE) then
+--            cacheline_update_en <= not read_cancel;
+--        end if;
+--    end process;
     
-    fetched_cacheline_cntrl : process(clk)
-    begin
-        if (rising_edge(clk)) then
-            if (bus_read_state = BUSY and bus_ackr = '1') then
-                fetched_cacheline_data(32 * (to_integer(fetched_instrs_counter) + 1) - 1 downto 32 * to_integer(fetched_instrs_counter)) <= bus_data_read;
-            end if;
-        end if;
-    end process;
+--    fetched_cacheline_cntrl : process(clk)
+--    begin
+--        if (rising_edge(clk)) then
+--            if (bus_read_state = BUSY and bus_ackr = '1') then
+--                fetched_cacheline_data(32 * (to_integer(fetched_instrs_counter) + 1) - 1 downto 32 * to_integer(fetched_instrs_counter)) <= bus_data_read;
+--            end if;
+--        end if;
+--    end process;
     
-    fetched_instrs_counter_cntrl : process(clk)
-    begin
-        if (rising_edge(clk)) then
-            if (bus_read_state = IDLE) then
-                fetched_instrs_counter <= (others => '0');
-            elsif (bus_read_state = BUSY and bus_ackr = '1') then
-                fetched_instrs_counter <= fetched_instrs_counter + 1;
-            end if;
-        end if;
-    end process;
+--    fetched_instrs_counter_cntrl : process(clk)
+--    begin
+--        if (rising_edge(clk)) then
+--            if (bus_read_state = IDLE) then
+--                fetched_instrs_counter <= (others => '0');
+--            elsif (bus_read_state = BUSY and bus_ackr = '1') then
+--                fetched_instrs_counter <= fetched_instrs_counter + 1;
+--            end if;
+--        end if;
+--    end process;
     
-    bus_addr_read <= i_bus_addr_read;
+--    bus_addr_read <= i_bus_addr_read;
     
-    miss <= icache_miss;
-    fetching <= '1' when bus_read_state /= IDLE or bus_read_state_next /= IDLE else '0';
+--    miss <= icache_miss;
+--    fetching <= '1' when bus_read_state /= IDLE or bus_read_state_next /= IDLE else '0';
     -- ========================================================
     
     -- ==================== CACHE LOGIC ====================
@@ -181,29 +183,34 @@ begin
                                   NUM_SETS => ICACHE_NUM_SETS,
                                   
                                   ENABLE_WRITES => 0,
-                                  ENABLE_FORWARDING => 1)
-                      port map(cacheline_write_1 => fetched_cacheline_data,
+                                  ENABLE_FORWARDING => 1,
+                                  IS_BLOCKING => 1)
+                      port map(bus_data_read => bus_data_read,
+                               bus_addr_read => bus_addr_read,
+                               bus_stbr => bus_stbr,
+                               bus_ackr => bus_ackr,
+                      
                                data_read => data_out,
                                
                                addr_1 => read_addr,
                                data_1 => (others => '0'),
-                               is_write => '0',
-                               write_size => (others => '0'),
-                               write_addr => icache_miss_cacheline_addr_reg,
-                               
-                               read_en => read_en,
-                               write_en => cacheline_update_en,
+                               is_write_1 => '0',
+                               write_size_1 => (others => '0'),
+                               valid_1 => read_en,
                                
                                clear_pipeline => read_cancel,
                                stall => stall,
+                               stall_o => i_stall,
                                
                                hit => hit,
-                               miss => icache_miss,
-                               miss_cacheline_addr => icache_miss_cacheline_addr,
+                               miss => i_miss,
                                cacheline_valid => data_valid,
                                
                                clk => clk,
                                reset => reset);
+                               
+    miss <= i_miss;
+    fetching <= i_stall;
 end rtl;
 
 

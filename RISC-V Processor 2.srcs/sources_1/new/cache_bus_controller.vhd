@@ -45,6 +45,8 @@ entity cache_bus_controller is
         cache_writeback_addr : out std_logic_vector(ADDR_SIZE - 1 downto 0);
         cache_writeback_cacheline : out std_logic_vector(ENTRY_SIZE_BYTES * 8 * ENTRIES_PER_CACHELINE - 1 downto 0);
         
+        fwd_en : out std_logic;
+        
         clk : in std_logic;
         reset : in std_logic
     );
@@ -55,7 +57,8 @@ architecture rtl of cache_bus_controller is
 
     type bus_read_state_type is (IDLE,
                                  BUSY,
-                                 WRITEBACK);
+                                 WRITEBACK,
+                                 DELAY_CYCLE);
                                  
     signal bus_read_state : bus_read_state_type;
     signal bus_read_state_next : bus_read_state_type;
@@ -100,7 +103,7 @@ begin
     bus_read_sm_next_state : process(all)
     begin
         if (bus_read_state = IDLE) then
-            if (load_en = '1') then
+            if (load_en = '1' and load_cancel = '0') then
                 bus_read_state_next <= BUSY;
             else
                 bus_read_state_next <= IDLE;
@@ -114,6 +117,12 @@ begin
                 bus_read_state_next <= BUSY;
             end if;
         elsif (bus_read_state = WRITEBACK) then
+            if (load_cancel = '1') then
+                bus_read_state_next <= IDLE;
+            else
+                bus_read_state_next <= DELAY_CYCLE;
+            end if;
+        elsif (bus_read_state = DELAY_CYCLE) then
             bus_read_state_next <= IDLE;
         end if;
     end process;
@@ -122,6 +131,7 @@ begin
     begin
         cache_writeback_en <= '0';
         bus_stbr <= '0';
+        fwd_en <= '0';
 
         if (bus_read_state = IDLE) then
 
@@ -129,6 +139,8 @@ begin
             bus_stbr <= '1';
         elsif (bus_read_state = WRITEBACK) then
             cache_writeback_en <= not load_cancel;
+        elsif (bus_read_state = DELAY_CYCLE) then
+            fwd_en <= '1';
         end if;
     end process;
     
