@@ -142,14 +142,14 @@ begin
                                 debug_reg_3_data => debug_reg_3_data,
                                 debug_reg_4_data => debug_reg_4_data,
                        
-                                bus_addr_read => bus_addr_read_ee,
-                                bus_addr_write => bus_addr_write,
-                                bus_data_read => bus_data_read,
-                                bus_data_write => bus_data_write,
-                                bus_stbr => bus_stbr_ee,
-                                bus_stbw => bus_stbw,
-                                bus_ackr => bus_ackr_ee,
-                                bus_ackw => bus_ackw,
+--                                bus_addr_read => bus_addr_read_ee,
+--                                bus_addr_write => bus_addr_write,
+--                                bus_data_read => bus_data_read,
+--                                bus_data_write => bus_data_write,
+--                                bus_stbr => bus_stbr_ee,
+--                                bus_stbw => bus_stbw,
+--                                bus_ackr => bus_ackr_ee,
+--                                bus_ackw => bus_ackw,
 
                                 cdb_out => cdb,
                                    
@@ -169,6 +169,40 @@ begin
                                 next_uop => uop_ee_in,
                                 clk => clk,
                                 reset => reset);
+
+    dcache_inst : entity work.cache(rtl)
+                      generic map(ADDR_SIZE_BITS => CPU_ADDR_WIDTH_BITS,
+                                  ENTRY_SIZE_BYTES => 4,
+                                  ENTRIES_PER_CACHELINE => DCACHE_ENTRIES_PER_CACHELINE,
+                                  ASSOCIATIVITY => DCACHE_ASSOCIATIVITY,
+                                  NUM_SETS => DCACHE_NUM_SETS,
+                                  
+                                  ENABLE_WRITES => 1,
+                                  ENABLE_FORWARDING => 0,
+                                  IS_BLOCKING => 0)
+                      port map(bus_data_read => bus_data_read,
+                               bus_addr_read => bus_addr_read_ee,
+                               bus_stbr => bus_stbr_ee,
+                               bus_ackr => bus_ackr_ee,
+                      
+                               data_read => ,
+                               
+                               addr_1 => ,
+                               data_1 => ,
+                               is_write_1 => ,
+                               write_size_1 => ,
+                               valid_1 => ,
+                               
+                               clear_pipeline => '0',
+                               stall => '0',
+                               stall_o => open,
+                               
+                               hit => ,
+                               miss => ,
+                               cacheline_valid => ,
+                               
+                               clk => clk,
+                               reset => reset);
 
     process(all)
     begin
