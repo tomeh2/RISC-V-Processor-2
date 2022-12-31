@@ -7,19 +7,20 @@
          <top_modules>
             <top_module name="dcache_tb" />
             <top_module name="glbl" />
+            <top_module name="pkg_cpu" />
          </top_modules>
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="0.000 ns"></ZoomStartTime>
-      <ZoomEndTime time="617.148 ns"></ZoomEndTime>
-      <Cursor1Time time="301.904 ns"></Cursor1Time>
+      <ZoomStartTime time="859.999 ns"></ZoomStartTime>
+      <ZoomEndTime time="1,159.759 ns"></ZoomEndTime>
+      <Cursor1Time time="1,122.024 ns"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
-      <NameColumnWidth column_width="530"></NameColumnWidth>
-      <ValueColumnWidth column_width="262"></ValueColumnWidth>
+      <NameColumnWidth column_width="550"></NameColumnWidth>
+      <ValueColumnWidth column_width="271"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="24" />
+   <WVObjectSize size="28" />
    <wvobject fp_name="/dcache_tb/clk" type="logic">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
@@ -28,214 +29,127 @@
       <obj_property name="ElementShortName">reset</obj_property>
       <obj_property name="ObjectShortName">reset</obj_property>
    </wvobject>
-   <wvobject fp_name="/dcache_tb/cacheline_read" type="array">
-      <obj_property name="ElementShortName">cacheline_read[153:0]</obj_property>
-      <obj_property name="ObjectShortName">cacheline_read[153:0]</obj_property>
+   <wvobject fp_name="/dcache_tb/uut/read_addr_1" type="array">
+      <obj_property name="ElementShortName">read_addr_1[31:0]</obj_property>
+      <obj_property name="ObjectShortName">read_addr_1[31:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/dcache_tb/data_read" type="array">
-      <obj_property name="ElementShortName">data_read[31:0]</obj_property>
-      <obj_property name="ObjectShortName">data_read[31:0]</obj_property>
+   <wvobject fp_name="/dcache_tb/uut/read_tag_1" type="array">
+      <obj_property name="ElementShortName">read_tag_1[1:0]</obj_property>
+      <obj_property name="ObjectShortName">read_tag_1[1:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/dcache_tb/addr_1" type="array">
-      <obj_property name="ElementShortName">addr_1[31:0]</obj_property>
-      <obj_property name="ObjectShortName">addr_1[31:0]</obj_property>
+   <wvobject fp_name="/dcache_tb/uut/read_valid_1" type="logic">
+      <obj_property name="ElementShortName">read_valid_1</obj_property>
+      <obj_property name="ObjectShortName">read_valid_1</obj_property>
    </wvobject>
-   <wvobject fp_name="/dcache_tb/data_1" type="array">
-      <obj_property name="ElementShortName">data_1[31:0]</obj_property>
-      <obj_property name="ObjectShortName">data_1[31:0]</obj_property>
+   <wvobject fp_name="/dcache_tb/uut/read_ready_1" type="logic">
+      <obj_property name="ElementShortName">read_ready_1</obj_property>
+      <obj_property name="ObjectShortName">read_ready_1</obj_property>
    </wvobject>
-   <wvobject fp_name="/dcache_tb/write_addr" type="array">
-      <obj_property name="ElementShortName">write_addr[31:0]</obj_property>
-      <obj_property name="ObjectShortName">write_addr[31:0]</obj_property>
+   <wvobject fp_name="/dcache_tb/uut/read_data_out_1" type="array">
+      <obj_property name="ElementShortName">read_data_out_1[31:0]</obj_property>
+      <obj_property name="ObjectShortName">read_data_out_1[31:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/dcache_tb/miss_cacheline_addr" type="array">
-      <obj_property name="ElementShortName">miss_cacheline_addr[31:0]</obj_property>
-      <obj_property name="ObjectShortName">miss_cacheline_addr[31:0]</obj_property>
+   <wvobject fp_name="/dcache_tb/uut/read_hit_1" type="logic">
+      <obj_property name="ElementShortName">read_hit_1</obj_property>
+      <obj_property name="ObjectShortName">read_hit_1</obj_property>
    </wvobject>
-   <wvobject fp_name="/dcache_tb/bus_data_read" type="array">
-      <obj_property name="ElementShortName">bus_data_read[31:0]</obj_property>
-      <obj_property name="ObjectShortName">bus_data_read[31:0]</obj_property>
+   <wvobject fp_name="/dcache_tb/uut/read_miss_1" type="logic">
+      <obj_property name="ElementShortName">read_miss_1</obj_property>
+      <obj_property name="ObjectShortName">read_miss_1</obj_property>
    </wvobject>
-   <wvobject fp_name="/dcache_tb/bus_addr_read" type="array">
-      <obj_property name="ElementShortName">bus_addr_read[31:0]</obj_property>
-      <obj_property name="ObjectShortName">bus_addr_read[31:0]</obj_property>
+   <wvobject fp_name="/dcache_tb/uut/read_miss_tag_1" type="array">
+      <obj_property name="ElementShortName">read_miss_tag_1[1:0]</obj_property>
+      <obj_property name="ObjectShortName">read_miss_tag_1[1:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/dcache_tb/is_write" type="logic">
-      <obj_property name="ElementShortName">is_write</obj_property>
-      <obj_property name="ObjectShortName">is_write</obj_property>
+   <wvobject fp_name="/dcache_tb/uut/write_addr_1" type="array">
+      <obj_property name="ElementShortName">write_addr_1[31:0]</obj_property>
+      <obj_property name="ObjectShortName">write_addr_1[31:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/dcache_tb/clear_pipeline" type="logic">
-      <obj_property name="ElementShortName">clear_pipeline</obj_property>
-      <obj_property name="ObjectShortName">clear_pipeline</obj_property>
+   <wvobject fp_name="/dcache_tb/uut/write_data_1" type="array">
+      <obj_property name="ElementShortName">write_data_1[31:0]</obj_property>
+      <obj_property name="ObjectShortName">write_data_1[31:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/dcache_tb/stall" type="logic">
-      <obj_property name="ElementShortName">stall</obj_property>
-      <obj_property name="ObjectShortName">stall</obj_property>
+   <wvobject fp_name="/dcache_tb/uut/write_size_1" type="array">
+      <obj_property name="ElementShortName">write_size_1[1:0]</obj_property>
+      <obj_property name="ObjectShortName">write_size_1[1:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/dcache_tb/valid_1" type="logic">
-      <obj_property name="ElementShortName">valid_1</obj_property>
-      <obj_property name="ObjectShortName">valid_1</obj_property>
+   <wvobject fp_name="/dcache_tb/uut/write_tag_1" type="array">
+      <obj_property name="ElementShortName">write_tag_1[1:0]</obj_property>
+      <obj_property name="ObjectShortName">write_tag_1[1:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/dcache_tb/hit" type="logic">
-      <obj_property name="ElementShortName">hit</obj_property>
-      <obj_property name="ObjectShortName">hit</obj_property>
+   <wvobject fp_name="/dcache_tb/uut/write_valid_1" type="logic">
+      <obj_property name="ElementShortName">write_valid_1</obj_property>
+      <obj_property name="ObjectShortName">write_valid_1</obj_property>
    </wvobject>
-   <wvobject fp_name="/dcache_tb/miss" type="logic">
-      <obj_property name="ElementShortName">miss</obj_property>
-      <obj_property name="ObjectShortName">miss</obj_property>
+   <wvobject fp_name="/dcache_tb/uut/write_ready_1" type="logic">
+      <obj_property name="ElementShortName">write_ready_1</obj_property>
+      <obj_property name="ObjectShortName">write_ready_1</obj_property>
    </wvobject>
-   <wvobject fp_name="/dcache_tb/cacheline_valid" type="logic">
-      <obj_property name="ElementShortName">cacheline_valid</obj_property>
-      <obj_property name="ObjectShortName">cacheline_valid</obj_property>
+   <wvobject fp_name="/dcache_tb/uut/write_hit_1" type="logic">
+      <obj_property name="ElementShortName">write_hit_1</obj_property>
+      <obj_property name="ObjectShortName">write_hit_1</obj_property>
    </wvobject>
-   <wvobject fp_name="/dcache_tb/bus_ackr" type="logic">
-      <obj_property name="ElementShortName">bus_ackr</obj_property>
-      <obj_property name="ObjectShortName">bus_ackr</obj_property>
+   <wvobject fp_name="/dcache_tb/uut/write_miss_1" type="logic">
+      <obj_property name="ElementShortName">write_miss_1</obj_property>
+      <obj_property name="ObjectShortName">write_miss_1</obj_property>
    </wvobject>
-   <wvobject fp_name="/dcache_tb/bus_stbr" type="logic">
-      <obj_property name="ElementShortName">bus_stbr</obj_property>
-      <obj_property name="ObjectShortName">bus_stbr</obj_property>
-   </wvobject>
-   <wvobject fp_name="/dcache_tb/write_size" type="array">
-      <obj_property name="ElementShortName">write_size[1:0]</obj_property>
-      <obj_property name="ObjectShortName">write_size[1:0]</obj_property>
+   <wvobject fp_name="/dcache_tb/uut/write_miss_tag_1" type="array">
+      <obj_property name="ElementShortName">write_miss_tag_1[1:0]</obj_property>
+      <obj_property name="ObjectShortName">write_miss_tag_1[1:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/dcache_tb/mem" type="array">
       <obj_property name="ElementShortName">mem[15:0][31:0]</obj_property>
       <obj_property name="ObjectShortName">mem[15:0][31:0]</obj_property>
    </wvobject>
+   <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/c1_c2_pipeline_reg_1" type="array">
+      <obj_property name="ElementShortName">c1_c2_pipeline_reg_1</obj_property>
+      <obj_property name="ObjectShortName">c1_c2_pipeline_reg_1</obj_property>
+   </wvobject>
+   <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/c2_c3_pipeline_reg_1" type="array">
+      <obj_property name="ElementShortName">c2_c3_pipeline_reg_1</obj_property>
+      <obj_property name="ObjectShortName">c2_c3_pipeline_reg_1</obj_property>
+   </wvobject>
+   <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/\bram_gen(0)\/bram_inst/bram" type="array">
+      <obj_property name="ElementShortName">bram[15:0][151:0]</obj_property>
+      <obj_property name="ObjectShortName">bram[15:0][151:0]</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+   </wvobject>
+   <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/\bram_gen(1)\/bram_inst/bram" type="array">
+      <obj_property name="ElementShortName">bram[15:0][151:0]</obj_property>
+      <obj_property name="ObjectShortName">bram[15:0][151:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/cacheline_update" type="array">
+      <obj_property name="ElementShortName">cacheline_update[151:0]</obj_property>
+      <obj_property name="ObjectShortName">cacheline_update[151:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/cacheline_update_en" type="logic">
+      <obj_property name="ElementShortName">cacheline_update_en</obj_property>
+      <obj_property name="ObjectShortName">cacheline_update_en</obj_property>
+   </wvobject>
    <wvobject fp_name="group268" type="group">
       <obj_property name="label">CACHE INTERNAL SIGNALS</obj_property>
       <obj_property name="DisplayName">label</obj_property>
       <obj_property name="isExpanded"></obj_property>
-      <wvobject fp_name="/dcache_tb/uut/c1_c2_pipeline_reg_1" type="array">
-         <obj_property name="ElementShortName">c1_c2_pipeline_reg_1</obj_property>
-         <obj_property name="ObjectShortName">c1_c2_pipeline_reg_1</obj_property>
-      </wvobject>
-      <wvobject fp_name="/dcache_tb/uut/c2_c3_pipeline_reg_1" type="array">
-         <obj_property name="ElementShortName">c2_c3_pipeline_reg_1</obj_property>
-         <obj_property name="ObjectShortName">c2_c3_pipeline_reg_1</obj_property>
-      </wvobject>
-      <wvobject fp_name="/dcache_tb/uut/stall" type="logic">
-         <obj_property name="ElementShortName">stall</obj_property>
-         <obj_property name="ObjectShortName">stall</obj_property>
-      </wvobject>
-      <wvobject fp_name="/dcache_tb/uut/i_stall" type="logic">
-         <obj_property name="ElementShortName">i_stall</obj_property>
-         <obj_property name="ObjectShortName">i_stall</obj_property>
-      </wvobject>
-      <wvobject fp_name="/dcache_tb/uut/cbc_writeback_cacheline" type="array">
-         <obj_property name="ElementShortName">cbc_writeback_cacheline[127:0]</obj_property>
-         <obj_property name="ObjectShortName">cbc_writeback_cacheline[127:0]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/dcache_tb/uut/cbc_writeback_addr" type="array">
-         <obj_property name="ElementShortName">cbc_writeback_addr[31:0]</obj_property>
-         <obj_property name="ObjectShortName">cbc_writeback_addr[31:0]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/dcache_tb/uut/cbc_writeback_en" type="logic">
-         <obj_property name="ElementShortName">cbc_writeback_en</obj_property>
-         <obj_property name="ObjectShortName">cbc_writeback_en</obj_property>
-      </wvobject>
-      <wvobject fp_name="/dcache_tb/uut/cbc_loader_busy" type="logic">
-         <obj_property name="ElementShortName">cbc_loader_busy</obj_property>
-         <obj_property name="ObjectShortName">cbc_loader_busy</obj_property>
-      </wvobject>
-      <wvobject fp_name="/dcache_tb/uut/cacheline_update_en" type="logic">
-         <obj_property name="ElementShortName">cacheline_update_en</obj_property>
-         <obj_property name="ObjectShortName">cacheline_update_en</obj_property>
-      </wvobject>
-      <wvobject fp_name="/dcache_tb/uut/cacheline_write" type="array">
-         <obj_property name="ElementShortName">cacheline_write[151:0]</obj_property>
-         <obj_property name="ObjectShortName">cacheline_write[151:0]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/dcache_tb/uut/cacheline_update" type="array">
-         <obj_property name="ElementShortName">cacheline_update[151:0]</obj_property>
-         <obj_property name="ObjectShortName">cacheline_update[151:0]</obj_property>
-      </wvobject>
-   </wvobject>
-   <wvobject fp_name="/dcache_tb/uut/cacheline_read_1" type="array">
-      <obj_property name="ElementShortName">cacheline_read_1[151:0]</obj_property>
-      <obj_property name="ObjectShortName">cacheline_read_1[151:0]</obj_property>
    </wvobject>
    <wvobject fp_name="group277" type="group">
       <obj_property name="label">BUS CONTROLLER</obj_property>
       <obj_property name="DisplayName">label</obj_property>
       <obj_property name="isExpanded"></obj_property>
-      <wvobject fp_name="/dcache_tb/uut/cache_bus_controller_inst/loader_busy" type="logic">
-         <obj_property name="ElementShortName">loader_busy</obj_property>
-         <obj_property name="ObjectShortName">loader_busy</obj_property>
-      </wvobject>
-      <wvobject fp_name="/dcache_tb/uut/cache_bus_controller_inst/load_en" type="logic">
-         <obj_property name="ElementShortName">load_en</obj_property>
-         <obj_property name="ObjectShortName">load_en</obj_property>
-      </wvobject>
-      <wvobject fp_name="/dcache_tb/uut/cache_bus_controller_inst/load_cancel" type="logic">
-         <obj_property name="ElementShortName">load_cancel</obj_property>
-         <obj_property name="ObjectShortName">load_cancel</obj_property>
-      </wvobject>
-      <wvobject fp_name="/dcache_tb/uut/cache_bus_controller_inst/load_addr" type="array">
-         <obj_property name="ElementShortName">load_addr[31:0]</obj_property>
-         <obj_property name="ObjectShortName">load_addr[31:0]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/dcache_tb/uut/cache_bus_controller_inst/i_writeback_addr" type="array">
-         <obj_property name="ElementShortName">i_writeback_addr[31:0]</obj_property>
-         <obj_property name="ObjectShortName">i_writeback_addr[31:0]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/dcache_tb/uut/cache_bus_controller_inst/i_bus_curr_addr_read" type="array">
-         <obj_property name="ElementShortName">i_bus_curr_addr_read[31:0]</obj_property>
-         <obj_property name="ObjectShortName">i_bus_curr_addr_read[31:0]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/dcache_tb/uut/cache_bus_controller_inst/fetched_instrs_counter" type="array">
-         <obj_property name="ElementShortName">fetched_instrs_counter[1:0]</obj_property>
-         <obj_property name="ObjectShortName">fetched_instrs_counter[1:0]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/dcache_tb/uut/cache_bus_controller_inst/fetched_cacheline_data" type="array">
-         <obj_property name="ElementShortName">fetched_cacheline_data[127:0]</obj_property>
-         <obj_property name="ObjectShortName">fetched_cacheline_data[127:0]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/dcache_tb/uut/cache_bus_controller_inst/cache_writeback_en" type="logic">
-         <obj_property name="ElementShortName">cache_writeback_en</obj_property>
-         <obj_property name="ObjectShortName">cache_writeback_en</obj_property>
-      </wvobject>
-      <wvobject fp_name="/dcache_tb/uut/cache_bus_controller_inst/cache_writeback_cacheline" type="array">
-         <obj_property name="ElementShortName">cache_writeback_cacheline[127:0]</obj_property>
-         <obj_property name="ObjectShortName">cache_writeback_cacheline[127:0]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/dcache_tb/uut/cache_bus_controller_inst/cache_writeback_addr" type="array">
-         <obj_property name="ElementShortName">cache_writeback_addr[31:0]</obj_property>
-         <obj_property name="ObjectShortName">cache_writeback_addr[31:0]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/dcache_tb/uut/cache_bus_controller_inst/bus_stbr" type="logic">
-         <obj_property name="ElementShortName">bus_stbr</obj_property>
-         <obj_property name="ObjectShortName">bus_stbr</obj_property>
-      </wvobject>
-      <wvobject fp_name="/dcache_tb/uut/cache_bus_controller_inst/bus_read_state_next" type="other">
-         <obj_property name="ElementShortName">bus_read_state_next</obj_property>
-         <obj_property name="ObjectShortName">bus_read_state_next</obj_property>
-      </wvobject>
-      <wvobject fp_name="/dcache_tb/uut/cache_bus_controller_inst/bus_read_state" type="other">
-         <obj_property name="ElementShortName">bus_read_state</obj_property>
-         <obj_property name="ObjectShortName">bus_read_state</obj_property>
-      </wvobject>
-      <wvobject fp_name="/dcache_tb/uut/cache_bus_controller_inst/bus_data_read" type="array">
+      <wvobject fp_name="/dcache_tb/bus_data_read" type="array">
          <obj_property name="ElementShortName">bus_data_read[31:0]</obj_property>
          <obj_property name="ObjectShortName">bus_data_read[31:0]</obj_property>
       </wvobject>
-      <wvobject fp_name="/dcache_tb/uut/cache_bus_controller_inst/bus_addr_read" type="array">
+      <wvobject fp_name="/dcache_tb/bus_addr_read" type="array">
          <obj_property name="ElementShortName">bus_addr_read[31:0]</obj_property>
          <obj_property name="ObjectShortName">bus_addr_read[31:0]</obj_property>
       </wvobject>
-      <wvobject fp_name="/dcache_tb/uut/cache_bus_controller_inst/bus_ackr" type="logic">
+      <wvobject fp_name="/dcache_tb/bus_ackr" type="logic">
          <obj_property name="ElementShortName">bus_ackr</obj_property>
          <obj_property name="ObjectShortName">bus_ackr</obj_property>
       </wvobject>
-      <wvobject fp_name="/dcache_tb/uut/\bram_gen(0)\/bram_inst/bram" type="array">
-         <obj_property name="ElementShortName">bram[15:0][151:0]</obj_property>
-         <obj_property name="ObjectShortName">bram[15:0][151:0]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/dcache_tb/uut/\bram_gen(1)\/bram_inst/bram" type="array">
-         <obj_property name="ElementShortName">bram[15:0][151:0]</obj_property>
-         <obj_property name="ObjectShortName">bram[15:0][151:0]</obj_property>
+      <wvobject fp_name="/dcache_tb/bus_stbr" type="logic">
+         <obj_property name="ElementShortName">bus_stbr</obj_property>
+         <obj_property name="ObjectShortName">bus_stbr</obj_property>
       </wvobject>
    </wvobject>
 </wave_config>

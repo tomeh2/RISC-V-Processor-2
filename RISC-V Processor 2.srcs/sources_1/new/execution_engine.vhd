@@ -50,15 +50,11 @@ entity execution_engine is
     
         next_uop : in uop_decoded_type;
 
-        -- TEMPORARY BUS STUFF
-        bus_addr_read : out std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);
-        bus_addr_write : out std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);
-        bus_data_read : in std_logic_vector(CPU_DATA_WIDTH_BITS - 1 downto 0);
-        bus_data_write : out std_logic_vector(CPU_DATA_WIDTH_BITS - 1 downto 0);
-        bus_stbr : out std_logic;
-        bus_stbw : out std_logic_vector(3 downto 0);
-        bus_ackr : in std_logic;
-        bus_ackw : in std_logic;
+        dcache_addr : out std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);
+        dcache_data_write : out std_logic_vector(CPU_DATA_WIDTH_BITS - 1 downto 0);
+        dcache_data_read : in std_logic_vector(CPU_DATA_WIDTH_BITS - 1 downto 0);
+        dcache_is_write : out std_logic;
+        dcache_req_valid : out std_logic;
 
         fifo_ready : in std_logic;
         fifo_read_en : out std_logic;

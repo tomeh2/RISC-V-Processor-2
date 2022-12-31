@@ -103,7 +103,11 @@ architecture rtl of cache is
     signal i_hit : std_logic;
     signal i_bus_addr_read : std_logic_vector(ADDR_SIZE_BITS - 1 downto 0);
     signal i_write_set_select : std_logic_vector(ASSOCIATIVITY - 1 downto 0);
+    signal i_cacheline_late_fwd_en : std_logic;
     
+    signal late_forwarding_addr_reg : std_logic_vector(ADDR_SIZE_BITS - 1 downto 0);
+    signal cacheline_late_forwarding_reg : std_logic_vector(CACHELINE_SIZE - 1 downto 0);   -- Needed due to BRAMs 1 cycle delay. We need to enable forwarding for one cycle even
+                                                                                            -- after the cacheline is gone from C2_C3 register
     signal cacheline_with_hit : std_logic_vector(CACHELINE_SIZE - 1 downto 0);
     signal cacheline_update : std_logic_vector(CACHELINE_SIZE - 1 downto 0);
     signal cacheline_write : std_logic_vector(CACHELINE_SIZE - 1 downto 0);
@@ -232,6 +236,25 @@ begin
     end generate;
     addr_read_cache <= addr_1(RADDR_INDEX_START downto RADDR_INDEX_END) when i_stall = '0' else c1_c2_pipeline_reg_1.addr(RADDR_INDEX_START downto RADDR_INDEX_END);
     
+    fwd_cntrl : process(clk)
+    begin
+        if (rising_edge(clk)) then
+            if (reset = '1') then
+                i_cacheline_late_fwd_en <= '0';
+                cacheline_late_forwarding_reg <= (others => '0');
+                late_forwarding_addr_reg <= (others => '0');
+            else
+                if (i_stall = '0' and c2_c3_pipeline_reg_1.is_write_1 = '1') then
+                    i_cacheline_late_fwd_en <= '1';
+                    cacheline_late_forwarding_reg <= cacheline_update;
+                    late_forwarding_addr_reg <= c2_c3_pipeline_reg_1.addr;
+                else
+                    i_cacheline_late_fwd_en <= '0';
+                end if;
+            end if;
+        end if;
+    end process;
+    
     -- Used to generate pseudo-random signal used to select which cacheline to evict in case of an associative cache
     ring_counter_inst : entity work.ring_counter(rtl)
                         generic map(SIZE_BITS => ASSOCIATIVITY)
@@ -265,7 +288,18 @@ begin
                     c1_c2_pipeline_reg_1.write_size_1 <= write_size_1;
                     c1_c2_pipeline_reg_1.data <= data_1;
                     
-                    c2_c3_pipeline_reg_1.cacheline <= cacheline_with_hit;
+                    if (ENABLE_WRITES = 1) then     -- FORWARD UPDATED CACHELINE IN CASE OF ACCESS TO THE SAME ONE IN THE PREVIOUS STAGE
+                        if (c2_c3_pipeline_reg_1.is_write_1 = '1' and c2_c3_pipeline_reg_1.addr(RADDR_TAG_START downto RADDR_INDEX_END) = c1_c2_pipeline_reg_1.addr(RADDR_TAG_START downto RADDR_INDEX_END)) then
+                            c2_c3_pipeline_reg_1.cacheline <= cacheline_update;
+                        elsif (i_cacheline_late_fwd_en = '1' and late_forwarding_addr_reg(RADDR_TAG_START downto RADDR_INDEX_END) = c1_c2_pipeline_reg_1.addr(RADDR_TAG_START downto RADDR_INDEX_END)) then
+                            c2_c3_pipeline_reg_1.cacheline <= cacheline_late_forwarding_reg;
+                        else
+                            c2_c3_pipeline_reg_1.cacheline <= cacheline_with_hit;
+                        end if;
+                    else
+                        c2_c3_pipeline_reg_1.cacheline <= cacheline_with_hit;
+                    end if;
+
                     c2_c3_pipeline_reg_1.addr <= c1_c2_pipeline_reg_1.addr;
                     c2_c3_pipeline_reg_1.hit <= i_hit;
                     c2_c3_pipeline_reg_1.hit_mask <= hit_bits;

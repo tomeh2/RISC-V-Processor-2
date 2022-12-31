@@ -83,6 +83,8 @@ module icache_tb(
         t_reset();
         #50
         t_send_req('h00000000);         //MISS
+        #100
+        
         t_send_req('h00000004);         //HIT
         t_send_req('h00000008);         //HIT
         t_send_req('h0000000C);         //HIT

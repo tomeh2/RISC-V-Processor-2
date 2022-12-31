@@ -90,6 +90,12 @@ architecture structural of core is
     signal branch_predicted_pc : std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);
     signal branch_prediction : std_logic;
     
+    signal ee_addr : std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);
+    signal ee_data_read : std_logic_vector(CPU_DATA_WIDTH_BITS - 1 downto 0);
+    signal ee_data_write : std_logic_vector(CPU_DATA_WIDTH_BITS - 1 downto 0);
+    signal ee_is_write : std_logic;
+    signal ee_req_valid : std_logic;
+    
     signal cdb : cdb_type;
 begin
     front_end : entity work.front_end(structural)
@@ -142,14 +148,11 @@ begin
                                 debug_reg_3_data => debug_reg_3_data,
                                 debug_reg_4_data => debug_reg_4_data,
                        
---                                bus_addr_read => bus_addr_read_ee,
---                                bus_addr_write => bus_addr_write,
---                                bus_data_read => bus_data_read,
---                                bus_data_write => bus_data_write,
---                                bus_stbr => bus_stbr_ee,
---                                bus_stbw => bus_stbw,
---                                bus_ackr => bus_ackr_ee,
---                                bus_ackw => bus_ackw,
+                                dcache_addr => ee_addr,
+                                dcache_data_write => ee_data_write,
+                                dcache_data_read => ee_data_read,
+                                dcache_is_write => ee_is_write,
+                                dcache_req_valid => ee_req_valid,
 
                                 cdb_out => cdb,
                                    
