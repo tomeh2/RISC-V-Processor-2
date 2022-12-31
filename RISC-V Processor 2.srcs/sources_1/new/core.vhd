@@ -96,6 +96,24 @@ architecture structural of core is
     signal ee_is_write : std_logic;
     signal ee_req_valid : std_logic;
     
+    signal dcache_read_addr : std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);
+    signal dcache_read_data : std_logic_vector(CPU_DATA_WIDTH_BITS - 1 downto 0);
+    signal dcache_read_valid : std_logic;
+    signal dcache_read_ready : std_logic;
+    signal dcache_read_hit : std_logic;
+    signal dcache_read_miss : std_logic;
+        
+    signal dcache_write_addr : std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);
+    signal dcache_write_data : std_logic_vector(CPU_DATA_WIDTH_BITS - 1 downto 0);
+    signal dcache_write_size : std_logic_vector(1 downto 0);
+    signal dcache_write_valid : std_logic;
+    signal dcache_write_ready : std_logic;
+    signal dcache_write_hit : std_logic;
+    signal dcache_write_miss : std_logic;
+    
+    signal dcache_loaded_cacheline_tag : std_logic_vector(DCACHE_TAG_SIZE - 1 downto 0);
+    signal dcache_loaded_cacheline_tag_valid : std_logic;
+    
     signal cdb : cdb_type;
 begin
     front_end : entity work.front_end(structural)
@@ -148,11 +166,23 @@ begin
                                 debug_reg_3_data => debug_reg_3_data,
                                 debug_reg_4_data => debug_reg_4_data,
                        
-                                dcache_addr => ee_addr,
-                                dcache_data_write => ee_data_write,
-                                dcache_data_read => ee_data_read,
-                                dcache_is_write => ee_is_write,
-                                dcache_req_valid => ee_req_valid,
+                                dcache_read_addr => dcache_read_addr,
+                                dcache_read_data => dcache_read_data,
+                                dcache_read_valid => dcache_read_valid,
+                                dcache_read_ready => dcache_read_ready,
+                                dcache_read_hit => dcache_read_hit,
+                                dcache_read_miss => dcache_read_miss,
+                                
+                                dcache_write_addr => dcache_write_addr,
+                                dcache_write_data => dcache_write_data,
+                                dcache_write_size => dcache_write_size,
+                                dcache_write_valid => dcache_write_valid,
+                                dcache_write_ready => dcache_write_ready,
+                                dcache_write_hit => dcache_write_hit,
+                                dcache_write_miss => dcache_write_miss,
+                                
+                                dcache_loaded_cacheline_tag => dcache_loaded_cacheline_tag,
+                                dcache_loaded_cacheline_tag_valid => dcache_loaded_cacheline_tag_valid,
 
                                 cdb_out => cdb,
                                    
@@ -173,36 +203,30 @@ begin
                                 clk => clk,
                                 reset => reset);
 
-    dcache_inst : entity work.cache(rtl)
-                      generic map(ADDR_SIZE_BITS => CPU_ADDR_WIDTH_BITS,
-                                  ENTRY_SIZE_BYTES => 4,
-                                  ENTRIES_PER_CACHELINE => DCACHE_ENTRIES_PER_CACHELINE,
-                                  ASSOCIATIVITY => DCACHE_ASSOCIATIVITY,
-                                  NUM_SETS => DCACHE_NUM_SETS,
-                                  
-                                  ENABLE_WRITES => 1,
-                                  ENABLE_FORWARDING => 0,
-                                  IS_BLOCKING => 0)
+    dcache_inst : entity work.dcache(rtl)
                       port map(bus_data_read => bus_data_read,
                                bus_addr_read => bus_addr_read_ee,
                                bus_stbr => bus_stbr_ee,
                                bus_ackr => bus_ackr_ee,
-                      
-                               data_read => ,
                                
-                               addr_1 => ,
-                               data_1 => ,
-                               is_write_1 => ,
-                               write_size_1 => ,
-                               valid_1 => ,
+                               read_addr_1 => dcache_read_addr,
+                               read_tag_1 => (others => '0'),
+                               read_valid_1 => dcache_read_valid,
+                               read_ready_1 => dcache_read_ready,
+                               read_data_out_1 => dcache_read_data,
+                               read_hit_1 => dcache_read_hit,
+                               read_miss_1 => dcache_read_miss,
+                               read_miss_tag_1 => open,
                                
-                               clear_pipeline => '0',
-                               stall => '0',
-                               stall_o => open,
-                               
-                               hit => ,
-                               miss => ,
-                               cacheline_valid => ,
+                               write_addr_1 => dcache_write_addr,
+                               write_data_1 => dcache_write_data,
+                               write_size_1 => dcache_write_size,
+                               write_tag_1 => (others => '0'),
+                               write_valid_1 => dcache_write_valid,
+                               write_ready_1 => dcache_write_ready,
+                               write_hit_1 => dcache_write_hit,
+                               write_miss_1 => dcache_write_miss,
+                               write_miss_tag_1 => open,
                                
                                clk => clk,
                                reset => reset);

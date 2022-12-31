@@ -96,6 +96,19 @@ module dcache_tb(
         #1;
     endtask;
     
+    task t_write_req_nodelay(input [31:0] addr, input [31:0] data, input [1:0] write_size);
+        write_addr_1 = addr;
+        write_data_1 = data;
+        write_size_1 = write_size;
+        write_valid_1 = 1;
+        @(posedge clk);
+        #1;
+        write_addr_1 = 0;
+        write_data_1 = 0;
+        write_size_1 = 0;
+        write_valid_1 = 0;
+    endtask;
+    
     task t_read_req_nowait(input [31:0] addr);
 
     endtask;
@@ -119,10 +132,15 @@ module dcache_tb(
         t_read_req('h0000_0018, 'h6666_6666, 0);
         t_read_req('h0000_001C, 'h7777_7777, 0);
         #200;
-        t_write_req('h0000_0000, 'hF0F0_F0F0, 2);
-        t_write_req('h0000_0004, 'hBABA_BABA, 2);
-        t_write_req('h0000_0008, 'h1234_5678, 2);
-        t_write_req('h0000_000C, 'h9ABC_DEF0, 2);
+        t_write_req_nodelay('h0000_0000, 'hF0F0_F0F0, 2);
+        t_write_req_nodelay('h0000_0004, 'hBABA_BABA, 2);
+        
+        t_read_req('h0000_004, 'hBABA_BABA, 0);
+        
+        t_write_req_nodelay('h0000_0008, 'h1234_5678, 2);
+        t_write_req_nodelay('h0000_000C, 'h9ABC_DEF0, 2);
+        
+        t_read_req('h0000_000C, 'h9ABC_DEF0, 0);
     endtask;
     
     task t_run_icache();

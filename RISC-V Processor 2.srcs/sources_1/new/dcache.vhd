@@ -54,6 +54,9 @@ entity dcache is
         write_hit_1 : out std_logic;
         write_miss_1 : out std_logic;
         write_miss_tag_1 : out std_logic_vector(STORE_QUEUE_TAG_BITS - 1 downto 0);
+        
+        loaded_cacheline_tag : out std_logic_vector(DCACHE_TAG_SIZE - 1 downto 0);
+        loaded_cacheline_tag_valid : out std_logic;
     
         clk : in std_logic;
         reset : in std_logic
@@ -61,6 +64,8 @@ entity dcache is
 end dcache;
 
 architecture rtl of dcache is
+    
+
     constant ADDR_OFFSET_SIZE : integer := integer(ceil(log2(real(DCACHE_ENTRIES_PER_CACHELINE)))) + 2;
     constant ADDR_OFFSET_START : integer := integer(ceil(log2(real(DCACHE_ENTRIES_PER_CACHELINE)))) + 2;
     constant ADDR_OFFSET_END : integer := 0;
@@ -132,6 +137,9 @@ begin
                                hit => i_hit,
                                miss => i_miss,
                                cacheline_valid => i_cacheline_valid,
+                               
+                               loaded_cacheline_tag => loaded_cacheline_tag,
+                               loaded_cacheline_tag_valid => loaded_cacheline_tag_valid,
                                
                                clk => clk,
                                reset => reset);

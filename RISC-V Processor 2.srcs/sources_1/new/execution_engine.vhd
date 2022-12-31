@@ -50,11 +50,23 @@ entity execution_engine is
     
         next_uop : in uop_decoded_type;
 
-        dcache_addr : out std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);
-        dcache_data_write : out std_logic_vector(CPU_DATA_WIDTH_BITS - 1 downto 0);
-        dcache_data_read : in std_logic_vector(CPU_DATA_WIDTH_BITS - 1 downto 0);
-        dcache_is_write : out std_logic;
-        dcache_req_valid : out std_logic;
+        dcache_read_addr : out std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);
+        dcache_read_data : in std_logic_vector(CPU_DATA_WIDTH_BITS - 1 downto 0);
+        dcache_read_valid : out std_logic;
+        dcache_read_ready : in std_logic;
+        dcache_read_hit : in std_logic;
+        dcache_read_miss : in std_logic;
+        
+        dcache_write_addr : out std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);
+        dcache_write_data : out std_logic_vector(CPU_DATA_WIDTH_BITS - 1 downto 0);
+        dcache_write_size : out std_logic_vector(1 downto 0);
+        dcache_write_valid : out std_logic;
+        dcache_write_ready : in std_logic;
+        dcache_write_hit : in std_logic;
+        dcache_write_miss : in std_logic;
+        
+        dcache_loaded_cacheline_tag : in std_logic_vector(DCACHE_TAG_SIZE - 1 downto 0);
+        dcache_loaded_cacheline_tag_valid : in std_logic;
 
         fifo_ready : in std_logic;
         fifo_read_en : out std_logic;
@@ -595,7 +607,7 @@ begin
                                 reset => reset,
                                 clk => clk);
                                         
-    load_store_unit : entity work.load_store_eu(rtl)
+    load_store_unit : entity work.load_store_unit_cache(rtl)
                       generic map(SQ_ENTRIES => SQ_ENTRIES,
                                   LQ_ENTRIES => LQ_ENTRIES)
                       port map(cdb_in => cdb,
@@ -635,14 +647,23 @@ begin
                                lq_enqueue_en => lq_enqueue_en,
                                lq_retire_en => lq_retire_en,
                                
-                               bus_addr_read => bus_addr_read,
-                               bus_addr_write => bus_addr_write,
-                               bus_data_read => bus_data_read,
-                               bus_data_write => bus_data_write,
-                               bus_stbr => bus_stbr,
-                               bus_stbw => bus_stbw,
-                               bus_ackr => bus_ackr,
-                               bus_ackw => bus_ackw,
+                               cache_read_addr => dcache_read_addr,
+                               cache_read_data => dcache_read_data,
+                               cache_read_valid => dcache_read_valid,
+                               cache_read_ready => dcache_read_ready,
+                               cache_read_hit => dcache_read_hit,
+                               cache_read_miss => dcache_read_miss,
+                               
+                               cache_write_addr => dcache_write_addr,
+                               cache_write_data => dcache_write_data,
+                               cache_write_size => dcache_write_size,
+                               cache_write_valid => dcache_write_valid,
+                               cache_write_ready => dcache_write_ready,
+                               cache_write_hit => dcache_write_hit,
+                               cache_write_miss => dcache_write_miss,
+                               
+                               loaded_cacheline_tag => dcache_loaded_cacheline_tag,
+                               loaded_cacheline_tag_valid => dcache_loaded_cacheline_tag_valid,
                                
                                reset => reset,
                                clk => clk);

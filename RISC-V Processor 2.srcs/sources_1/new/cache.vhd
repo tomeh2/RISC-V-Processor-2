@@ -63,6 +63,9 @@ entity cache is
         hit : out std_logic;
         miss : out std_logic;
         cacheline_valid : out std_logic;
+        
+        loaded_cacheline_tag : out std_logic_vector(ADDR_SIZE_BITS - integer(ceil(log2(real(ENTRIES_PER_CACHELINE)))) - integer(ceil(log2(real(NUM_SETS)))) - integer(ceil(log2(real(ENTRY_SIZE_BYTES)))) - 1 downto 0);
+        loaded_cacheline_tag_valid : out std_logic;
                         
         clk : in std_logic;
         reset : in std_logic
@@ -171,6 +174,9 @@ begin
                                          
                                          clk => clk,
                                          reset => reset);
+
+    loaded_cacheline_tag <= cbc_writeback_addr(RADDR_TAG_START downto RADDR_TAG_END);
+    loaded_cacheline_tag_valid <= cbc_writeback_en;
 
     is_blocking_gen_on : if IS_BLOCKING = 1 generate
         i_stall <= stall or cbc_loader_busy;
