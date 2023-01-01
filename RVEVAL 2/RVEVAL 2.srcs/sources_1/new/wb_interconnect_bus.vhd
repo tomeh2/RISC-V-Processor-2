@@ -31,6 +31,6 @@ end wb_interconnect_bus;
 architecture rtl of wb_interconnect_bus is
 
 begin
-
+    
 
 end rtl;

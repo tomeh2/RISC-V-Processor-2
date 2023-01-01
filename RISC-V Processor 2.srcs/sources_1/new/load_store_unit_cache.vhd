@@ -276,14 +276,14 @@ begin
                 load_wait <= '0';
             else
                 if (store_state_reg = STORE_BUSY and cache_write_miss = '1') then
-                    store_wait_tag <= store_queue(to_integer(sq_head_counter_reg))(SQ_ADDR_START downto SQ_ADDR_END)(CPU_ADDR_WIDTH_BITS - 1 downto CPU_ADDR_WIDTH_BITS - DCACHE_TAG_SIZE);
+                    store_wait_tag <= store_queue(to_integer(sq_head_counter_reg))(SQ_ADDR_START downto SQ_ADDR_START - DCACHE_TAG_SIZE + 1);
                     store_wait <= '1';
                 elsif (store_wait_tag = loaded_cacheline_tag and loaded_cacheline_tag_valid = '1') then
                     store_wait <= '0';
                 end if;
                 
                 if (load_state_reg = LOAD_BUSY and cache_read_miss = '1') then
-                    load_wait_tag <= load_queue(to_integer(lq_head_counter_reg))(LQ_ADDR_START downto LQ_ADDR_END)(CPU_ADDR_WIDTH_BITS - 1 downto CPU_ADDR_WIDTH_BITS - DCACHE_TAG_SIZE);
+                    load_wait_tag <= load_queue(to_integer(lq_head_counter_reg))(LQ_ADDR_START downto LQ_ADDR_START - DCACHE_TAG_SIZE + 1);
                     load_wait <= '1';
                 elsif (load_wait_tag = loaded_cacheline_tag and loaded_cacheline_tag_valid = '1') then
                     load_wait <= '0';
@@ -314,7 +314,7 @@ begin
         load_state_next <= LOAD_IDLE;
         case load_state_reg is
             when LOAD_IDLE => 
-                if (lq_load_ready = '1' and load_wait = '0' and cache_read_ready = '0') then --and not (cdb_in.branch_mispredicted = '1' and cdb_in.valid = '1')) then
+                if (lq_load_ready = '1' and load_wait = '0' and cache_read_ready = '1') then
                     load_state_next <= LOAD_BUSY;
                 else
                     load_state_next <= LOAD_IDLE;
@@ -336,7 +336,12 @@ begin
         end case;
     end process;
     
-    load_state_outputs_proc : process(load_state_reg, cdb_in)
+    process(all)
+    begin
+        cache_read_addr <= load_queue(to_integer(lq_head_counter_reg))(LQ_ADDR_START downto LQ_ADDR_END);
+    end process;
+    
+    load_state_outputs_proc : process(load_state_reg, cdb_in, load_wait, lq_load_ready)
     begin
 
         cdb_request <= '0';

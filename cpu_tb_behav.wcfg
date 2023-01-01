@@ -6,6 +6,7 @@
       <db_ref path="cpu_tb_behav.wdb" id="1">
          <top_modules>
             <top_module name="cpu_tb" />
+            <top_module name="glbl" />
             <top_module name="pkg_axi" />
             <top_module name="pkg_cpu" />
             <top_module name="pkg_ee" />
@@ -16,12 +17,12 @@
    </db_ref_list>
    <zoom_setting>
       <ZoomStartTime time="0.000000 us"></ZoomStartTime>
-      <ZoomEndTime time="20.000001 us"></ZoomEndTime>
-      <Cursor1Time time="5.750000 us"></Cursor1Time>
+      <ZoomEndTime time="21.593782 us"></ZoomEndTime>
+      <Cursor1Time time="4.450000 us"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="386"></NameColumnWidth>
-      <ValueColumnWidth column_width="178"></ValueColumnWidth>
+      <ValueColumnWidth column_width="174"></ValueColumnWidth>
    </column_width_setting>
    <WVObjectSize size="27" />
    <wvobject fp_name="/cpu_tb/clk" type="logic">
@@ -141,12 +142,12 @@
             <obj_property name="ObjectShortName">icache_valid_bits[31:0]</obj_property>
          </wvobject>
          <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/icache_inst/cache_bram_inst/icache_set_out_bram" type="array">
-            <obj_property name="ElementShortName">icache_set_out_bram[0:1][151:0]</obj_property>
-            <obj_property name="ObjectShortName">icache_set_out_bram[0:1][151:0]</obj_property>
+            <obj_property name="ElementShortName">icache_set_out_bram[0:1][152:0]</obj_property>
+            <obj_property name="ObjectShortName">icache_set_out_bram[0:1][152:0]</obj_property>
          </wvobject>
          <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/icache_inst/cache_bram_inst/icache_set_out" type="array">
-            <obj_property name="ElementShortName">icache_set_out[0:1][151:0]</obj_property>
-            <obj_property name="ObjectShortName">icache_set_out[0:1][151:0]</obj_property>
+            <obj_property name="ElementShortName">icache_set_out[0:1][152:0]</obj_property>
+            <obj_property name="ObjectShortName">icache_set_out[0:1][152:0]</obj_property>
          </wvobject>
          <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/icache_inst/cache_bram_inst/icache_set_valid" type="array">
             <obj_property name="ElementShortName">icache_set_valid[1:0]</obj_property>
@@ -169,8 +170,8 @@
             <obj_property name="ObjectShortName">i_bus_addr_read[31:0]</obj_property>
          </wvobject>
          <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/icache_inst/cache_bram_inst/cacheline_write" type="array">
-            <obj_property name="ElementShortName">cacheline_write[151:0]</obj_property>
-            <obj_property name="ObjectShortName">cacheline_write[151:0]</obj_property>
+            <obj_property name="ElementShortName">cacheline_write[152:0]</obj_property>
+            <obj_property name="ObjectShortName">cacheline_write[152:0]</obj_property>
          </wvobject>
          <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/icache_inst/cache_bram_inst/cacheline_update_en" type="logic">
             <obj_property name="ElementShortName">cacheline_update_en</obj_property>
@@ -388,12 +389,12 @@
       </wvobject>
    </wvobject>
    <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/icache_inst/cache_bram_inst/\bram_gen(0)\/bram_inst/bram" type="array">
-      <obj_property name="ElementShortName">bram[15:0][151:0]</obj_property>
-      <obj_property name="ObjectShortName">bram[15:0][151:0]</obj_property>
+      <obj_property name="ElementShortName">bram[15:0][152:0]</obj_property>
+      <obj_property name="ObjectShortName">bram[15:0][152:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/icache_inst/cache_bram_inst/\bram_gen(1)\/bram_inst/bram" type="array">
-      <obj_property name="ElementShortName">bram[15:0][151:0]</obj_property>
-      <obj_property name="ObjectShortName">bram[15:0][151:0]</obj_property>
+      <obj_property name="ElementShortName">bram[15:0][152:0]</obj_property>
+      <obj_property name="ObjectShortName">bram[15:0][152:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/cpu_tb/cpu/core_1/your_instance_name/fifo" type="array">
       <obj_property name="ElementShortName">fifo[3:0][96:0]</obj_property>
@@ -1725,6 +1726,14 @@
          <obj_property name="ElementShortName">write_ready_1</obj_property>
          <obj_property name="ObjectShortName">write_ready_1</obj_property>
       </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/write_hit_1" type="logic">
+         <obj_property name="ElementShortName">write_hit_1</obj_property>
+         <obj_property name="ObjectShortName">write_hit_1</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/write_miss_1" type="logic">
+         <obj_property name="ElementShortName">write_miss_1</obj_property>
+         <obj_property name="ObjectShortName">write_miss_1</obj_property>
+      </wvobject>
       <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/read_hit_1" type="logic">
          <obj_property name="ElementShortName">read_hit_1</obj_property>
          <obj_property name="ObjectShortName">read_hit_1</obj_property>
@@ -1736,14 +1745,6 @@
       <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/read_miss_tag_1" type="array">
          <obj_property name="ElementShortName">read_miss_tag_1[1:0]</obj_property>
          <obj_property name="ObjectShortName">read_miss_tag_1[1:0]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/write_hit_1" type="logic">
-         <obj_property name="ElementShortName">write_hit_1</obj_property>
-         <obj_property name="ObjectShortName">write_hit_1</obj_property>
-      </wvobject>
-      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/write_miss_1" type="logic">
-         <obj_property name="ElementShortName">write_miss_1</obj_property>
-         <obj_property name="ObjectShortName">write_miss_1</obj_property>
       </wvobject>
       <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/write_miss_tag_1" type="array">
          <obj_property name="ElementShortName">write_miss_tag_1[1:0]</obj_property>
@@ -1786,12 +1787,12 @@
          <obj_property name="ObjectShortName">cbc_loader_busy</obj_property>
       </wvobject>
       <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/\bram_gen(0)\/bram_inst/bram" type="array">
-         <obj_property name="ElementShortName">bram[15:0][151:0]</obj_property>
-         <obj_property name="ObjectShortName">bram[15:0][151:0]</obj_property>
+         <obj_property name="ElementShortName">bram[15:0][152:0]</obj_property>
+         <obj_property name="ObjectShortName">bram[15:0][152:0]</obj_property>
       </wvobject>
       <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/\bram_gen(1)\/bram_inst/bram" type="array">
-         <obj_property name="ElementShortName">bram[15:0][151:0]</obj_property>
-         <obj_property name="ObjectShortName">bram[15:0][151:0]</obj_property>
+         <obj_property name="ElementShortName">bram[15:0][152:0]</obj_property>
+         <obj_property name="ObjectShortName">bram[15:0][152:0]</obj_property>
       </wvobject>
    </wvobject>
 </wave_config>

@@ -228,6 +228,9 @@ begin
                                write_miss_1 => dcache_write_miss,
                                write_miss_tag_1 => open,
                                
+                               loaded_cacheline_tag => dcache_loaded_cacheline_tag,
+                               loaded_cacheline_tag_valid => dcache_loaded_cacheline_tag_valid,
+                               
                                clk => clk,
                                reset => reset);
 
