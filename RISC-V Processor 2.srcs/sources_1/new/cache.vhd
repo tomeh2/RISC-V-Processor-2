@@ -42,7 +42,11 @@ entity cache is
 
     port(
         bus_addr_read : out std_logic_vector(ADDR_SIZE_BITS - 1 downto 0);
+        bus_addr_write : out std_logic_vector(ADDR_SIZE_BITS - 1 downto 0);
         bus_data_read : in std_logic_vector(ENTRY_SIZE_BYTES * 8 - 1 downto 0);
+        bus_data_write : out std_logic_vector(ENTRY_SIZE_BYTES * 8 - 1 downto 0);
+        bus_stbw : out std_logic_vector(3 downto 0);
+        bus_ackw : out std_logic;
         bus_stbr : out std_logic;
         bus_ackr : in std_logic;
     
@@ -157,13 +161,21 @@ begin
                                             ENTRIES_PER_CACHELINE => ENTRIES_PER_CACHELINE)
                                 port map(bus_addr_read => bus_addr_read,
                                          bus_data_read => bus_data_read,
+                                         bus_addr_write => bus_addr_write,
+                                         bus_data_write => bus_data_write,
+                                         bus_stbw => bus_stbw,
+                                         bus_ackw => bus_ackw,
                                          bus_stbr => bus_stbr,
                                          bus_ackr => bus_ackr,
                                          
                                          load_addr => c1_c2_pipeline_reg_1.addr(ADDR_SIZE_BITS - 1 downto CACHELINE_ALIGNMENT) & std_logic_vector(to_unsigned(0, CACHELINE_ALIGNMENT)),
                                          load_en => c1_c2_pipeline_reg_1.valid and not i_hit,
                                          load_cancel => clear_pipeline,
-                                         loader_busy => cbc_loader_busy,
+                                         load_busy => cbc_loader_busy,
+                                         
+                                         cache_evict_cacheline => ,
+                                         cache_evict_addr => ,
+                                         cache_evict_en => ,
                                          
                                          cache_writeback_en => cbc_writeback_en,
                                          cache_writeback_addr => cbc_writeback_addr,
