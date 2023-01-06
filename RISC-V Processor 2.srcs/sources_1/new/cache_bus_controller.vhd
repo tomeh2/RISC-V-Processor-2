@@ -31,6 +31,7 @@ entity cache_bus_controller is
     generic(
         ADDR_SIZE : integer;
         ENTRY_SIZE_BYTES : integer;
+        ASSOCIATIVITY : integer;
         ENTRIES_PER_CACHELINE : integer
     );
     port(
@@ -44,6 +45,7 @@ entity cache_bus_controller is
         bus_ackr : in std_logic;
     
         load_addr : in std_logic_vector(ADDR_SIZE - 1 downto 0);
+        load_location_in_set : in std_logic_vector(ASSOCIATIVITY - 1 downto 0);
         load_en : in std_logic;
         load_cancel : in std_logic;
         load_busy : out std_logic;
@@ -55,6 +57,7 @@ entity cache_bus_controller is
         
         cache_writeback_en : out std_logic;
         cache_writeback_addr : out std_logic_vector(ADDR_SIZE - 1 downto 0);
+        cache_writeback_set_addr : out std_logic_vector(ASSOCIATIVITY - 1 downto 0);
         cache_writeback_cacheline : out std_logic_vector(ENTRY_SIZE_BYTES * 8 * ENTRIES_PER_CACHELINE - 1 downto 0);
         
         fwd_en : out std_logic;
@@ -88,6 +91,7 @@ architecture rtl of cache_bus_controller is
     signal stored_words_counter : unsigned(integer(ceil(log2(real(ENTRIES_PER_CACHELINE)))) - 1 downto 0);
     signal bus_curr_addr_write : std_logic_vector(ADDR_SIZE - 1 downto 0); 
     
+    signal i_load_location_in_set_reg : std_logic_vector(ASSOCIATIVITY - 1 downto 0);
     signal i_evict_cacheline_reg : std_logic_vector(ENTRY_SIZE_BYTES * 8 * ENTRIES_PER_CACHELINE - 1 downto 0);
     signal i_bus_curr_addr_read : std_logic_vector(ADDR_SIZE - 1 downto 0); 
     signal i_writeback_addr : std_logic_vector(ADDR_SIZE - 1 downto 0); 
@@ -106,12 +110,14 @@ begin
                 if (bus_read_state = IDLE and load_en = '1') then
                     i_bus_curr_addr_read <= load_addr;
                     i_writeback_addr <= load_addr;
+                    i_load_location_in_set_reg <= load_location_in_set;
                 elsif (bus_ackr = '1') then
                     i_bus_curr_addr_read <= std_logic_vector(unsigned(i_bus_curr_addr_read) + 4);
                 end if;
             end if;
         end if;
     end process;
+    cache_writeback_set_addr <= i_load_location_in_set_reg;
     
     bus_read_sm_state_reg_cntrl : process(clk)
     begin
@@ -254,7 +260,7 @@ begin
     
     bus_write_data_sel_proc : process(all)
     begin
-        bus_data_write <= i_evict_cacheline_reg((ENTRY_SIZE_BYTES * 8 * to_integer(stored_words_counter) + 1) - 1 downto (ENTRY_SIZE_BYTES * 8 * to_integer(stored_words_counter)));
+        bus_data_write <= i_evict_cacheline_reg((ENTRY_SIZE_BYTES * 8 * (to_integer(stored_words_counter) + 1)) - 1 downto (ENTRY_SIZE_BYTES * 8 * to_integer(stored_words_counter)));
     end process;    
     
     bus_stbw <= "1111";
