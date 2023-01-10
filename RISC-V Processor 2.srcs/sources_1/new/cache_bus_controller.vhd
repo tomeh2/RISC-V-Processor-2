@@ -32,7 +32,8 @@ entity cache_bus_controller is
         ADDR_SIZE : integer;
         ENTRY_SIZE_BYTES : integer;
         ASSOCIATIVITY : integer;
-        ENTRIES_PER_CACHELINE : integer
+        ENTRIES_PER_CACHELINE : integer;
+        ENABLE_WRITES : integer
     );
     port(
         bus_addr_write : out std_logic_vector(ADDR_SIZE - 1 downto 0);
@@ -198,83 +199,87 @@ begin
     cache_writeback_cacheline <= fetched_cacheline_data;
     cache_writeback_addr <= i_writeback_addr;
     -- ========================================================
-    bus_write_sm_state_reg_cntrl : process(clk)
-    begin
-        if (rising_edge(clk)) then
-            if (reset = '1') then
-                bus_write_state <= IDLE;
-            else
-                bus_write_state <= bus_write_state_next;
-            end if;
-        end if;
-    end process;
-    
-    bus_write_cntrl : process(clk)
-    begin
-        if (rising_edge(clk)) then
-            if (reset = '1') then
-                bus_curr_addr_write <= (others => '0');
-                i_evict_cacheline_reg <= (others => '0');
-            else
-                if (cache_evict_en = '1' and bus_write_state = IDLE) then
-                    i_evict_cacheline_reg <= cache_evict_cacheline;
-                    bus_curr_addr_write <= cache_evict_addr;
-                elsif (bus_ackw = '1' and bus_write_state = BUSY) then
-                    bus_curr_addr_write <= std_logic_vector(unsigned(bus_curr_addr_write) + 4);
+    bus_cntrl_write_gen : if (ENABLE_WRITES = 1) generate
+        bus_write_sm_state_reg_cntrl : process(clk)
+        begin
+            if (rising_edge(clk)) then
+                if (reset = '1') then
+                    bus_write_state <= IDLE;
+                else
+                    bus_write_state <= bus_write_state_next;
                 end if;
             end if;
-        end if;
-    end process;    
-    bus_addr_write <= bus_curr_addr_write;
-    
-    bus_write_sm_next_state : process(all)
-    begin
-        case bus_write_state is
-            when IDLE => 
-                if (cache_evict_en = '1') then
-                    bus_write_state_next <= BUSY;
+        end process;
+        
+        bus_write_cntrl : process(clk)
+        begin
+            if (rising_edge(clk)) then
+                if (reset = '1') then
+                    bus_curr_addr_write <= (others => '0');
+                    i_evict_cacheline_reg <= (others => '0');
                 else
+                    if (cache_evict_en = '1' and bus_write_state = IDLE) then
+                        i_evict_cacheline_reg <= cache_evict_cacheline;
+                        bus_curr_addr_write <= cache_evict_addr;
+                    elsif (bus_ackw = '1' and bus_write_state = BUSY) then
+                        bus_curr_addr_write <= std_logic_vector(unsigned(bus_curr_addr_write) + 4);
+                    end if;
+                end if;
+            end if;
+        end process;    
+        bus_addr_write <= bus_curr_addr_write;
+        
+        bus_write_sm_next_state : process(all)
+        begin
+            case bus_write_state is
+                when IDLE => 
+                    if (cache_evict_en = '1') then
+                        bus_write_state_next <= BUSY;
+                    else
+                        bus_write_state_next <= IDLE;
+                    end if;
+                when BUSY => 
+                    if (stored_words_counter = ENTRIES_PER_CACHELINE - 1 and bus_ackw = '1') then
+                        bus_write_state_next <= FINALIZE;
+                    else
+                        bus_write_state_next <= BUSY;
+                    end if;
+                when FINALIZE => 
                     bus_write_state_next <= IDLE;
-                end if;
-            when BUSY => 
-                if (stored_words_counter = ENTRIES_PER_CACHELINE - 1 and bus_ackw = '1') then
-                    bus_write_state_next <= FINALIZE;
-                else
-                    bus_write_state_next <= BUSY;
-                end if;
-            when FINALIZE => 
-                bus_write_state_next <= IDLE;
-        end case;
-    end process;
+            end case;
+        end process;
+        
+        bus_write_sm_actions : process(all)
+        begin
+            bus_stbw <= "0000";
+            case bus_write_state is
+                when IDLE => 
     
-    bus_write_sm_actions : process(all)
-    begin
-        bus_stbw <= "0000";
-        case bus_write_state is
-            when IDLE => 
-
-            when BUSY => 
-                bus_stbw <= "1111";
-            when FINALIZE => 
-                
-        end case;
-    end process;
-    
-    stored_words_counter_cntrl : process(clk)
-    begin
-        if (rising_edge(clk)) then
-            if (bus_write_state = IDLE) then
-                stored_words_counter <= (others => '0');
-            elsif (bus_write_state = BUSY and bus_ackw = '1') then
-                stored_words_counter <= stored_words_counter + 1;
+                when BUSY => 
+                    bus_stbw <= "1111";
+                when FINALIZE => 
+                    
+            end case;
+        end process;
+        
+        stored_words_counter_cntrl : process(clk)
+        begin
+            if (rising_edge(clk)) then
+                if (bus_write_state = IDLE) then
+                    stored_words_counter <= (others => '0');
+                elsif (bus_write_state = BUSY and bus_ackw = '1') then
+                    stored_words_counter <= stored_words_counter + 1;
+                end if;
             end if;
-        end if;
-    end process;
+        end process;
+        
+        bus_write_data_sel_proc : process(all)
+        begin
+            bus_data_write <= i_evict_cacheline_reg((ENTRY_SIZE_BYTES * 8 * (to_integer(stored_words_counter) + 1)) - 1 downto (ENTRY_SIZE_BYTES * 8 * to_integer(stored_words_counter)));
+        end process;
+    end generate;
     
-    bus_write_data_sel_proc : process(all)
-    begin
-        bus_data_write <= i_evict_cacheline_reg((ENTRY_SIZE_BYTES * 8 * (to_integer(stored_words_counter) + 1)) - 1 downto (ENTRY_SIZE_BYTES * 8 * to_integer(stored_words_counter)));
-    end process;    
+        
 end rtl;
 
 

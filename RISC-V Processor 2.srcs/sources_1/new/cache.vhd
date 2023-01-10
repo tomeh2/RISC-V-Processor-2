@@ -133,6 +133,7 @@ architecture rtl of cache is
     signal cacheline_evict_en : std_logic;
     signal cacheline_evict_write_en : std_logic;
     signal cacheline_addr_aligned : std_logic_vector(ADDR_SIZE_BITS - 1 downto 0);
+    signal cacheline_evict_addr_aligned : std_logic_vector(ADDR_SIZE_BITS - 1 downto 0);
 
     signal cbc_fwd_en : std_logic;
     signal cbc_writeback_cacheline : std_logic_vector(CACHELINE_SIZE - TAG_SIZE - 2 downto 0);
@@ -176,7 +177,8 @@ begin
                                     generic map(ADDR_SIZE => ADDR_SIZE_BITS,
                                                 ASSOCIATIVITY => ASSOCIATIVITY,
                                                 ENTRY_SIZE_BYTES => ENTRY_SIZE_BYTES,
-                                                ENTRIES_PER_CACHELINE => ENTRIES_PER_CACHELINE)
+                                                ENTRIES_PER_CACHELINE => ENTRIES_PER_CACHELINE,
+                                                ENABLE_WRITES => ENABLE_WRITES)
                                     port map(bus_addr_read => bus_addr_read,
                                              bus_data_read => bus_data_read,
                                              bus_addr_write => bus_addr_write,
@@ -193,7 +195,7 @@ begin
                                              load_busy => cbc_load_busy,
                                              
                                              cache_evict_cacheline => c2_c3_pipeline_reg_1.cacheline(CACHELINE_DATA_START downto CACHELINE_DATA_END),
-                                             cache_evict_addr => cacheline_addr_aligned,
+                                             cache_evict_addr => cacheline_evict_addr_aligned,
                                              cache_evict_en => cacheline_evict_write_en,
                                              write_busy => cbc_write_busy,
                                              
@@ -206,7 +208,12 @@ begin
                                              
                                              clk => clk,
                                              reset => reset);
-    cacheline_addr_aligned <= c2_c3_pipeline_reg_1.addr(ADDR_SIZE_BITS - 1 downto CACHELINE_ALIGNMENT) & std_logic_vector(to_unsigned(0, CACHELINE_ALIGNMENT));
+                                             
+    cacheline_addr_aligned <= c2_c3_pipeline_reg_1.addr(RADDR_TAG_START downto RADDR_INDEX_END) & std_logic_vector(to_unsigned(0, CACHELINE_ALIGNMENT));
+    
+    cacheline_evict_addr_aligned <= c2_c3_pipeline_reg_1.cacheline(CACHELINE_TAG_START downto CACHELINE_TAG_END) & 
+                                    c2_c3_pipeline_reg_1.addr(RADDR_INDEX_START downto RADDR_INDEX_END) & 
+                                    std_logic_vector(to_unsigned(0, CACHELINE_ALIGNMENT));
     
 
     loaded_cacheline_tag <= cbc_writeback_addr(RADDR_TAG_START downto RADDR_TAG_END);
@@ -246,7 +253,7 @@ begin
             end if;
         end process;
         
-        cacheline_update_proc : process(all)
+        cacheline_update_proc : process(c2_c3_pipeline_reg_1)
         begin
             cacheline_update <= c2_c3_pipeline_reg_1.cacheline;
             cacheline_update(CACHELINE_DIRTY_BIT) <= '1';
@@ -416,8 +423,8 @@ begin
                 if (ENABLE_WRITES = 1) then
                     if (cacheline_evict_en = '1') then 
                         for i in 0 to ASSOCIATIVITY - 1 loop
-                            if (write_selected_cacheline(i) = '1') then
-                                icache_valid_bits(to_integer(unsigned(cbc_writeback_addr(RADDR_INDEX_START downto RADDR_INDEX_END))) * ASSOCIATIVITY + i) <= '0';
+                            if (c2_c3_pipeline_reg_1.evict_mask(i) = '1') then
+                                icache_valid_bits(to_integer(unsigned(c2_c3_pipeline_reg_1.addr(RADDR_INDEX_START downto RADDR_INDEX_END))) * ASSOCIATIVITY + i) <= '0';
                             end if;
                         end loop;
                     end if;

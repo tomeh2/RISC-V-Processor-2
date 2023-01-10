@@ -16,13 +16,13 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="0.000000 us"></ZoomStartTime>
-      <ZoomEndTime time="21.593782 us"></ZoomEndTime>
-      <Cursor1Time time="4.450000 us"></Cursor1Time>
+      <ZoomStartTime time="1,661,760.077 ns"></ZoomStartTime>
+      <ZoomEndTime time="1,665,653.709 ns"></ZoomEndTime>
+      <Cursor1Time time="1,663,691.179 ns"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="386"></NameColumnWidth>
-      <ValueColumnWidth column_width="174"></ValueColumnWidth>
+      <ValueColumnWidth column_width="170"></ValueColumnWidth>
    </column_width_setting>
    <WVObjectSize size="27" />
    <wvobject fp_name="/cpu_tb/clk" type="logic">
@@ -109,10 +109,6 @@
             <obj_property name="ElementShortName">bus_read_state_next</obj_property>
             <obj_property name="ObjectShortName">bus_read_state_next</obj_property>
          </wvobject>
-         <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/icache_inst/cache_bram_inst/cache_bus_controller_inst/loader_busy" type="logic">
-            <obj_property name="ElementShortName">loader_busy</obj_property>
-            <obj_property name="ObjectShortName">loader_busy</obj_property>
-         </wvobject>
          <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/icache_inst/cache_bram_inst/data_read" type="array">
             <obj_property name="ElementShortName">data_read[31:0]</obj_property>
             <obj_property name="ObjectShortName">data_read[31:0]</obj_property>
@@ -149,10 +145,6 @@
             <obj_property name="ElementShortName">icache_set_out[0:1][152:0]</obj_property>
             <obj_property name="ObjectShortName">icache_set_out[0:1][152:0]</obj_property>
          </wvobject>
-         <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/icache_inst/cache_bram_inst/icache_set_valid" type="array">
-            <obj_property name="ElementShortName">icache_set_valid[1:0]</obj_property>
-            <obj_property name="ObjectShortName">icache_set_valid[1:0]</obj_property>
-         </wvobject>
          <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/icache_inst/cache_bram_inst/hit_bits" type="array">
             <obj_property name="ElementShortName">hit_bits[1:0]</obj_property>
             <obj_property name="ObjectShortName">hit_bits[1:0]</obj_property>
@@ -177,17 +169,9 @@
             <obj_property name="ElementShortName">cacheline_update_en</obj_property>
             <obj_property name="ObjectShortName">cacheline_update_en</obj_property>
          </wvobject>
-         <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/icache_inst/cache_bram_inst/cacheline_update_en_delayed" type="logic">
-            <obj_property name="ElementShortName">cacheline_update_en_delayed</obj_property>
-            <obj_property name="ObjectShortName">cacheline_update_en_delayed</obj_property>
-         </wvobject>
          <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/icache_inst/cache_bram_inst/cacheline_update_sel" type="array">
             <obj_property name="ElementShortName">cacheline_update_sel[1:0]</obj_property>
             <obj_property name="ObjectShortName">cacheline_update_sel[1:0]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/icache_inst/cache_bram_inst/cacheline_update_sel_delayed" type="array">
-            <obj_property name="ElementShortName">cacheline_update_sel_delayed[1:0]</obj_property>
-            <obj_property name="ObjectShortName">cacheline_update_sel_delayed[1:0]</obj_property>
          </wvobject>
          <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/icache_inst/cache_bram_inst/addr_read_cache" type="array">
             <obj_property name="ElementShortName">addr_read_cache[3:0]</obj_property>
@@ -419,7 +403,6 @@
    <wvobject fp_name="group7" type="group">
       <obj_property name="label">EXECUTION_ENGINE</obj_property>
       <obj_property name="DisplayName">label</obj_property>
-      <obj_property name="isExpanded"></obj_property>
       <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/fifo_read_en" type="logic">
          <obj_property name="ElementShortName">fifo_read_en</obj_property>
          <obj_property name="ObjectShortName">fifo_read_en</obj_property>
@@ -1476,6 +1459,7 @@
    <wvobject fp_name="group2027" type="group">
       <obj_property name="label">BUS</obj_property>
       <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
       <wvobject fp_name="/cpu_tb/cpu/bus_data_read_rom" type="array">
          <obj_property name="ElementShortName">bus_data_read_rom[31:0]</obj_property>
          <obj_property name="ObjectShortName">bus_data_read_rom[31:0]</obj_property>
@@ -1758,14 +1742,6 @@
          <obj_property name="ElementShortName">loaded_cacheline_tag_valid</obj_property>
          <obj_property name="ObjectShortName">loaded_cacheline_tag_valid</obj_property>
       </wvobject>
-      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/cache_bus_controller_inst/bus_read_state" type="other">
-         <obj_property name="ElementShortName">bus_read_state</obj_property>
-         <obj_property name="ObjectShortName">bus_read_state</obj_property>
-      </wvobject>
-      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/cache_bus_controller_inst/bus_read_state_next" type="other">
-         <obj_property name="ElementShortName">bus_read_state_next</obj_property>
-         <obj_property name="ObjectShortName">bus_read_state_next</obj_property>
-      </wvobject>
       <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/cbc_fwd_en" type="logic">
          <obj_property name="ElementShortName">cbc_fwd_en</obj_property>
          <obj_property name="ObjectShortName">cbc_fwd_en</obj_property>
@@ -1782,10 +1758,6 @@
          <obj_property name="ElementShortName">cbc_writeback_en</obj_property>
          <obj_property name="ObjectShortName">cbc_writeback_en</obj_property>
       </wvobject>
-      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/cbc_loader_busy" type="logic">
-         <obj_property name="ElementShortName">cbc_loader_busy</obj_property>
-         <obj_property name="ObjectShortName">cbc_loader_busy</obj_property>
-      </wvobject>
       <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/\bram_gen(0)\/bram_inst/bram" type="array">
          <obj_property name="ElementShortName">bram[15:0][152:0]</obj_property>
          <obj_property name="ObjectShortName">bram[15:0][152:0]</obj_property>
@@ -1793,6 +1765,189 @@
       <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/\bram_gen(1)\/bram_inst/bram" type="array">
          <obj_property name="ElementShortName">bram[15:0][152:0]</obj_property>
          <obj_property name="ObjectShortName">bram[15:0][152:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/icache_valid_bits" type="array">
+         <obj_property name="ElementShortName">icache_valid_bits[31:0]</obj_property>
+         <obj_property name="ObjectShortName">icache_valid_bits[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/icache_set_out_bram" type="array">
+         <obj_property name="ElementShortName">icache_set_out_bram[0:1][152:0]</obj_property>
+         <obj_property name="ObjectShortName">icache_set_out_bram[0:1][152:0]</obj_property>
+         <obj_property name="isExpanded"></obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/icache_set_out" type="array">
+         <obj_property name="ElementShortName">icache_set_out[0:1][152:0]</obj_property>
+         <obj_property name="ObjectShortName">icache_set_out[0:1][152:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/icache_set_valid_1" type="array">
+         <obj_property name="ElementShortName">icache_set_valid_1[1:0]</obj_property>
+         <obj_property name="ObjectShortName">icache_set_valid_1[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/icache_set_valid_2" type="array">
+         <obj_property name="ElementShortName">icache_set_valid_2[1:0]</obj_property>
+         <obj_property name="ObjectShortName">icache_set_valid_2[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/hit_bits" type="array">
+         <obj_property name="ElementShortName">hit_bits[1:0]</obj_property>
+         <obj_property name="ObjectShortName">hit_bits[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/cacheline_update" type="array">
+         <obj_property name="ElementShortName">cacheline_update[152:0]</obj_property>
+         <obj_property name="ObjectShortName">cacheline_update[152:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/cacheline_write" type="array">
+         <obj_property name="ElementShortName">cacheline_write[152:0]</obj_property>
+         <obj_property name="ObjectShortName">cacheline_write[152:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/cacheline_update_en" type="logic">
+         <obj_property name="ElementShortName">cacheline_update_en</obj_property>
+         <obj_property name="ObjectShortName">cacheline_update_en</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/cacheline_update_sel" type="array">
+         <obj_property name="ElementShortName">cacheline_update_sel[1:0]</obj_property>
+         <obj_property name="ObjectShortName">cacheline_update_sel[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/cacheline_evict_en" type="logic">
+         <obj_property name="ElementShortName">cacheline_evict_en</obj_property>
+         <obj_property name="ObjectShortName">cacheline_evict_en</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/cacheline_evict_write_en" type="logic">
+         <obj_property name="ElementShortName">cacheline_evict_write_en</obj_property>
+         <obj_property name="ObjectShortName">cacheline_evict_write_en</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/cacheline_addr_aligned" type="array">
+         <obj_property name="ElementShortName">cacheline_addr_aligned[31:0]</obj_property>
+         <obj_property name="ObjectShortName">cacheline_addr_aligned[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/cbc_load_busy" type="logic">
+         <obj_property name="ElementShortName">cbc_load_busy</obj_property>
+         <obj_property name="ObjectShortName">cbc_load_busy</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/cbc_write_busy" type="logic">
+         <obj_property name="ElementShortName">cbc_write_busy</obj_property>
+         <obj_property name="ObjectShortName">cbc_write_busy</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/stall" type="logic">
+         <obj_property name="ElementShortName">stall</obj_property>
+         <obj_property name="ObjectShortName">stall</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/c1_c2_pipeline_reg_1" type="array">
+         <obj_property name="ElementShortName">c1_c2_pipeline_reg_1</obj_property>
+         <obj_property name="ObjectShortName">c1_c2_pipeline_reg_1</obj_property>
+         <obj_property name="isExpanded"></obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/c2_c3_pipeline_reg_1" type="array">
+         <obj_property name="ElementShortName">c2_c3_pipeline_reg_1</obj_property>
+         <obj_property name="ObjectShortName">c2_c3_pipeline_reg_1</obj_property>
+         <obj_property name="isExpanded"></obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/cache_bus_controller_inst/bus_read_state" type="other">
+         <obj_property name="ElementShortName">bus_read_state</obj_property>
+         <obj_property name="ObjectShortName">bus_read_state</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/cache_bus_controller_inst/bus_read_state_next" type="other">
+         <obj_property name="ElementShortName">bus_read_state_next</obj_property>
+         <obj_property name="ObjectShortName">bus_read_state_next</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/cache_bus_controller_inst/bus_write_state" type="other">
+         <obj_property name="ElementShortName">bus_write_state</obj_property>
+         <obj_property name="ObjectShortName">bus_write_state</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/cache_bus_controller_inst/bus_write_state_next" type="other">
+         <obj_property name="ElementShortName">bus_write_state_next</obj_property>
+         <obj_property name="ObjectShortName">bus_write_state_next</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/ADDR_SIZE_BITS" type="other">
+         <obj_property name="ElementShortName">ADDR_SIZE_BITS</obj_property>
+         <obj_property name="ObjectShortName">ADDR_SIZE_BITS</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/ENTRY_SIZE_BYTES" type="other">
+         <obj_property name="ElementShortName">ENTRY_SIZE_BYTES</obj_property>
+         <obj_property name="ObjectShortName">ENTRY_SIZE_BYTES</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/ENTRIES_PER_CACHELINE" type="other">
+         <obj_property name="ElementShortName">ENTRIES_PER_CACHELINE</obj_property>
+         <obj_property name="ObjectShortName">ENTRIES_PER_CACHELINE</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/ASSOCIATIVITY" type="other">
+         <obj_property name="ElementShortName">ASSOCIATIVITY</obj_property>
+         <obj_property name="ObjectShortName">ASSOCIATIVITY</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/NUM_SETS" type="other">
+         <obj_property name="ElementShortName">NUM_SETS</obj_property>
+         <obj_property name="ObjectShortName">NUM_SETS</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/ENABLE_WRITES" type="other">
+         <obj_property name="ElementShortName">ENABLE_WRITES</obj_property>
+         <obj_property name="ObjectShortName">ENABLE_WRITES</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/ENABLE_FORWARDING" type="other">
+         <obj_property name="ElementShortName">ENABLE_FORWARDING</obj_property>
+         <obj_property name="ObjectShortName">ENABLE_FORWARDING</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/IS_BLOCKING" type="other">
+         <obj_property name="ElementShortName">IS_BLOCKING</obj_property>
+         <obj_property name="ObjectShortName">IS_BLOCKING</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/TAG_SIZE" type="other">
+         <obj_property name="ElementShortName">TAG_SIZE</obj_property>
+         <obj_property name="ObjectShortName">TAG_SIZE</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/INDEX_SIZE" type="other">
+         <obj_property name="ElementShortName">INDEX_SIZE</obj_property>
+         <obj_property name="ObjectShortName">INDEX_SIZE</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/CACHELINE_SIZE" type="other">
+         <obj_property name="ElementShortName">CACHELINE_SIZE</obj_property>
+         <obj_property name="ObjectShortName">CACHELINE_SIZE</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/CACHELINE_ALIGNMENT" type="other">
+         <obj_property name="ElementShortName">CACHELINE_ALIGNMENT</obj_property>
+         <obj_property name="ObjectShortName">CACHELINE_ALIGNMENT</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/RADDR_TAG_START" type="other">
+         <obj_property name="ElementShortName">RADDR_TAG_START</obj_property>
+         <obj_property name="ObjectShortName">RADDR_TAG_START</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/RADDR_TAG_END" type="other">
+         <obj_property name="ElementShortName">RADDR_TAG_END</obj_property>
+         <obj_property name="ObjectShortName">RADDR_TAG_END</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/RADDR_INDEX_START" type="other">
+         <obj_property name="ElementShortName">RADDR_INDEX_START</obj_property>
+         <obj_property name="ObjectShortName">RADDR_INDEX_START</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/RADDR_INDEX_END" type="other">
+         <obj_property name="ElementShortName">RADDR_INDEX_END</obj_property>
+         <obj_property name="ObjectShortName">RADDR_INDEX_END</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/RADDR_OFFSET_START" type="other">
+         <obj_property name="ElementShortName">RADDR_OFFSET_START</obj_property>
+         <obj_property name="ObjectShortName">RADDR_OFFSET_START</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/RADDR_OFFSET_END" type="other">
+         <obj_property name="ElementShortName">RADDR_OFFSET_END</obj_property>
+         <obj_property name="ObjectShortName">RADDR_OFFSET_END</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/CACHELINE_DIRTY_BIT" type="other">
+         <obj_property name="ElementShortName">CACHELINE_DIRTY_BIT</obj_property>
+         <obj_property name="ObjectShortName">CACHELINE_DIRTY_BIT</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/CACHELINE_TAG_START" type="other">
+         <obj_property name="ElementShortName">CACHELINE_TAG_START</obj_property>
+         <obj_property name="ObjectShortName">CACHELINE_TAG_START</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/CACHELINE_TAG_END" type="other">
+         <obj_property name="ElementShortName">CACHELINE_TAG_END</obj_property>
+         <obj_property name="ObjectShortName">CACHELINE_TAG_END</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/CACHELINE_DATA_START" type="other">
+         <obj_property name="ElementShortName">CACHELINE_DATA_START</obj_property>
+         <obj_property name="ObjectShortName">CACHELINE_DATA_START</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/CACHELINE_DATA_END" type="other">
+         <obj_property name="ElementShortName">CACHELINE_DATA_END</obj_property>
+         <obj_property name="ObjectShortName">CACHELINE_DATA_END</obj_property>
       </wvobject>
    </wvobject>
 </wave_config>
