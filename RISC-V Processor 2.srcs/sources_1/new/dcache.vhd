@@ -30,9 +30,13 @@ use WORK.PKG_CPU.ALL;
 entity dcache is
     port(
         bus_addr_read : out std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);
+        bus_addr_write : out std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);
         bus_data_read : in std_logic_vector(CPU_DATA_WIDTH_BITS - 1 downto 0);
+        bus_data_write : out std_logic_vector(CPU_DATA_WIDTH_BITS - 1 downto 0);
         bus_stbr : out std_logic;
+        bus_stbw : out std_logic_vector(3 downto 0);
         bus_ackr : in std_logic;
+        bus_ackw : in std_logic;
     
         read_addr_1 : in std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);
         read_tag_1 : in std_logic_vector(LOAD_QUEUE_TAG_BITS - 1 downto 0);
@@ -91,6 +95,8 @@ architecture rtl of dcache is
     signal i_miss : std_logic;
     signal i_hit : std_logic;
     signal i_cacheline_valid : std_logic;
+    
+    signal i_stall : std_logic;
 begin
     c1_addr <= read_addr_1 when i_read_ready_1 else write_addr_1;    
 
@@ -101,8 +107,10 @@ begin
                 c1_c2_pipeline_reg.is_write <= '0';
                 c2_c3_pipeline_reg.is_write <= '0';
             else
-                c1_c2_pipeline_reg.is_write <= i_write_ready_1;
-                c2_c3_pipeline_reg.is_write <= c1_c2_pipeline_reg.is_write;
+                if (i_stall = '0') then
+                    c1_c2_pipeline_reg.is_write <= i_write_ready_1;
+                    c2_c3_pipeline_reg.is_write <= c1_c2_pipeline_reg.is_write;
+                end if;
             end if;
         end if;
     end process;
@@ -118,9 +126,13 @@ begin
                                   ENABLE_FORWARDING => 0,
                                   IS_BLOCKING => 0)
                       port map(bus_addr_read => bus_addr_read,
+                               bus_addr_write => bus_addr_write,
                                bus_data_read => bus_data_read,
+                               bus_data_write => bus_data_write,
                                bus_stbr => bus_stbr,
+                               bus_stbw => bus_stbw,
                                bus_ackr => bus_ackr,
+                               bus_ackw => bus_ackw,
 
                                data_read => read_data_out_1,
                                
@@ -132,7 +144,7 @@ begin
                                
                                clear_pipeline => '0',
                                stall => '0',
-                               stall_o => open,
+                               stall_o => i_stall,
                                
                                hit => i_hit,
                                miss => i_miss,
@@ -144,8 +156,8 @@ begin
                                clk => clk,
                                reset => reset);
                                
-    i_read_ready_1 <= read_valid_1;
-    i_write_ready_1 <= write_valid_1 and not read_valid_1;
+    i_read_ready_1 <= read_valid_1 and not i_stall;
+    i_write_ready_1 <= write_valid_1 and not read_valid_1 and not i_stall;
     
     read_ready_1 <= i_read_ready_1;
     write_ready_1 <= i_write_ready_1;

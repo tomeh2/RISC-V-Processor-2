@@ -205,9 +205,13 @@ begin
 
     dcache_inst : entity work.dcache(rtl)
                       port map(bus_data_read => bus_data_read,
+                               bus_data_write => bus_data_write,
                                bus_addr_read => bus_addr_read_ee,
+                               bus_addr_write => bus_addr_write,
                                bus_stbr => bus_stbr_ee,
+                               bus_stbw => bus_stbw,
                                bus_ackr => bus_ackr_ee,
+                               bus_ackw => bus_ackw,
                                
                                read_addr_1 => dcache_read_addr,
                                read_tag_1 => (others => '0'),

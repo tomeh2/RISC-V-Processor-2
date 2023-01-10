@@ -24,15 +24,17 @@ module dcache_tb(
 
     );
     logic[31:0] bus_data_read, bus_addr_read, read_addr_1, write_addr_1, write_data_1, read_data_out_1;
-    logic bus_ackr, bus_stbr, read_valid_1, read_ready_1, write_valid_1, write_ready_1, read_miss_1, read_hit_1, write_miss_1, write_hit_1, reset, clk;
+    logic bus_ackr, bus_stbr, bus_ackw, read_valid_1, read_ready_1, write_valid_1, write_ready_1, read_miss_1, read_hit_1, write_miss_1, write_hit_1, reset, clk;
     logic[1:0] write_size_1;
    
     reg [31:0] mem[15:0];
    
+    assign bus_ackw = 1;
     dcache uut (
               .bus_data_read(bus_data_read),
               .bus_addr_read(bus_addr_read),
               .bus_ackr(bus_ackr),
+              .bus_ackw(bus_ackw),
               .bus_stbr(bus_stbr),
               
               .read_addr_1(read_addr_1),
@@ -69,6 +71,7 @@ module dcache_tb(
     task t_read_req(input [31:0] addr, input [31:0] expected_data, input block);
         read_addr_1 = addr;
         read_valid_1 = 1;
+        wait (read_ready_1 == 1);
         @(posedge clk);
         #1;
         read_addr_1 = 0;
@@ -86,6 +89,7 @@ module dcache_tb(
         write_data_1 = data;
         write_size_1 = write_size;
         write_valid_1 = 1;
+        wait (write_ready_1 == 1);
         @(posedge clk);
         #1;
         write_addr_1 = 0;
@@ -101,6 +105,7 @@ module dcache_tb(
         write_data_1 = data;
         write_size_1 = write_size;
         write_valid_1 = 1;
+        wait (write_ready_1 == 1);
         @(posedge clk);
         #1;
         write_addr_1 = 0;
@@ -141,6 +146,12 @@ module dcache_tb(
         t_write_req_nodelay('h0000_000C, 'h9ABC_DEF0, 2);
         
         t_read_req('h0000_000C, 'h9ABC_DEF0, 0);
+        t_read_req('h0000_0100, 'h0000_0000, 0);
+        
+        t_write_req_nodelay('h0000_0104, 'h1234_ABCD, 2);
+        
+        // Cause eviction
+        t_read_req('h0000_1000, 'h0000_0000, 0);
     endtask;
     
     task t_run_icache();
@@ -162,6 +173,10 @@ module dcache_tb(
         
         t_reset();
         t_run_dcache();
+        
+        #1000;
+        
+        $finish;
     end
     
     always #10 clk = ~clk;

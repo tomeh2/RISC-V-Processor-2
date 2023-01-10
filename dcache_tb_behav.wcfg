@@ -12,15 +12,15 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="859.999 ns"></ZoomStartTime>
-      <ZoomEndTime time="1,159.759 ns"></ZoomEndTime>
-      <Cursor1Time time="1,122.024 ns"></Cursor1Time>
+      <ZoomStartTime time="0.000 ns"></ZoomStartTime>
+      <ZoomEndTime time="2,391.001 ns"></ZoomEndTime>
+      <Cursor1Time time="1,430.000 ns"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="550"></NameColumnWidth>
-      <ValueColumnWidth column_width="271"></ValueColumnWidth>
+      <ValueColumnWidth column_width="235"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="28" />
+   <WVObjectSize size="59" />
    <wvobject fp_name="/dcache_tb/clk" type="logic">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
@@ -28,6 +28,10 @@
    <wvobject fp_name="/dcache_tb/reset" type="logic">
       <obj_property name="ElementShortName">reset</obj_property>
       <obj_property name="ObjectShortName">reset</obj_property>
+   </wvobject>
+   <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/stall_o" type="logic">
+      <obj_property name="ElementShortName">stall_o</obj_property>
+      <obj_property name="ObjectShortName">stall_o</obj_property>
    </wvobject>
    <wvobject fp_name="/dcache_tb/uut/read_addr_1" type="array">
       <obj_property name="ElementShortName">read_addr_1[31:0]</obj_property>
@@ -97,59 +101,310 @@
       <obj_property name="ElementShortName">write_miss_tag_1[1:0]</obj_property>
       <obj_property name="ObjectShortName">write_miss_tag_1[1:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/dcache_tb/mem" type="array">
-      <obj_property name="ElementShortName">mem[15:0][31:0]</obj_property>
-      <obj_property name="ObjectShortName">mem[15:0][31:0]</obj_property>
+   <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/write_selected_cacheline" type="array">
+      <obj_property name="ElementShortName">write_selected_cacheline[1:0]</obj_property>
+      <obj_property name="ObjectShortName">write_selected_cacheline[1:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/icache_valid_bits" type="array">
+      <obj_property name="ElementShortName">icache_valid_bits[31:0]</obj_property>
+      <obj_property name="ObjectShortName">icache_valid_bits[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/icache_set_out_bram" type="array">
+      <obj_property name="ElementShortName">icache_set_out_bram[0:1][152:0]</obj_property>
+      <obj_property name="ObjectShortName">icache_set_out_bram[0:1][152:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/icache_set_out" type="array">
+      <obj_property name="ElementShortName">icache_set_out[0:1][152:0]</obj_property>
+      <obj_property name="ObjectShortName">icache_set_out[0:1][152:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/icache_set_valid_1" type="array">
+      <obj_property name="ElementShortName">icache_set_valid_1[1:0]</obj_property>
+      <obj_property name="ObjectShortName">icache_set_valid_1[1:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/icache_set_valid_2" type="array">
+      <obj_property name="ElementShortName">icache_set_valid_2[1:0]</obj_property>
+      <obj_property name="ObjectShortName">icache_set_valid_2[1:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/i_hit" type="logic">
+      <obj_property name="ElementShortName">i_hit</obj_property>
+      <obj_property name="ObjectShortName">i_hit</obj_property>
+   </wvobject>
+   <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/i_set_full" type="logic">
+      <obj_property name="ElementShortName">i_set_full</obj_property>
+      <obj_property name="ObjectShortName">i_set_full</obj_property>
    </wvobject>
    <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/c1_c2_pipeline_reg_1" type="array">
       <obj_property name="ElementShortName">c1_c2_pipeline_reg_1</obj_property>
       <obj_property name="ObjectShortName">c1_c2_pipeline_reg_1</obj_property>
+      <obj_property name="isExpanded"></obj_property>
    </wvobject>
    <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/c2_c3_pipeline_reg_1" type="array">
       <obj_property name="ElementShortName">c2_c3_pipeline_reg_1</obj_property>
       <obj_property name="ObjectShortName">c2_c3_pipeline_reg_1</obj_property>
+      <obj_property name="isExpanded"></obj_property>
    </wvobject>
    <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/\bram_gen(0)\/bram_inst/bram" type="array">
-      <obj_property name="ElementShortName">bram[15:0][151:0]</obj_property>
-      <obj_property name="ObjectShortName">bram[15:0][151:0]</obj_property>
+      <obj_property name="ElementShortName">bram[15:0][152:0]</obj_property>
+      <obj_property name="ObjectShortName">bram[15:0][152:0]</obj_property>
       <obj_property name="isExpanded"></obj_property>
    </wvobject>
    <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/\bram_gen(1)\/bram_inst/bram" type="array">
-      <obj_property name="ElementShortName">bram[15:0][151:0]</obj_property>
-      <obj_property name="ObjectShortName">bram[15:0][151:0]</obj_property>
+      <obj_property name="ElementShortName">bram[15:0][152:0]</obj_property>
+      <obj_property name="ObjectShortName">bram[15:0][152:0]</obj_property>
+      <obj_property name="isExpanded"></obj_property>
    </wvobject>
    <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/cacheline_update" type="array">
-      <obj_property name="ElementShortName">cacheline_update[151:0]</obj_property>
-      <obj_property name="ObjectShortName">cacheline_update[151:0]</obj_property>
+      <obj_property name="ElementShortName">cacheline_update[152:0]</obj_property>
+      <obj_property name="ObjectShortName">cacheline_update[152:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/cacheline_update_en" type="logic">
       <obj_property name="ElementShortName">cacheline_update_en</obj_property>
       <obj_property name="ObjectShortName">cacheline_update_en</obj_property>
    </wvobject>
    <wvobject fp_name="group268" type="group">
-      <obj_property name="label">CACHE INTERNAL SIGNALS</obj_property>
+      <obj_property name="label">CACHE BUS CONTROLLER</obj_property>
       <obj_property name="DisplayName">label</obj_property>
       <obj_property name="isExpanded"></obj_property>
+      <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/cache_bus_controller_inst/load_addr" type="array">
+         <obj_property name="ElementShortName">load_addr[31:0]</obj_property>
+         <obj_property name="ObjectShortName">load_addr[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/cache_bus_controller_inst/load_location_in_set" type="array">
+         <obj_property name="ElementShortName">load_location_in_set[1:0]</obj_property>
+         <obj_property name="ObjectShortName">load_location_in_set[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/cache_bus_controller_inst/load_en" type="logic">
+         <obj_property name="ElementShortName">load_en</obj_property>
+         <obj_property name="ObjectShortName">load_en</obj_property>
+      </wvobject>
+      <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/cache_bus_controller_inst/load_cancel" type="logic">
+         <obj_property name="ElementShortName">load_cancel</obj_property>
+         <obj_property name="ObjectShortName">load_cancel</obj_property>
+      </wvobject>
+      <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/cache_bus_controller_inst/load_busy" type="logic">
+         <obj_property name="ElementShortName">load_busy</obj_property>
+         <obj_property name="ObjectShortName">load_busy</obj_property>
+      </wvobject>
+      <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/cache_bus_controller_inst/cache_evict_cacheline" type="array">
+         <obj_property name="ElementShortName">cache_evict_cacheline[127:0]</obj_property>
+         <obj_property name="ObjectShortName">cache_evict_cacheline[127:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/cache_bus_controller_inst/cache_evict_addr" type="array">
+         <obj_property name="ElementShortName">cache_evict_addr[31:0]</obj_property>
+         <obj_property name="ObjectShortName">cache_evict_addr[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/cache_bus_controller_inst/cache_evict_en" type="logic">
+         <obj_property name="ElementShortName">cache_evict_en</obj_property>
+         <obj_property name="ObjectShortName">cache_evict_en</obj_property>
+      </wvobject>
+      <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/cache_bus_controller_inst/write_busy" type="logic">
+         <obj_property name="ElementShortName">write_busy</obj_property>
+         <obj_property name="ObjectShortName">write_busy</obj_property>
+      </wvobject>
+      <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/cache_bus_controller_inst/cache_writeback_en" type="logic">
+         <obj_property name="ElementShortName">cache_writeback_en</obj_property>
+         <obj_property name="ObjectShortName">cache_writeback_en</obj_property>
+      </wvobject>
+      <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/cache_bus_controller_inst/cache_writeback_addr" type="array">
+         <obj_property name="ElementShortName">cache_writeback_addr[31:0]</obj_property>
+         <obj_property name="ObjectShortName">cache_writeback_addr[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/cache_bus_controller_inst/cache_writeback_set_addr" type="array">
+         <obj_property name="ElementShortName">cache_writeback_set_addr[1:0]</obj_property>
+         <obj_property name="ObjectShortName">cache_writeback_set_addr[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/cache_bus_controller_inst/cache_writeback_cacheline" type="array">
+         <obj_property name="ElementShortName">cache_writeback_cacheline[127:0]</obj_property>
+         <obj_property name="ObjectShortName">cache_writeback_cacheline[127:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/cache_bus_controller_inst/fwd_en" type="logic">
+         <obj_property name="ElementShortName">fwd_en</obj_property>
+         <obj_property name="ObjectShortName">fwd_en</obj_property>
+      </wvobject>
+      <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/cache_bus_controller_inst/clk" type="logic">
+         <obj_property name="ElementShortName">clk</obj_property>
+         <obj_property name="ObjectShortName">clk</obj_property>
+      </wvobject>
+      <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/cache_bus_controller_inst/reset" type="logic">
+         <obj_property name="ElementShortName">reset</obj_property>
+         <obj_property name="ObjectShortName">reset</obj_property>
+      </wvobject>
+      <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/cache_bus_controller_inst/bus_read_state" type="other">
+         <obj_property name="ElementShortName">bus_read_state</obj_property>
+         <obj_property name="ObjectShortName">bus_read_state</obj_property>
+      </wvobject>
+      <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/cache_bus_controller_inst/bus_read_state_next" type="other">
+         <obj_property name="ElementShortName">bus_read_state_next</obj_property>
+         <obj_property name="ObjectShortName">bus_read_state_next</obj_property>
+      </wvobject>
+      <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/cache_bus_controller_inst/bus_write_state" type="other">
+         <obj_property name="ElementShortName">bus_write_state</obj_property>
+         <obj_property name="ObjectShortName">bus_write_state</obj_property>
+      </wvobject>
+      <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/cache_bus_controller_inst/bus_write_state_next" type="other">
+         <obj_property name="ElementShortName">bus_write_state_next</obj_property>
+         <obj_property name="ObjectShortName">bus_write_state_next</obj_property>
+      </wvobject>
+      <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/cache_bus_controller_inst/fetched_words_counter" type="array">
+         <obj_property name="ElementShortName">fetched_words_counter[1:0]</obj_property>
+         <obj_property name="ObjectShortName">fetched_words_counter[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/cache_bus_controller_inst/fetched_cacheline_data" type="array">
+         <obj_property name="ElementShortName">fetched_cacheline_data[127:0]</obj_property>
+         <obj_property name="ObjectShortName">fetched_cacheline_data[127:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/cache_bus_controller_inst/stored_words_counter" type="array">
+         <obj_property name="ElementShortName">stored_words_counter[1:0]</obj_property>
+         <obj_property name="ObjectShortName">stored_words_counter[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/cache_bus_controller_inst/bus_curr_addr_write" type="array">
+         <obj_property name="ElementShortName">bus_curr_addr_write[31:0]</obj_property>
+         <obj_property name="ObjectShortName">bus_curr_addr_write[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/cache_bus_controller_inst/i_load_location_in_set_reg" type="array">
+         <obj_property name="ElementShortName">i_load_location_in_set_reg[1:0]</obj_property>
+         <obj_property name="ObjectShortName">i_load_location_in_set_reg[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/cache_bus_controller_inst/i_evict_cacheline_reg" type="array">
+         <obj_property name="ElementShortName">i_evict_cacheline_reg[127:0]</obj_property>
+         <obj_property name="ObjectShortName">i_evict_cacheline_reg[127:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/cache_bus_controller_inst/i_bus_curr_addr_read" type="array">
+         <obj_property name="ElementShortName">i_bus_curr_addr_read[31:0]</obj_property>
+         <obj_property name="ObjectShortName">i_bus_curr_addr_read[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/cache_bus_controller_inst/i_writeback_addr" type="array">
+         <obj_property name="ElementShortName">i_writeback_addr[31:0]</obj_property>
+         <obj_property name="ObjectShortName">i_writeback_addr[31:0]</obj_property>
+      </wvobject>
    </wvobject>
    <wvobject fp_name="group277" type="group">
-      <obj_property name="label">BUS CONTROLLER</obj_property>
+      <obj_property name="label">BUS</obj_property>
       <obj_property name="DisplayName">label</obj_property>
       <obj_property name="isExpanded"></obj_property>
-      <wvobject fp_name="/dcache_tb/bus_data_read" type="array">
+      <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/bus_data_write" type="array">
+         <obj_property name="ElementShortName">bus_data_write[31:0]</obj_property>
+         <obj_property name="ObjectShortName">bus_data_write[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/bus_data_read" type="array">
          <obj_property name="ElementShortName">bus_data_read[31:0]</obj_property>
          <obj_property name="ObjectShortName">bus_data_read[31:0]</obj_property>
       </wvobject>
-      <wvobject fp_name="/dcache_tb/bus_addr_read" type="array">
+      <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/bus_addr_write" type="array">
+         <obj_property name="ElementShortName">bus_addr_write[31:0]</obj_property>
+         <obj_property name="ObjectShortName">bus_addr_write[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/bus_addr_read" type="array">
          <obj_property name="ElementShortName">bus_addr_read[31:0]</obj_property>
          <obj_property name="ObjectShortName">bus_addr_read[31:0]</obj_property>
       </wvobject>
-      <wvobject fp_name="/dcache_tb/bus_ackr" type="logic">
-         <obj_property name="ElementShortName">bus_ackr</obj_property>
-         <obj_property name="ObjectShortName">bus_ackr</obj_property>
+      <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/cache_bus_controller_inst/bus_stbw" type="array">
+         <obj_property name="ElementShortName">bus_stbw[3:0]</obj_property>
+         <obj_property name="ObjectShortName">bus_stbw[3:0]</obj_property>
       </wvobject>
-      <wvobject fp_name="/dcache_tb/bus_stbr" type="logic">
+      <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/bus_ackw" type="logic">
+         <obj_property name="ElementShortName">bus_ackw</obj_property>
+         <obj_property name="ObjectShortName">bus_ackw</obj_property>
+      </wvobject>
+      <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/cache_bus_controller_inst/bus_stbr" type="logic">
          <obj_property name="ElementShortName">bus_stbr</obj_property>
          <obj_property name="ObjectShortName">bus_stbr</obj_property>
       </wvobject>
+      <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/bus_ackr" type="logic">
+         <obj_property name="ElementShortName">bus_ackr</obj_property>
+         <obj_property name="ObjectShortName">bus_ackr</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/ADDR_SIZE_BITS" type="other">
+      <obj_property name="ElementShortName">ADDR_SIZE_BITS</obj_property>
+      <obj_property name="ObjectShortName">ADDR_SIZE_BITS</obj_property>
+   </wvobject>
+   <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/ENTRY_SIZE_BYTES" type="other">
+      <obj_property name="ElementShortName">ENTRY_SIZE_BYTES</obj_property>
+      <obj_property name="ObjectShortName">ENTRY_SIZE_BYTES</obj_property>
+   </wvobject>
+   <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/ENTRIES_PER_CACHELINE" type="other">
+      <obj_property name="ElementShortName">ENTRIES_PER_CACHELINE</obj_property>
+      <obj_property name="ObjectShortName">ENTRIES_PER_CACHELINE</obj_property>
+   </wvobject>
+   <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/ASSOCIATIVITY" type="other">
+      <obj_property name="ElementShortName">ASSOCIATIVITY</obj_property>
+      <obj_property name="ObjectShortName">ASSOCIATIVITY</obj_property>
+   </wvobject>
+   <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/NUM_SETS" type="other">
+      <obj_property name="ElementShortName">NUM_SETS</obj_property>
+      <obj_property name="ObjectShortName">NUM_SETS</obj_property>
+   </wvobject>
+   <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/ENABLE_WRITES" type="other">
+      <obj_property name="ElementShortName">ENABLE_WRITES</obj_property>
+      <obj_property name="ObjectShortName">ENABLE_WRITES</obj_property>
+   </wvobject>
+   <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/ENABLE_FORWARDING" type="other">
+      <obj_property name="ElementShortName">ENABLE_FORWARDING</obj_property>
+      <obj_property name="ObjectShortName">ENABLE_FORWARDING</obj_property>
+   </wvobject>
+   <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/IS_BLOCKING" type="other">
+      <obj_property name="ElementShortName">IS_BLOCKING</obj_property>
+      <obj_property name="ObjectShortName">IS_BLOCKING</obj_property>
+   </wvobject>
+   <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/TAG_SIZE" type="other">
+      <obj_property name="ElementShortName">TAG_SIZE</obj_property>
+      <obj_property name="ObjectShortName">TAG_SIZE</obj_property>
+   </wvobject>
+   <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/INDEX_SIZE" type="other">
+      <obj_property name="ElementShortName">INDEX_SIZE</obj_property>
+      <obj_property name="ObjectShortName">INDEX_SIZE</obj_property>
+   </wvobject>
+   <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/CACHELINE_SIZE" type="other">
+      <obj_property name="ElementShortName">CACHELINE_SIZE</obj_property>
+      <obj_property name="ObjectShortName">CACHELINE_SIZE</obj_property>
+   </wvobject>
+   <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/CACHELINE_ALIGNMENT" type="other">
+      <obj_property name="ElementShortName">CACHELINE_ALIGNMENT</obj_property>
+      <obj_property name="ObjectShortName">CACHELINE_ALIGNMENT</obj_property>
+   </wvobject>
+   <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/RADDR_TAG_START" type="other">
+      <obj_property name="ElementShortName">RADDR_TAG_START</obj_property>
+      <obj_property name="ObjectShortName">RADDR_TAG_START</obj_property>
+   </wvobject>
+   <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/RADDR_TAG_END" type="other">
+      <obj_property name="ElementShortName">RADDR_TAG_END</obj_property>
+      <obj_property name="ObjectShortName">RADDR_TAG_END</obj_property>
+   </wvobject>
+   <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/RADDR_INDEX_START" type="other">
+      <obj_property name="ElementShortName">RADDR_INDEX_START</obj_property>
+      <obj_property name="ObjectShortName">RADDR_INDEX_START</obj_property>
+   </wvobject>
+   <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/RADDR_INDEX_END" type="other">
+      <obj_property name="ElementShortName">RADDR_INDEX_END</obj_property>
+      <obj_property name="ObjectShortName">RADDR_INDEX_END</obj_property>
+   </wvobject>
+   <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/RADDR_OFFSET_START" type="other">
+      <obj_property name="ElementShortName">RADDR_OFFSET_START</obj_property>
+      <obj_property name="ObjectShortName">RADDR_OFFSET_START</obj_property>
+   </wvobject>
+   <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/RADDR_OFFSET_END" type="other">
+      <obj_property name="ElementShortName">RADDR_OFFSET_END</obj_property>
+      <obj_property name="ObjectShortName">RADDR_OFFSET_END</obj_property>
+   </wvobject>
+   <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/CACHELINE_DIRTY_BIT" type="other">
+      <obj_property name="ElementShortName">CACHELINE_DIRTY_BIT</obj_property>
+      <obj_property name="ObjectShortName">CACHELINE_DIRTY_BIT</obj_property>
+   </wvobject>
+   <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/CACHELINE_TAG_START" type="other">
+      <obj_property name="ElementShortName">CACHELINE_TAG_START</obj_property>
+      <obj_property name="ObjectShortName">CACHELINE_TAG_START</obj_property>
+   </wvobject>
+   <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/CACHELINE_TAG_END" type="other">
+      <obj_property name="ElementShortName">CACHELINE_TAG_END</obj_property>
+      <obj_property name="ObjectShortName">CACHELINE_TAG_END</obj_property>
+   </wvobject>
+   <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/CACHELINE_DATA_START" type="other">
+      <obj_property name="ElementShortName">CACHELINE_DATA_START</obj_property>
+      <obj_property name="ObjectShortName">CACHELINE_DATA_START</obj_property>
+   </wvobject>
+   <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/CACHELINE_DATA_END" type="other">
+      <obj_property name="ElementShortName">CACHELINE_DATA_END</obj_property>
+      <obj_property name="ObjectShortName">CACHELINE_DATA_END</obj_property>
    </wvobject>
 </wave_config>

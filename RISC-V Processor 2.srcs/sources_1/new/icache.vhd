@@ -189,6 +189,7 @@ begin
                                bus_addr_read => bus_addr_read,
                                bus_stbr => bus_stbr,
                                bus_ackr => bus_ackr,
+                               bus_ackw => '0',
                       
                                data_read => data_out,
                                
