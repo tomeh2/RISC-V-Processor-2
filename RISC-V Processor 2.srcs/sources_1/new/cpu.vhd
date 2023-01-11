@@ -251,11 +251,13 @@ begin
                      (others => '0');
 
     re_rom <= '1' when bus_addr_read(31 downto 28) = X"0" and bus_stbr = '1' else '0';
-    re_uart <= '1' when bus_addr_read(31 downto 28) = X"1" and bus_stbr = '1' else '0';
+    re_uart <= '1' when bus_addr_read(31 downto 12) = X"FFFF0" and bus_stbr = '1' else '0';
+    --re_uart <= '1' when bus_addr_read(31 downto 28) = X"1" and bus_stbr = '1' else '0';
     re_ram <= '1' when bus_addr_read(31 downto 28) = X"2" and bus_stbr = '1' else '0';
     re_gpio <= '1' when bus_addr_read(31 downto 28) = X"3" and bus_stbr = '1' else '0';
     re_perfc <= '1' when bus_addr_read(31 downto 28) = X"4" and bus_stbr = '1' else '0';
-    we_uart <= '1' when bus_addr_write(31 downto 28) = X"1" and bus_stbw /= X"0" else '0';
+    we_uart <= '1' when bus_addr_write(31 downto 12) = X"FFFF0" and bus_stbw /= X"0" else '0';
+    --we_uart <= '1' when bus_addr_write(31 downto 28) = X"1" and bus_stbw /= X"0" else '0';
     stbw_ram <= bus_stbw when bus_addr_write(31 downto 28) = X"2" and bus_stbw /= X"0" else X"0";
     stbw_gpio <= bus_stbw when bus_addr_write(31 downto 28) = X"3" and bus_stbw /= X"0" else X"0";
 

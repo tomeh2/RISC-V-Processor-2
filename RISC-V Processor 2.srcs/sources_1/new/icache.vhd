@@ -182,6 +182,7 @@ begin
                                   ASSOCIATIVITY => ICACHE_ASSOCIATIVITY,
                                   NUM_SETS => ICACHE_NUM_SETS,
                                   
+                                  ENABLE_NONCACHEABLE_ADDRS => 0,
                                   ENABLE_WRITES => 0,
                                   ENABLE_FORWARDING => 1,
                                   IS_BLOCKING => 1)

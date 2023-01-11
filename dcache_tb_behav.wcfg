@@ -12,15 +12,15 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="0.000 ns"></ZoomStartTime>
-      <ZoomEndTime time="2,391.001 ns"></ZoomEndTime>
-      <Cursor1Time time="1,430.000 ns"></Cursor1Time>
+      <ZoomStartTime time="1,590.847 ns"></ZoomStartTime>
+      <ZoomEndTime time="1,850.335 ns"></ZoomEndTime>
+      <Cursor1Time time="1,636.300 ns"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="550"></NameColumnWidth>
-      <ValueColumnWidth column_width="235"></ValueColumnWidth>
+      <ValueColumnWidth column_width="219"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="59" />
+   <WVObjectSize size="64" />
    <wvobject fp_name="/dcache_tb/clk" type="logic">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
@@ -100,6 +100,26 @@
    <wvobject fp_name="/dcache_tb/uut/write_miss_tag_1" type="array">
       <obj_property name="ElementShortName">write_miss_tag_1[1:0]</obj_property>
       <obj_property name="ObjectShortName">write_miss_tag_1[1:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/cache_bus_controller_inst/cache_write_word" type="array">
+      <obj_property name="ElementShortName">cache_write_word[31:0]</obj_property>
+      <obj_property name="ObjectShortName">cache_write_word[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/cache_bus_controller_inst/cache_write_word_en" type="logic">
+      <obj_property name="ElementShortName">cache_write_word_en</obj_property>
+      <obj_property name="ObjectShortName">cache_write_word_en</obj_property>
+   </wvobject>
+   <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/cache_bus_controller_inst/write_done" type="logic">
+      <obj_property name="ElementShortName">write_done</obj_property>
+      <obj_property name="ObjectShortName">write_done</obj_property>
+   </wvobject>
+   <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/i_addr_noncacheable" type="logic">
+      <obj_property name="ElementShortName">i_addr_noncacheable</obj_property>
+      <obj_property name="ObjectShortName">i_addr_noncacheable</obj_property>
+   </wvobject>
+   <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/cache_bus_controller_inst/i_evict_cacheline_reg" type="array">
+      <obj_property name="ElementShortName">i_evict_cacheline_reg[127:0]</obj_property>
+      <obj_property name="ObjectShortName">i_evict_cacheline_reg[127:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/write_selected_cacheline" type="array">
       <obj_property name="ElementShortName">write_selected_cacheline[1:0]</obj_property>
@@ -185,18 +205,6 @@
          <obj_property name="ElementShortName">load_busy</obj_property>
          <obj_property name="ObjectShortName">load_busy</obj_property>
       </wvobject>
-      <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/cache_bus_controller_inst/cache_evict_cacheline" type="array">
-         <obj_property name="ElementShortName">cache_evict_cacheline[127:0]</obj_property>
-         <obj_property name="ObjectShortName">cache_evict_cacheline[127:0]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/cache_bus_controller_inst/cache_evict_addr" type="array">
-         <obj_property name="ElementShortName">cache_evict_addr[31:0]</obj_property>
-         <obj_property name="ObjectShortName">cache_evict_addr[31:0]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/cache_bus_controller_inst/cache_evict_en" type="logic">
-         <obj_property name="ElementShortName">cache_evict_en</obj_property>
-         <obj_property name="ObjectShortName">cache_evict_en</obj_property>
-      </wvobject>
       <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/cache_bus_controller_inst/write_busy" type="logic">
          <obj_property name="ElementShortName">write_busy</obj_property>
          <obj_property name="ObjectShortName">write_busy</obj_property>
@@ -276,6 +284,14 @@
       <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/cache_bus_controller_inst/i_writeback_addr" type="array">
          <obj_property name="ElementShortName">i_writeback_addr[31:0]</obj_property>
          <obj_property name="ObjectShortName">i_writeback_addr[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/cache_bus_controller_inst/stored_words_counter" type="array">
+         <obj_property name="ElementShortName">stored_words_counter[1:0]</obj_property>
+         <obj_property name="ObjectShortName">stored_words_counter[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/dcache_tb/uut/cache_bram_inst/cache_bus_controller_inst/words_to_store" type="array">
+         <obj_property name="ElementShortName">words_to_store[1:0]</obj_property>
+         <obj_property name="ObjectShortName">words_to_store[1:0]</obj_property>
       </wvobject>
    </wvobject>
    <wvobject fp_name="group277" type="group">

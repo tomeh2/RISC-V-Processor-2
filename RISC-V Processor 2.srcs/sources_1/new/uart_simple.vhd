@@ -91,7 +91,7 @@ begin
     end process;
     
     status_reg_en <= tx_start or tx_end;
-    tx_start <= '1' when wr_en = '1' and bus_addr_write = X"2" else '0';
+    tx_start <= '1' when wr_en = '1' and bus_addr_write = X"8" else '0';
     tx_end <= '1' when uart_tx_state = END_BIT and baud_tick = '1' else '0'; 
     
     registers_write_proc : process(clk)
@@ -104,24 +104,41 @@ begin
                 case bus_addr_write is 
                     when X"0" =>
                         div_l_reg <= bus_data_write(7 downto 0);
-                    when X"1" =>
-                        div_h_reg <= bus_data_write(15 downto 8);
-                    when X"2" =>
-                        data_tx_reg <= bus_data_write(23 downto 16);
+                    when X"4" =>
+                        div_h_reg <= bus_data_write(7 downto 0);
+                    when X"8" =>
+                        data_tx_reg <= bus_data_write(7 downto 0);
                     when others =>
                     
                 end case;
             end if;
         end if;
     end process;
-
-    bus_data_read_i <= status_reg & data_tx_reg & div_h_reg & div_l_reg;
-    registers_read_proc : process(clk)
+    
+    registers_read_proc : process(all)
     begin
-        if (rising_edge(clk)) then
-            bus_data_read <= bus_data_read_i;
-        end if;
+        bus_data_read(31 downto 8) <= (others => '0');
+        case bus_addr_read is  
+            when X"0" =>
+                bus_data_read(7 downto 0) <= div_l_reg;
+            when X"4" =>
+                bus_data_read(7 downto 0) <= div_h_reg;
+            when X"8" =>
+                bus_data_read(7 downto 0) <= data_tx_reg;
+            when X"C" =>
+                bus_data_read(7 downto 0) <= status_reg;
+            when others => 
+                bus_data_read(7 downto 0) <= (others => '0');
+        end case;
     end process;
+
+    --bus_data_read_i <= status_reg & data_tx_reg & div_h_reg & div_l_reg;
+--    registers_read_proc : process(clk)
+--    begin
+--        if (rising_edge(clk)) then
+--            bus_data_read <= bus_data_read_i;
+--        end if;
+--    end process;
     
     -- BAUD GENERATION
     baud_gen_counter_proc : process(clk)

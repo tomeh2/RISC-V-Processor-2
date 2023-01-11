@@ -33,6 +33,7 @@ entity cache_bus_controller is
         ENTRY_SIZE_BYTES : integer;
         ASSOCIATIVITY : integer;
         ENTRIES_PER_CACHELINE : integer;
+        ENABLE_NONCACHEABLE_ADDRS : integer;
         ENABLE_WRITES : integer
     );
     port(
@@ -48,13 +49,17 @@ entity cache_bus_controller is
         load_addr : in std_logic_vector(ADDR_SIZE - 1 downto 0);
         load_location_in_set : in std_logic_vector(ASSOCIATIVITY - 1 downto 0);
         load_en : in std_logic;
+        load_word_en : in std_logic;
         load_cancel : in std_logic;
         load_busy : out std_logic;
         
-        cache_evict_cacheline : in std_logic_vector(ENTRY_SIZE_BYTES * 8 * ENTRIES_PER_CACHELINE - 1 downto 0);
-        cache_evict_addr : in std_logic_vector(ADDR_SIZE - 1 downto 0);
-        cache_evict_en : in std_logic;
+        cache_write_word : in std_logic_vector(ENTRY_SIZE_BYTES * 8 - 1 downto 0);
+        cache_write_cacheline : in std_logic_vector(ENTRY_SIZE_BYTES * 8 * ENTRIES_PER_CACHELINE - 1 downto 0);
+        cache_write_addr : in std_logic_vector(ADDR_SIZE - 1 downto 0);
+        cache_write_en : in std_logic;
+        cache_write_word_en : in std_logic;
         write_busy : out std_logic;
+        write_done : out std_logic;
         
         cache_writeback_en : out std_logic;
         cache_writeback_addr : out std_logic_vector(ADDR_SIZE - 1 downto 0);
@@ -70,6 +75,9 @@ end cache_bus_controller;
 
 architecture rtl of cache_bus_controller is
     constant CACHELINE_DATA_SIZE : integer := ENTRY_SIZE_BYTES * 8 * ENTRIES_PER_CACHELINE;
+    constant CACHELINE_ADDR_LOW : integer := integer(ceil(log2(real(ENTRY_SIZE_BYTES))));
+    constant CACHELINE_ADDR_HIGH : integer := integer(ceil(log2(real(ENTRIES_PER_CACHELINE)))) + CACHELINE_ADDR_LOW;
+    
 
     type bus_read_state_type is (IDLE,
                                  BUSY,
@@ -87,9 +95,11 @@ architecture rtl of cache_bus_controller is
     signal bus_write_state_next : bus_write_state_type;
     
     signal fetched_words_counter : unsigned(integer(ceil(log2(real(ENTRIES_PER_CACHELINE)))) - 1 downto 0);
+    signal words_to_fetch : unsigned(integer(ceil(log2(real(ENTRIES_PER_CACHELINE)))) - 1 downto 0);
     signal fetched_cacheline_data : std_logic_vector(CACHELINE_DATA_SIZE - 1 downto 0);
     
     signal stored_words_counter : unsigned(integer(ceil(log2(real(ENTRIES_PER_CACHELINE)))) - 1 downto 0);
+    signal words_to_store : unsigned(integer(ceil(log2(real(ENTRIES_PER_CACHELINE)))) - 1 downto 0);
     signal bus_curr_addr_write : std_logic_vector(ADDR_SIZE - 1 downto 0); 
     
     signal i_load_location_in_set_reg : std_logic_vector(ASSOCIATIVITY - 1 downto 0);
@@ -112,6 +122,14 @@ begin
                     i_bus_curr_addr_read <= load_addr;
                     i_writeback_addr <= load_addr;
                     i_load_location_in_set_reg <= load_location_in_set;
+                    words_to_fetch <= to_unsigned(ENTRIES_PER_CACHELINE - 1, integer(ceil(log2(real(ENTRIES_PER_CACHELINE)))));
+                elsif (load_word_en = '1' and bus_write_state = IDLE) then
+                    if (ENABLE_NONCACHEABLE_ADDRS = 1) then
+                        i_bus_curr_addr_read <= load_addr;
+                        i_writeback_addr <= load_addr;
+                        i_load_location_in_set_reg <= (others => '0');
+                        words_to_fetch <= to_unsigned(0, integer(ceil(log2(real(ENTRIES_PER_CACHELINE)))));
+                    end if;
                 elsif (bus_ackr = '1') then
                     i_bus_curr_addr_read <= std_logic_vector(unsigned(i_bus_curr_addr_read) + 4);
                 end if;
@@ -134,7 +152,7 @@ begin
     bus_read_sm_next_state : process(all)
     begin
         if (bus_read_state = IDLE) then
-            if (load_en = '1' and load_cancel = '0') then
+            if ((load_en = '1' or load_word_en = '1') and load_cancel = '0') then
                 bus_read_state_next <= BUSY;
             else
                 bus_read_state_next <= IDLE;
@@ -142,7 +160,7 @@ begin
         elsif (bus_read_state = BUSY) then
             if (load_cancel = '1') then
                 bus_read_state_next <= IDLE;
-            elsif (fetched_words_counter = ENTRIES_PER_CACHELINE - 1 and bus_ackr = '1') then
+            elsif (fetched_words_counter = words_to_fetch and bus_ackr = '1') then
                 bus_read_state_next <= WRITEBACK;
             else
                 bus_read_state_next <= BUSY;
@@ -179,7 +197,8 @@ begin
     begin
         if (rising_edge(clk)) then
             if (bus_read_state = BUSY and bus_ackr = '1') then
-                fetched_cacheline_data(32 * (to_integer(fetched_words_counter) + 1) - 1 downto 32 * to_integer(fetched_words_counter)) <= bus_data_read;
+                fetched_cacheline_data(32 * (to_integer(unsigned(i_bus_curr_addr_read(CACHELINE_ADDR_HIGH - 1 downto CACHELINE_ADDR_LOW))) + 1) - 1 downto
+                                       32 * to_integer(unsigned(i_bus_curr_addr_read(CACHELINE_ADDR_HIGH - 1 downto CACHELINE_ADDR_LOW)))) <= bus_data_read;
             end if;
         end if;
     end process;
@@ -218,9 +237,16 @@ begin
                     bus_curr_addr_write <= (others => '0');
                     i_evict_cacheline_reg <= (others => '0');
                 else
-                    if (cache_evict_en = '1' and bus_write_state = IDLE) then
-                        i_evict_cacheline_reg <= cache_evict_cacheline;
-                        bus_curr_addr_write <= cache_evict_addr;
+                    if (cache_write_en = '1' and bus_write_state = IDLE) then
+                        words_to_store <= to_unsigned(ENTRIES_PER_CACHELINE - 1, integer(ceil(log2(real(ENTRIES_PER_CACHELINE)))));
+                        i_evict_cacheline_reg <= cache_write_cacheline;
+                        bus_curr_addr_write <= cache_write_addr;
+                    elsif (cache_write_word_en = '1' and bus_write_state = IDLE) then
+                        if (ENABLE_NONCACHEABLE_ADDRS = 1) then
+                            words_to_store <= to_unsigned(0, integer(ceil(log2(real(ENTRIES_PER_CACHELINE)))));
+                            i_evict_cacheline_reg(ENTRY_SIZE_BYTES * 8 - 1 downto 0) <= cache_write_word;
+                            bus_curr_addr_write <= cache_write_addr;
+                        end if;
                     elsif (bus_ackw = '1' and bus_write_state = BUSY) then
                         bus_curr_addr_write <= std_logic_vector(unsigned(bus_curr_addr_write) + 4);
                     end if;
@@ -233,13 +259,13 @@ begin
         begin
             case bus_write_state is
                 when IDLE => 
-                    if (cache_evict_en = '1') then
+                    if (cache_write_en = '1' or cache_write_word_en = '1') then
                         bus_write_state_next <= BUSY;
                     else
                         bus_write_state_next <= IDLE;
                     end if;
                 when BUSY => 
-                    if (stored_words_counter = ENTRIES_PER_CACHELINE - 1 and bus_ackw = '1') then
+                    if (stored_words_counter = words_to_store and bus_ackw = '1') then
                         bus_write_state_next <= FINALIZE;
                     else
                         bus_write_state_next <= BUSY;
@@ -252,13 +278,15 @@ begin
         bus_write_sm_actions : process(all)
         begin
             bus_stbw <= "0000";
+            write_done <= '0';
+            
             case bus_write_state is
                 when IDLE => 
     
                 when BUSY => 
                     bus_stbw <= "1111";
                 when FINALIZE => 
-                    
+                    write_done <= '1';
             end case;
         end process;
         

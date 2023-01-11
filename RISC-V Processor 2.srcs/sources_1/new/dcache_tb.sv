@@ -132,15 +132,13 @@ module dcache_tb(
         
         // Cause eviction
         t_read_req('h0000_1000, 'h0000_0000, 0);
+        
+        // Write to noncacheable address
+        t_write_req_nodelay('hFFFF_1000, 'h1234_ABCD, 2);
+        #1000;
+        t_read_req('hFFFF_2000, 'h0000_0000, 0);
     endtask;
-    
-    task t_run_icache();
-        t_read_req('h0000_0000, 'h0000_0000, 1);
-        t_read_req('h0000_0004, 'h1111_1111, 1);
-        t_read_req('h0000_0008, 'h2222_2222, 1);
-        t_read_req('h0000_000C, 'h3333_3333, 1);
-    endtask;
-    
+
     initial begin
         $readmemh("../../../../icache_tb_mem_init.mem", mem);
         clk = 0;

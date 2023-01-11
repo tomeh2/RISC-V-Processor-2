@@ -94,6 +94,7 @@ architecture rtl of dcache is
     
     signal i_miss : std_logic;
     signal i_hit : std_logic;
+    signal i_resp_valid : std_logic;
     signal i_cacheline_valid : std_logic;
     
     signal i_stall : std_logic;
@@ -121,9 +122,11 @@ begin
                                   ENTRIES_PER_CACHELINE => DCACHE_ENTRIES_PER_CACHELINE,
                                   ASSOCIATIVITY => DCACHE_ASSOCIATIVITY,
                                   NUM_SETS => DCACHE_NUM_SETS,
+                                  NONCACHEABLE_BASE_ADDR => X"FFFF0000",
                                   
+                                  ENABLE_NONCACHEABLE_ADDRS => 1,
                                   ENABLE_WRITES => 1,
-                                  ENABLE_FORWARDING => 0,
+                                  ENABLE_FORWARDING => 1,
                                   IS_BLOCKING => 0)
                       port map(bus_addr_read => bus_addr_read,
                                bus_addr_write => bus_addr_write,
@@ -148,6 +151,7 @@ begin
                                
                                hit => i_hit,
                                miss => i_miss,
+                               resp_valid => i_resp_valid,
                                cacheline_valid => i_cacheline_valid,
                                
                                loaded_cacheline_tag => loaded_cacheline_tag,
@@ -162,10 +166,10 @@ begin
     read_ready_1 <= i_read_ready_1;
     write_ready_1 <= i_write_ready_1;
     
-    read_hit_1 <= i_hit and not c2_c3_pipeline_reg.is_write;
-    read_miss_1 <= i_miss and not c2_c3_pipeline_reg.is_write;
+    read_hit_1 <= i_hit and not c2_c3_pipeline_reg.is_write and i_resp_valid;
+    read_miss_1 <= i_miss and not c2_c3_pipeline_reg.is_write and i_resp_valid;
     
-    write_hit_1 <= i_hit and c2_c3_pipeline_reg.is_write;
-    write_miss_1 <= i_miss and c2_c3_pipeline_reg.is_write;
+    write_hit_1 <= i_hit and c2_c3_pipeline_reg.is_write and i_resp_valid;
+    write_miss_1 <= i_miss and c2_c3_pipeline_reg.is_write and i_resp_valid;
 
 end rtl;
