@@ -60,7 +60,7 @@ package pkg_cpu is
     constant DCACHE_ENTRIES_PER_CACHELINE : integer := 4;
     constant DCACHE_NUM_SETS : integer := 16;                     -- MUST BE POWER OF 2!
     
-    constant PERF_COUNTERS_EN : boolean := false;
+    constant PERF_COUNTERS_EN : boolean := true;
     constant PERF_COUNTERS_WIDTH_BITS : integer := 32;
     -- ===================================================================
     

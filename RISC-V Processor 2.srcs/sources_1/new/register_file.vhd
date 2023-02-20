@@ -141,8 +141,8 @@ begin
     reg_1_valid <= reg_file_valid_bits(to_integer(unsigned(reg_1_valid_bit_addr)));
     reg_2_valid <= reg_file_valid_bits(to_integer(unsigned(reg_2_valid_bit_addr)));
     
---    debug_1_data <= reg_file(to_integer(unsigned(debug_1_addr)));
---    debug_2_data <= reg_file(to_integer(unsigned(debug_2_addr)));
---    debug_3_data <= reg_file(to_integer(unsigned(debug_3_addr)));
---    debug_4_data <= reg_file(to_integer(unsigned(debug_4_addr)));
+    --debug_1_data <= reg_file(to_integer(unsigned(debug_1_addr)));
+    --debug_2_data <= reg_file(to_integer(unsigned(debug_2_addr)));
+    --debug_3_data <= reg_file(to_integer(unsigned(debug_3_addr)));
+    --debug_4_data <= reg_file(to_integer(unsigned(debug_4_addr)));
 end rtl;

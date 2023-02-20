@@ -16,13 +16,13 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="1,661,760.077 ns"></ZoomStartTime>
-      <ZoomEndTime time="1,665,653.709 ns"></ZoomEndTime>
-      <Cursor1Time time="1,663,691.179 ns"></Cursor1Time>
+      <ZoomStartTime time="22,071.024376 us"></ZoomStartTime>
+      <ZoomEndTime time="23,179.842503 us"></ZoomEndTime>
+      <Cursor1Time time="2,881.994503 us"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="386"></NameColumnWidth>
-      <ValueColumnWidth column_width="170"></ValueColumnWidth>
+      <ValueColumnWidth column_width="162"></ValueColumnWidth>
    </column_width_setting>
    <WVObjectSize size="27" />
    <wvobject fp_name="/cpu_tb/clk" type="logic">
@@ -37,6 +37,50 @@
       <obj_property name="label">PERFORMANCE COUNTERS</obj_property>
       <obj_property name="DisplayName">label</obj_property>
       <obj_property name="isExpanded"></obj_property>
+      <wvobject fp_name="/cpu_tb/cpu/perf_cntrs_gen/perf_cntrs_inst/targ_mispred_counter" type="array">
+         <obj_property name="ElementShortName">targ_mispred_counter[31:0]</obj_property>
+         <obj_property name="ObjectShortName">targ_mispred_counter[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/perf_cntrs_gen/perf_cntrs_inst/icache_miss_counter" type="array">
+         <obj_property name="ElementShortName">icache_miss_counter[31:0]</obj_property>
+         <obj_property name="ObjectShortName">icache_miss_counter[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/perf_cntrs_gen/perf_cntrs_inst/bc_empty_counter" type="array">
+         <obj_property name="ElementShortName">bc_empty_counter[31:0]</obj_property>
+         <obj_property name="ObjectShortName">bc_empty_counter[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/perf_cntrs_gen/perf_cntrs_inst/fifo_full_counter" type="array">
+         <obj_property name="ElementShortName">fifo_full_counter[31:0]</obj_property>
+         <obj_property name="ObjectShortName">fifo_full_counter[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/perf_cntrs_gen/perf_cntrs_inst/cdb_mispred_counter" type="array">
+         <obj_property name="ElementShortName">cdb_mispred_counter[31:0]</obj_property>
+         <obj_property name="ObjectShortName">cdb_mispred_counter[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/perf_cntrs_gen/perf_cntrs_inst/commit_ready_counter" type="array">
+         <obj_property name="ElementShortName">commit_ready_counter[31:0]</obj_property>
+         <obj_property name="ObjectShortName">commit_ready_counter[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/perf_cntrs_gen/perf_cntrs_inst/sched_full_counter" type="array">
+         <obj_property name="ElementShortName">sched_full_counter[31:0]</obj_property>
+         <obj_property name="ObjectShortName">sched_full_counter[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/perf_cntrs_gen/perf_cntrs_inst/lq_full_counter" type="array">
+         <obj_property name="ElementShortName">lq_full_counter[31:0]</obj_property>
+         <obj_property name="ObjectShortName">lq_full_counter[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/perf_cntrs_gen/perf_cntrs_inst/sq_full_counter" type="array">
+         <obj_property name="ElementShortName">sq_full_counter[31:0]</obj_property>
+         <obj_property name="ObjectShortName">sq_full_counter[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/perf_cntrs_gen/perf_cntrs_inst/reg_alloc_empty_counter" type="array">
+         <obj_property name="ElementShortName">reg_alloc_empty_counter[31:0]</obj_property>
+         <obj_property name="ObjectShortName">reg_alloc_empty_counter[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/perf_cntrs_gen/perf_cntrs_inst/timer_temp" type="array">
+         <obj_property name="ElementShortName">timer_temp[31:0]</obj_property>
+         <obj_property name="ObjectShortName">timer_temp[31:0]</obj_property>
+      </wvobject>
    </wvobject>
    <wvobject fp_name="/cpu_tb/cpu/debug_reg_1_addr" type="array">
       <obj_property name="ElementShortName">debug_reg_1_addr[4:0]</obj_property>
@@ -1665,7 +1709,6 @@
    <wvobject fp_name="group6237" type="group">
       <obj_property name="label">DCACHE</obj_property>
       <obj_property name="DisplayName">label</obj_property>
-      <obj_property name="isExpanded"></obj_property>
       <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/read_addr_1" type="array">
          <obj_property name="ElementShortName">read_addr_1[31:0]</obj_property>
          <obj_property name="ObjectShortName">read_addr_1[31:0]</obj_property>

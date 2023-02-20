@@ -60,6 +60,10 @@ architecture rtl of uart_simple is
     signal baud_gen_counter_next : unsigned(15 downto 0);
     signal baud_gen_counter_en : std_logic;
     signal baud_tick : std_logic;
+    signal baud_gen_x16_counter_reg : unsigned(15 downto 0);
+    signal baud_gen_x16_counter_next : unsigned(15 downto 0);
+    signal baud_gen_x16_counter_en : std_logic;
+    signal baud_tick_x16 : std_logic;
     
     signal tx_start : std_logic;
     signal tx_end : std_logic;
@@ -69,6 +73,21 @@ architecture rtl of uart_simple is
     type uart_tx_state_type is (IDLE, START_BIT, BUSY, END_BIT);
     signal uart_tx_state : uart_tx_state_type;
     signal uart_tx_state_next : uart_tx_state_type;
+    
+    
+    
+    type uart_rx_state_type is (IDLE, START_BIT, RECV, END_BIT);
+    signal uart_rx_state : uart_rx_state_type;
+    signal uart_rx_state_next : uart_rx_state_type;
+    
+    signal uart_rx_sampling_counter_reg : unsigned(3 downto 0);
+    signal uart_rx_sample_en : std_logic;
+    signal recv_en : std_logic;
+    
+    signal rx_start : std_logic;
+    signal rx_end : std_logic;
+    
+    signal bits_received : unsigned(2 downto 0);
     
     -- BUS INTERNAL SIGNALS
     signal bus_data_read_i : std_logic_vector(31 downto 0);
@@ -86,11 +105,17 @@ begin
                 elsif (tx_start = '1') then
                     status_reg(0) <= '1';
                 end if;
+                
+                if (rx_start = '1' or (rd_en = '1' and bus_addr_read = X"4")) then
+                    status_reg(1) <= '0';
+                elsif (rx_end = '1') then
+                    status_reg(1) <= '1';
+                end if;
             end if;
         end if;
     end process;
     
-    status_reg_en <= tx_start or tx_end;
+    status_reg_en <= tx_start or tx_end or rx_start or rx_end or rd_en;
     tx_start <= '1' when wr_en = '1' and bus_addr_write = X"8" else '0';
     tx_end <= '1' when uart_tx_state = END_BIT and baud_tick = '1' else '0'; 
     
@@ -122,7 +147,7 @@ begin
             when X"0" =>
                 bus_data_read(7 downto 0) <= div_l_reg;
             when X"4" =>
-                bus_data_read(7 downto 0) <= div_h_reg;
+                bus_data_read(7 downto 0) <= data_rx_reg;
             when X"8" =>
                 bus_data_read(7 downto 0) <= data_tx_reg;
             when X"C" =>
@@ -149,6 +174,12 @@ begin
             elsif (baud_gen_counter_en = '1') then
                 baud_gen_counter_reg <= baud_gen_counter_next;
             end if;
+            
+            if (reset = '1') then
+                baud_gen_x16_counter_reg <= (others => '0');
+            else
+                baud_gen_x16_counter_reg <= baud_gen_x16_counter_next;
+            end if;
         end if;
     end process;
     
@@ -161,8 +192,29 @@ begin
             baud_gen_counter_next <= baud_gen_counter_reg + 1;
         end if;
     end process;
-    
     baud_tick <= '1' when std_logic_vector(baud_gen_counter_reg) = baud_div else '0';
+    
+    baud_gen_x16_counter_next_proc : process(all)
+    begin
+        if (baud_gen_x16_counter_en = '0' or (std_logic_vector(baud_gen_x16_counter_reg) = "0000" & baud_div(15 downto 4))) then
+            baud_gen_x16_counter_next <= (others => '0');
+        else
+            baud_gen_x16_counter_next <= baud_gen_x16_counter_reg + 1;
+        end if;
+    end process;
+    baud_tick_x16 <= '1' when std_logic_vector(baud_gen_x16_counter_reg) = ("0000" & baud_div(15 downto 4)) else '0';
+    
+    sampling_counter_proc : process(clk)
+    begin
+        if (rising_edge(clk)) then
+            if (baud_gen_x16_counter_en = '0') then
+                uart_rx_sampling_counter_reg <= (others => '0');
+            else
+                uart_rx_sampling_counter_reg <= uart_rx_sampling_counter_reg + 1;
+            end if;
+        end if;
+    end process;
+    uart_rx_sample_en <= '1' when uart_rx_sampling_counter_reg = "1000" else '0';
     
     -- TX ENGINE
     bits_transmitted_counter_proc : process(clk)
@@ -241,6 +293,94 @@ begin
                 tx <= '1';
                 baud_gen_counter_en <= '1';
         end case;
+    end process;
+    
+    -- RX ENGINE
+    rx_sm_state_reg_proc : process(clk) 
+    begin
+        if (rising_edge(clk)) then
+            if (reset = '1') then
+                uart_rx_state <= IDLE;
+            else
+                uart_rx_state <= uart_rx_state_next;
+            end if;
+        end if;
+    end process;
+    
+    rx_sm_next_state_proc : process(all)
+    begin
+        case uart_rx_state is
+            when IDLE => 
+                if (rx = '0') then
+                    uart_rx_state_next <= START_BIT;
+                else
+                    uart_rx_state_next <= IDLE;
+                end if;
+            when START_BIT =>             -- Detect whether start is real (not caused by noise) 
+                if (uart_rx_sample_en = '1') then
+                    if (rx = '0') then
+                        uart_rx_state_next <= RECV;
+                    else
+                        uart_rx_state_next <= IDLE;
+                    end if;
+                else
+                    uart_rx_state_next <= START_BIT;
+                end if; 
+            when RECV => 
+                if (uart_rx_sample_en = '1' and bits_received = "111") then
+                    uart_rx_state_next <= END_BIT;
+                else
+                    uart_rx_state_next <= RECV;
+                end if;
+            when END_BIT => 
+                if (uart_rx_sample_en = '1') then
+                    uart_rx_state_next <= IDLE;
+                else
+                    uart_rx_state_next <= END_BIT;
+                end if;
+        end case;
+    end process;
+    
+    rx_sm_output_proc : process(all)
+    begin
+        baud_gen_x16_counter_en <= '0';
+        rx_start <= '0';
+        rx_end <= '0';
+        recv_en <= '0';
+        case uart_rx_state is
+            when IDLE => 
+                if (rx = '0') then
+                    rx_start <= '1';
+                end if;
+            when START_BIT => 
+                baud_gen_x16_counter_en <= '1';
+            when RECV => 
+                baud_gen_x16_counter_en <= '1';
+                recv_en <= '1';
+            when END_BIT => 
+                baud_gen_x16_counter_en <= '1';
+                
+                if (uart_rx_sample_en = '1') then
+                    rx_end <= '1';
+                end if;
+        end case;
+    end process;
+    
+    rx_proc : process(clk)
+    begin
+        if (rising_edge(clk)) then
+            if (reset = '1') then
+                data_rx_reg <= (others => '0');
+                bits_received <= (others => '0');
+            else
+                if (uart_rx_sample_en = '1' and recv_en = '1') then
+                    data_rx_reg(7) <= rx;
+                    data_rx_reg(6 downto 0) <= data_rx_reg(7 downto 1);
+                    
+                    bits_received <= bits_received + 1;
+                end if;
+            end if;
+        end if;
     end process;
     
     -- BUS INTERNAL SIGNALS
