@@ -152,26 +152,28 @@ begin
     bus_read_sm_next_state : process(all)
     begin
         if (bus_read_state = IDLE) then
+            bus_read_state_next <= IDLE;
+            
             if ((load_en = '1' or load_word_en = '1') and load_cancel = '0') then
                 bus_read_state_next <= BUSY;
-            else
-                bus_read_state_next <= IDLE;
             end if;
         elsif (bus_read_state = BUSY) then
+            bus_read_state_next <= BUSY;
+        
             if (load_cancel = '1') then
                 bus_read_state_next <= IDLE;
             elsif (fetched_words_counter = words_to_fetch and bus_ackr = '1') then
                 bus_read_state_next <= WRITEBACK;
-            else
-                bus_read_state_next <= BUSY;
             end if;
         elsif (bus_read_state = WRITEBACK) then
+            bus_read_state_next <= DELAY_CYCLE;
+            
             if (load_cancel = '1') then
                 bus_read_state_next <= IDLE;
-            else
-                bus_read_state_next <= DELAY_CYCLE;
             end if;
         elsif (bus_read_state = DELAY_CYCLE) then
+            bus_read_state_next <= IDLE;
+        else
             bus_read_state_next <= IDLE;
         end if;
     end process;

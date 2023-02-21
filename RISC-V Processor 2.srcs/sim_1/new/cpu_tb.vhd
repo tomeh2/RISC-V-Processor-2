@@ -38,7 +38,10 @@ begin
 
     tb : process
     begin
-
+        uart_rx <= '0';
+        wait for 500us;
+        uart_rx <= '1';
+        wait for 500us;
     end process;
 
 end Behavioral;

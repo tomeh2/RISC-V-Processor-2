@@ -53,6 +53,23 @@ entity cpu is
 end cpu;
 
 architecture structural of cpu is 
+    COMPONENT ila_0
+    PORT (
+        clk : IN STD_LOGIC;
+    
+    
+    
+        probe0 : IN STD_LOGIC_VECTOR(31 DOWNTO 0); 
+        probe1 : IN STD_LOGIC_VECTOR(31 DOWNTO 0); 
+        probe2 : IN STD_LOGIC_VECTOR(31 DOWNTO 0); 
+        probe3 : IN STD_LOGIC_VECTOR(31 DOWNTO 0); 
+        probe4 : IN STD_LOGIC_VECTOR(3 DOWNTO 0); 
+        probe5 : IN STD_LOGIC_VECTOR(0 DOWNTO 0); 
+        probe6 : IN STD_LOGIC_VECTOR(0 DOWNTO 0);
+        probe7 : IN STD_LOGIC_VECTOR(0 DOWNTO 0)
+    );
+    END COMPONENT  ;
+
         -- TEMPORARY BUS STUFF
     signal bus_addr_read : std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);
     signal bus_addr_write : std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);
@@ -106,6 +123,22 @@ architecture structural of cpu is
     signal perf_sq_full : std_logic;
     signal perf_reg_alloc_empty : std_logic;
 begin
+    bus_debug_gen : if (ENABLE_EXT_BUS_ILA = true) generate
+        your_instance_name : ila_0
+        PORT MAP (
+            clk => clk_cpu,
+        
+            probe0 => bus_addr_read, 
+            probe1 => bus_addr_write, 
+            probe2 => bus_data_read, 
+            probe3 => bus_data_write, 
+            probe4 => bus_stbw, 
+            probe5(0) => bus_ackw, 
+            probe6(0) => bus_stbr,
+            probe7(0) => bus_ackr
+        );
+    end generate;
+
     core_1 : entity work.core(structural)
              port map(debug_reg_1_addr => debug_reg_1_addr,
                       debug_reg_2_addr => debug_reg_2_addr,

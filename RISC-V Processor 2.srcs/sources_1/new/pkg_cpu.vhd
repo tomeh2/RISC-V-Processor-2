@@ -37,6 +37,11 @@ package pkg_cpu is
     constant PHYS_REGFILE_ENTRIES : integer range 1 to 1024 := 48;
     constant PHYS_REGFILE_ADDR_BITS : integer := integer(ceil(log2(real(PHYS_REGFILE_ENTRIES))));
     
+    -- ========================= DEBUG =========================
+    constant ENABLE_EXT_BUS_ILA : boolean := false;
+    constant ENABLE_UART_ILA : boolean := false;
+    -- =========================================================
+    
     -- ========================= CAN BE MODIFIED =========================
     constant SCHEDULER_ENTRIES : integer range 1 to 1023 := 8;
     constant REORDER_BUFFER_ENTRIES : integer := 16;
@@ -60,7 +65,7 @@ package pkg_cpu is
     constant DCACHE_ENTRIES_PER_CACHELINE : integer := 4;
     constant DCACHE_NUM_SETS : integer := 16;                     -- MUST BE POWER OF 2!
     
-    constant PERF_COUNTERS_EN : boolean := true;
+    constant PERF_COUNTERS_EN : boolean := false;
     constant PERF_COUNTERS_WIDTH_BITS : integer := 32;
     -- ===================================================================
     

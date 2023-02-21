@@ -26,6 +26,8 @@ library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
 
+use WORK.PKG_CPU.ALL;
+
 entity uart_simple is
     port(
         bus_data_write : in std_logic_vector(31 downto 0);
@@ -45,6 +47,24 @@ entity uart_simple is
 end uart_simple;
 
 architecture rtl of uart_simple is
+    COMPONENT ila_1
+    PORT (
+        clk : IN STD_LOGIC;
+    
+    
+    
+        probe0 : IN STD_LOGIC_VECTOR(0 DOWNTO 0); 
+        probe1 : IN STD_LOGIC_VECTOR(0 DOWNTO 0); 
+        probe2 : IN STD_LOGIC_VECTOR(0 DOWNTO 0); 
+        probe3 : IN STD_LOGIC_VECTOR(0 DOWNTO 0); 
+        probe4 : IN STD_LOGIC_VECTOR(7 DOWNTO 0); 
+        probe5 : IN STD_LOGIC_VECTOR(7 DOWNTO 0); 
+        probe6 : IN STD_LOGIC_VECTOR(2 DOWNTO 0);
+        probe7 : IN STD_LOGIC_VECTOR(4 DOWNTO 0)
+    );
+    END COMPONENT  ;
+
+
     -- REGISTERS
     signal div_h_reg : std_logic_vector(7 downto 0);
     signal div_l_reg : std_logic_vector(7 downto 0);
@@ -76,7 +96,7 @@ architecture rtl of uart_simple is
     
     
     
-    type uart_rx_state_type is (IDLE, START_BIT, RECV, END_BIT);
+    type uart_rx_state_type is (IDLE, START_RX, START_BIT, RECV, END_BIT);
     signal uart_rx_state : uart_rx_state_type;
     signal uart_rx_state_next : uart_rx_state_type;
     
@@ -84,6 +104,7 @@ architecture rtl of uart_simple is
     signal uart_rx_sample_en : std_logic;
     signal recv_en : std_logic;
     
+    signal rx_reg : std_logic;
     signal rx_start : std_logic;
     signal rx_end : std_logic;
     
@@ -209,12 +230,12 @@ begin
         if (rising_edge(clk)) then
             if (baud_gen_x16_counter_en = '0') then
                 uart_rx_sampling_counter_reg <= (others => '0');
-            else
+            elsif (baud_tick_x16 = '1') then
                 uart_rx_sampling_counter_reg <= uart_rx_sampling_counter_reg + 1;
             end if;
         end if;
     end process;
-    uart_rx_sample_en <= '1' when uart_rx_sampling_counter_reg = "1000" else '0';
+    uart_rx_sample_en <= '1' when uart_rx_sampling_counter_reg = "1000" and baud_tick_x16 = '1' else '0';
     
     -- TX ENGINE
     bits_transmitted_counter_proc : process(clk)
@@ -296,6 +317,13 @@ begin
     end process;
     
     -- RX ENGINE
+    rx_reg_proc : process(clk)
+    begin
+        if (rising_edge(clk)) then
+            rx_reg <= rx;
+        end if;
+    end process;
+    
     rx_sm_state_reg_proc : process(clk) 
     begin
         if (rising_edge(clk)) then
@@ -311,14 +339,16 @@ begin
     begin
         case uart_rx_state is
             when IDLE => 
-                if (rx = '0') then
-                    uart_rx_state_next <= START_BIT;
+                if (rx_reg = '0') then
+                    uart_rx_state_next <= START_RX;
                 else
                     uart_rx_state_next <= IDLE;
                 end if;
+            when START_RX =>
+                 uart_rx_state_next <= START_BIT;
             when START_BIT =>             -- Detect whether start is real (not caused by noise) 
                 if (uart_rx_sample_en = '1') then
-                    if (rx = '0') then
+                    if (rx_reg = '0') then
                         uart_rx_state_next <= RECV;
                     else
                         uart_rx_state_next <= IDLE;
@@ -343,15 +373,15 @@ begin
     
     rx_sm_output_proc : process(all)
     begin
-        baud_gen_x16_counter_en <= '0';
         rx_start <= '0';
         rx_end <= '0';
         recv_en <= '0';
+        baud_gen_x16_counter_en <= '0';
         case uart_rx_state is
             when IDLE => 
-                if (rx = '0') then
-                    rx_start <= '1';
-                end if;
+            
+            when START_RX => 
+                rx_start <= '1';
             when START_BIT => 
                 baud_gen_x16_counter_en <= '1';
             when RECV => 
@@ -363,6 +393,8 @@ begin
                 if (uart_rx_sample_en = '1') then
                     rx_end <= '1';
                 end if;
+            when others =>
+                
         end case;
     end process;
     
@@ -374,7 +406,7 @@ begin
                 bits_received <= (others => '0');
             else
                 if (uart_rx_sample_en = '1' and recv_en = '1') then
-                    data_rx_reg(7) <= rx;
+                    data_rx_reg(7) <= rx_reg;
                     data_rx_reg(6 downto 0) <= data_rx_reg(7 downto 1);
                     
                     bits_received <= bits_received + 1;
@@ -396,6 +428,24 @@ begin
     end process;
     
     bus_ack <= ack_i;
+    
+    uart_ila_gen : if (ENABLE_UART_ILA = true) generate
+        your_instance_name : ila_1
+        PORT MAP (
+            clk => clk,
+        
+        
+        
+            probe0(0) => baud_gen_x16_counter_en, 
+            probe1(0) => uart_rx_sample_en, 
+            probe2(0) => rx_start, 
+            probe3(0) => rx, 
+            probe4 => status_reg, 
+            probe5 => data_rx_reg, 
+            probe6 => std_logic_vector(to_unsigned(uart_rx_state_type'pos(uart_rx_state_next), 3)),
+            probe7 => std_logic_vector(to_unsigned(uart_rx_state_type'pos(uart_rx_state), 5))
+        );
+    end generate;
 
 end rtl;
 
