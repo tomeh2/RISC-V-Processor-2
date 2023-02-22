@@ -103,6 +103,7 @@ architecture rtl of uart_simple is
     signal uart_rx_sampling_counter_reg : unsigned(3 downto 0);
     signal uart_rx_sample_en : std_logic;
     signal recv_en : std_logic;
+    signal data_temp_rx_reg : std_logic_vector(7 downto 0);  
     
     signal rx_reg : std_logic;
     signal rx_start : std_logic;
@@ -127,7 +128,7 @@ begin
                     status_reg(0) <= '1';
                 end if;
                 
-                if (rx_start = '1' or (rd_en = '1' and bus_addr_read = X"4")) then
+                if ((rd_en = '1' and bus_addr_read = X"4") and rx_end = '0') then
                     status_reg(1) <= '0';
                 elsif (rx_end = '1') then
                     status_reg(1) <= '1';
@@ -320,6 +321,14 @@ begin
     rx_reg_proc : process(clk)
     begin
         if (rising_edge(clk)) then
+            if (reset = '1') then
+                data_rx_reg <= (others => '0');
+            end if;
+            
+            if (rx_end = '1') then
+                data_rx_reg <= data_temp_rx_reg;
+            end if;
+            
             rx_reg <= rx;
         end if;
     end process;
@@ -402,12 +411,12 @@ begin
     begin
         if (rising_edge(clk)) then
             if (reset = '1') then
-                data_rx_reg <= (others => '0');
+                data_temp_rx_reg <= (others => '0');
                 bits_received <= (others => '0');
             else
                 if (uart_rx_sample_en = '1' and recv_en = '1') then
-                    data_rx_reg(7) <= rx_reg;
-                    data_rx_reg(6 downto 0) <= data_rx_reg(7 downto 1);
+                    data_temp_rx_reg(7) <= rx_reg;
+                    data_temp_rx_reg(6 downto 0) <= data_temp_rx_reg(7 downto 1);
                     
                     bits_received <= bits_received + 1;
                 end if;
