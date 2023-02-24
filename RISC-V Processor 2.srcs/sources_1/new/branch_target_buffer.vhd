@@ -32,12 +32,11 @@ use WORK.PKG_CPU.ALL;
 
 entity branch_target_buffer is
     port(
-            read_addr : in std_logic_vector(CDB_PC_BITS - 1 downto 0);
-            predicted_pc : out std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);
+            source_addr : in std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);
+            target_addr : out std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);
             
-            write_addr : in std_logic_vector(CDB_PC_BITS - 1 downto 0);
+            write_addr : in std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);
             write_en : in std_logic;
-            target_pc : in std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);
             
             clk : in std_logic
         );

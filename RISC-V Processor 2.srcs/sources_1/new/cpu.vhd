@@ -28,6 +28,16 @@ use WORK.PKG_CPU.ALL;
 
 entity cpu is
     port(
+        debug_reg_1_addr : in std_logic_vector(4 downto 0);
+        debug_reg_2_addr : in std_logic_vector(4 downto 0);
+        debug_reg_3_addr : in std_logic_vector(4 downto 0);
+        debug_reg_4_addr : in std_logic_vector(4 downto 0);
+        
+        debug_reg_1_data : out std_logic_vector(CPU_DATA_WIDTH_BITS - 1 downto 0);
+        debug_reg_2_data : out std_logic_vector(CPU_DATA_WIDTH_BITS - 1 downto 0);
+        debug_reg_3_data : out std_logic_vector(CPU_DATA_WIDTH_BITS - 1 downto 0);
+        debug_reg_4_data : out std_logic_vector(CPU_DATA_WIDTH_BITS - 1 downto 0);
+    
         uart_rx : in std_logic;
         uart_tx : out std_logic;
         uart_cts : out std_logic;
@@ -43,6 +53,23 @@ entity cpu is
 end cpu;
 
 architecture structural of cpu is 
+    COMPONENT ila_0
+    PORT (
+        clk : IN STD_LOGIC;
+    
+    
+    
+        probe0 : IN STD_LOGIC_VECTOR(31 DOWNTO 0); 
+        probe1 : IN STD_LOGIC_VECTOR(31 DOWNTO 0); 
+        probe2 : IN STD_LOGIC_VECTOR(31 DOWNTO 0); 
+        probe3 : IN STD_LOGIC_VECTOR(31 DOWNTO 0); 
+        probe4 : IN STD_LOGIC_VECTOR(3 DOWNTO 0); 
+        probe5 : IN STD_LOGIC_VECTOR(0 DOWNTO 0); 
+        probe6 : IN STD_LOGIC_VECTOR(0 DOWNTO 0);
+        probe7 : IN STD_LOGIC_VECTOR(0 DOWNTO 0)
+    );
+    END COMPONENT  ;
+
         -- TEMPORARY BUS STUFF
     signal bus_addr_read : std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);
     signal bus_addr_write : std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);
@@ -62,6 +89,7 @@ architecture structural of cpu is
     signal bus_data_read_ram : std_logic_vector(CPU_DATA_WIDTH_BITS - 1 downto 0);
     signal bus_data_read_uart : std_logic_vector(CPU_DATA_WIDTH_BITS - 1 downto 0);
     signal bus_data_read_gpio : std_logic_vector(CPU_DATA_WIDTH_BITS - 1 downto 0);
+    signal bus_data_read_perfc : std_logic_vector(CPU_DATA_WIDTH_BITS - 1 downto 0);
     
     signal cs_uart : std_logic;
     signal cs_ram : std_logic;
@@ -70,6 +98,7 @@ architecture structural of cpu is
     signal re_ram : std_logic;
     signal re_uart : std_logic;
     signal re_gpio : std_logic;
+    signal re_perfc : std_logic;
     signal stbw_ram : std_logic_vector(3 downto 0);
     signal stbw_gpio : std_logic_vector(3 downto 0);
     signal we_uart : std_logic;
@@ -78,12 +107,50 @@ architecture structural of cpu is
     signal ackr_rom : std_logic;
     signal ackr_ram : std_logic;
     signal ackr_gpio : std_logic;
+    signal ackr_perfc : std_logic;
     signal ackw_uart : std_logic;
     signal ackw_ram : std_logic;
     signal ackw_gpio : std_logic;
+    
+    signal perf_targ_mispred : std_logic;
+    signal perf_icache_miss : std_logic;
+    signal perf_bc_empty : std_logic;
+    signal perf_fifo_full : std_logic;
+    signal perf_cdb_mispred : std_logic;
+    signal perf_commit_ready : std_logic;
+    signal perf_sched_full : std_logic;
+    signal perf_lq_full : std_logic;
+    signal perf_sq_full : std_logic;
+    signal perf_reg_alloc_empty : std_logic;
 begin
+    bus_debug_gen : if (ENABLE_EXT_BUS_ILA = true) generate
+        your_instance_name : ila_0
+        PORT MAP (
+            clk => clk_cpu,
+        
+            probe0 => bus_addr_read, 
+            probe1 => bus_addr_write, 
+            probe2 => bus_data_read, 
+            probe3 => bus_data_write, 
+            probe4 => bus_stbw, 
+            probe5(0) => bus_ackw, 
+            probe6(0) => bus_stbr,
+            probe7(0) => bus_ackr
+        );
+    end generate;
+
     core_1 : entity work.core(structural)
-             port map(bus_addr_read => bus_addr_read,
+             port map(debug_reg_1_addr => debug_reg_1_addr,
+                      debug_reg_2_addr => debug_reg_2_addr,
+                      debug_reg_3_addr => debug_reg_3_addr,
+                      debug_reg_4_addr => debug_reg_4_addr,
+                       
+                      debug_reg_1_data => debug_reg_1_data,
+                      debug_reg_2_data => debug_reg_2_data,
+                      debug_reg_3_data => debug_reg_3_data,
+                      debug_reg_4_data => debug_reg_4_data,
+             
+                      bus_addr_read => bus_addr_read,
                       bus_addr_write => bus_addr_write,
                       bus_data_read => bus_data_read,
                       bus_data_write => bus_data_write,
@@ -92,9 +159,42 @@ begin
                       bus_ackr => bus_ackr,
                       bus_ackw => bus_ackw,
              
+                      perf_targ_mispred => perf_targ_mispred,
+                      perf_icache_miss => perf_icache_miss,
+                      perf_bc_empty => perf_bc_empty,
+                      perf_fifo_full => perf_fifo_full,
+                      perf_cdb_mispred => perf_cdb_mispred,
+                      perf_commit_ready => perf_commit_ready,
+                      perf_sched_full => perf_sched_full,
+                      perf_lq_full => perf_lq_full,
+                      perf_sq_full => perf_sq_full,
+                      perf_reg_alloc_empty => perf_reg_alloc_empty,
+             
                       clk => clk_cpu,
                       
                       reset => reset_cpu);
+                
+    perf_cntrs_gen : if (PERF_COUNTERS_EN = true) generate
+        perf_cntrs_inst : entity work.performance_counters(rtl)
+                          port map(bus_addr_read => bus_addr_read(5 downto 2),
+                                   bus_data_read => bus_data_read_perfc,
+                                   bus_stbr => re_perfc,
+                                   bus_ackr => ackr_perfc,
+                          
+                                   perf_targ_mispred => perf_targ_mispred,
+                                   perf_icache_miss => perf_icache_miss,
+                                   perf_bc_empty => perf_bc_empty,
+                                   perf_fifo_full => perf_fifo_full,
+                                   perf_cdb_mispred => perf_cdb_mispred,
+                                   perf_commit_ready => perf_commit_ready,
+                                   perf_sched_full => perf_sched_full,
+                                   perf_lq_full => perf_lq_full,
+                                   perf_sq_full => perf_sq_full,
+                                   perf_reg_alloc_empty => perf_reg_alloc_empty,
+                                   
+                                   clk => clk_cpu,
+                                   reset => reset_cpu);
+    end generate;
                           
 --    rom_memory : entity work.rom_memory_2(structural)
 --                 port map(data_bus => from_slave_1.data,
@@ -125,7 +225,7 @@ begin
   
   rom_memory : entity work.rom_memory(rtl) 
                port map(data => bus_data_read_rom,
-                        addr => bus_addr_read(11 downto 2),
+                        addr => bus_addr_read(13 downto 2),
                         en => re_rom,
                         ack => ackr_rom,
                         reset => reset_cpu,
@@ -138,7 +238,7 @@ begin
                           bus_wdata => bus_data_write,
                           bus_rdata => bus_data_read_ram,
                           bus_rstrb => re_ram,
-                          bus_wstrb => bus_stbw,
+                          bus_wstrb => stbw_ram,
                           bus_ackr => ackr_ram,
                           bus_ackw => ackw_ram,
 
@@ -180,19 +280,23 @@ begin
                      bus_data_read_uart when re_uart = '1' else
                      bus_data_read_rom when re_rom = '1' else
                      bus_data_read_gpio when re_gpio = '1' else
+                     bus_data_read_perfc when re_perfc = '1' else 
                      (others => '0');
 
     re_rom <= '1' when bus_addr_read(31 downto 28) = X"0" and bus_stbr = '1' else '0';
+    re_uart <= '1' when bus_addr_read(31 downto 12) = X"FFFF0" and bus_stbr = '1' else '0';
+    --re_uart <= '1' when bus_addr_read(31 downto 28) = X"1" and bus_stbr = '1' else '0';
     re_ram <= '1' when bus_addr_read(31 downto 28) = X"2" and bus_stbr = '1' else '0';
-    re_uart <= '1' when bus_addr_read(31 downto 28) = X"1" and bus_stbr = '1' else '0';
     re_gpio <= '1' when bus_addr_read(31 downto 28) = X"3" and bus_stbr = '1' else '0';
-    we_uart <= '1' when bus_addr_write(31 downto 28) = X"1" and bus_stbw /= X"0" else '0';
+    re_perfc <= '1' when bus_addr_read(31 downto 28) = X"4" and bus_stbr = '1' else '0';
+    we_uart <= '1' when bus_addr_write(31 downto 12) = X"FFFF0" and bus_stbw /= X"0" else '0';
+    --we_uart <= '1' when bus_addr_write(31 downto 28) = X"1" and bus_stbw /= X"0" else '0';
     stbw_ram <= bus_stbw when bus_addr_write(31 downto 28) = X"2" and bus_stbw /= X"0" else X"0";
     stbw_gpio <= bus_stbw when bus_addr_write(31 downto 28) = X"3" and bus_stbw /= X"0" else X"0";
 
     cs_uart <= we_uart or re_uart;
 
-    bus_ackr <= ackr_ram or ackr_uart or ackr_rom or ackr_gpio;
+    bus_ackr <= ackr_ram or ackr_uart or ackr_rom or ackr_gpio; --or ackr_perfc;
     bus_ackw <= ackw_ram or ackw_uart or ackw_gpio;
 
     resetn <= not reset_cpu;          

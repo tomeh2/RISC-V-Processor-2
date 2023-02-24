@@ -212,7 +212,7 @@ begin
                     -- Cancel all speculative instructions for which it has been determined that they have been mispredicted
                     if ((sched_entries(i).uop.speculated_branches_mask and cdb.branch_mask) /= BRANCH_MASK_ZERO and cdb.branch_mispredicted = '1' and cdb.valid = '1') then
                         sched_entries(i).valid <= '0';
-                    elsif (cdb.branch_mask /= BRANCH_MASK_ZERO and cdb.valid = '1') then
+                    elsif (cdb.branch_mask /= BRANCH_MASK_ZERO and cdb.valid = '1' and sched_entries(i).valid = '1') then
                         sched_entries(i).uop.speculated_branches_mask <= sched_entries(i).uop.speculated_branches_mask and (not cdb.branch_mask);
                     end if;
                 end loop;

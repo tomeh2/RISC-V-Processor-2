@@ -36,19 +36,37 @@ use WORK.PKG_AXI.ALL;
 
 entity execution_engine is
     port(
+        debug_reg_1_addr : in std_logic_vector(4 downto 0);
+        debug_reg_2_addr : in std_logic_vector(4 downto 0);
+        debug_reg_3_addr : in std_logic_vector(4 downto 0);
+        debug_reg_4_addr : in std_logic_vector(4 downto 0);
+    
+        debug_reg_1_data : out std_logic_vector(CPU_DATA_WIDTH_BITS - 1 downto 0);
+        debug_reg_2_data : out std_logic_vector(CPU_DATA_WIDTH_BITS - 1 downto 0);
+        debug_reg_3_data : out std_logic_vector(CPU_DATA_WIDTH_BITS - 1 downto 0);
+        debug_reg_4_data : out std_logic_vector(CPU_DATA_WIDTH_BITS - 1 downto 0);
+    
         cdb_out : out cdb_type;
     
         next_uop : in uop_decoded_type;
 
-        -- TEMPORARY BUS STUFF
-        bus_addr_read : out std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);
-        bus_addr_write : out std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);
-        bus_data_read : in std_logic_vector(CPU_DATA_WIDTH_BITS - 1 downto 0);
-        bus_data_write : out std_logic_vector(CPU_DATA_WIDTH_BITS - 1 downto 0);
-        bus_stbr : out std_logic;
-        bus_stbw : out std_logic_vector(3 downto 0);
-        bus_ackr : in std_logic;
-        bus_ackw : in std_logic;
+        dcache_read_addr : out std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);
+        dcache_read_data : in std_logic_vector(CPU_DATA_WIDTH_BITS - 1 downto 0);
+        dcache_read_valid : out std_logic;
+        dcache_read_ready : in std_logic;
+        dcache_read_hit : in std_logic;
+        dcache_read_miss : in std_logic;
+        
+        dcache_write_addr : out std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);
+        dcache_write_data : out std_logic_vector(CPU_DATA_WIDTH_BITS - 1 downto 0);
+        dcache_write_size : out std_logic_vector(1 downto 0);
+        dcache_write_valid : out std_logic;
+        dcache_write_ready : in std_logic;
+        dcache_write_hit : in std_logic;
+        dcache_write_miss : in std_logic;
+        
+        dcache_loaded_cacheline_tag : in std_logic_vector(DCACHE_TAG_SIZE - 1 downto 0);
+        dcache_loaded_cacheline_tag_valid : in std_logic;
 
         fifo_ready : in std_logic;
         fifo_read_en : out std_logic;
@@ -57,12 +75,22 @@ entity execution_engine is
         fe_branch_predicted_pc : in std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);
         fe_branch_prediction : in std_logic;
         
+        perf_commit_ready : out std_logic;
+        perf_sched_full : out std_logic;
+        perf_lq_full : out std_logic;
+        perf_sq_full : out std_logic;
+        perf_reg_alloc_empty : out std_logic;
+        
         reset : in std_logic;
         clk : in std_logic
     );
 end execution_engine;
 
 architecture Structural of execution_engine is
+    signal debug_reg_1_paddr : std_logic_vector(integer(ceil(log2(real(PHYS_REGFILE_ENTRIES)))) - 1 downto 0);
+    signal debug_reg_2_paddr : std_logic_vector(integer(ceil(log2(real(PHYS_REGFILE_ENTRIES)))) - 1 downto 0);
+    signal debug_reg_3_paddr : std_logic_vector(integer(ceil(log2(real(PHYS_REGFILE_ENTRIES)))) - 1 downto 0);
+    signal debug_reg_4_paddr : std_logic_vector(integer(ceil(log2(real(PHYS_REGFILE_ENTRIES)))) - 1 downto 0);
     -- ========== PIPELINE REGISTERS ==========
     -- The second _x (where x is a number) indicates what scheduler output port the pipeline register is attached to. This allows us to control the pipeline
     -- registers of each scheduler output port independently.
@@ -391,7 +419,17 @@ begin
                                                 ARCH_REGFILE_ENTRIES => ARCH_REGFILE_ENTRIES,
                                                 VALID_BIT_INIT_VAL => '1',
                                                 ENABLE_VALID_BITS => true)
-                                    port map(cdb => cdb,
+                                    port map(debug_reg_1_addr => debug_reg_1_addr,
+                                             debug_reg_2_addr => debug_reg_2_addr,
+                                             debug_reg_3_addr => debug_reg_3_addr,
+                                             debug_reg_4_addr => debug_reg_4_addr,
+                                             
+                                             debug_reg_1_paddr => debug_reg_1_paddr,
+                                             debug_reg_2_paddr => debug_reg_2_paddr,
+                                             debug_reg_3_paddr => debug_reg_3_paddr,
+                                             debug_reg_4_paddr => debug_reg_4_paddr,
+                                    
+                                             cdb => cdb,
                                     
                                              arch_reg_addr_read_1 => next_uop_full.arch_src_reg_1_addr,
                                              arch_reg_addr_read_2 => next_uop_full.arch_src_reg_2_addr,
@@ -414,7 +452,12 @@ begin
                                                 ARCH_REGFILE_ENTRIES => ARCH_REGFILE_ENTRIES,
                                                 VALID_BIT_INIT_VAL => '0',
                                                 ENABLE_VALID_BITS => false)
-                                      port map(cdb => CDB_OPEN_CONST,
+                                      port map(debug_reg_1_addr => (others => '0'),
+                                               debug_reg_2_addr => (others => '0'),
+                                               debug_reg_3_addr => (others => '0'),
+                                               debug_reg_4_addr => (others => '0'),
+                                      
+                                               cdb => CDB_OPEN_CONST,
                                       
                                                arch_reg_addr_read_1 => rob_head_arch_dest_reg,                   -- Architectural address of a register to be marked as free
                                                arch_reg_addr_read_2 => REG_ADDR_ZERO,                       -- Currently unused
@@ -438,7 +481,16 @@ begin
     register_file : entity work.register_file(rtl)
                     generic map(REG_DATA_WIDTH_BITS => CPU_DATA_WIDTH_BITS,
                                 REGFILE_ENTRIES => PHYS_REGFILE_ENTRIES)
-                    port map(
+                    port map(debug_1_addr => debug_reg_1_paddr,
+                             debug_2_addr => debug_reg_2_paddr,
+                             debug_3_addr => debug_reg_3_paddr,
+                             debug_4_addr => debug_reg_4_paddr,
+                             
+                             debug_1_data => debug_reg_1_data,
+                             debug_2_data => debug_reg_2_data,
+                             debug_3_data => debug_reg_3_data,
+                             debug_4_data => debug_reg_4_data,
+                             
                              -- ADDRESSES
                              rd_1_addr => pipeline_reg_2_0.uop.phys_src_reg_1_addr,     -- Operand for ALU operations
                              rd_2_addr => pipeline_reg_2_0.uop.phys_src_reg_2_addr,     -- Operand for ALU operations
@@ -495,6 +547,8 @@ begin
                               head_valid => rob_commit_ready,
                               full => rob_full,
                               empty => rob_empty,
+
+                              perf_commit_ready => perf_commit_ready,
                               
                               clk => clk,
                               reset => reset);
@@ -553,7 +607,7 @@ begin
                                 reset => reset,
                                 clk => clk);
                                         
-    load_store_unit : entity work.load_store_eu(rtl)
+    load_store_unit : entity work.load_store_unit_cache(rtl)
                       generic map(SQ_ENTRIES => SQ_ENTRIES,
                                   LQ_ENTRIES => LQ_ENTRIES)
                       port map(cdb_in => cdb,
@@ -593,14 +647,23 @@ begin
                                lq_enqueue_en => lq_enqueue_en,
                                lq_retire_en => lq_retire_en,
                                
-                               bus_addr_read => bus_addr_read,
-                               bus_addr_write => bus_addr_write,
-                               bus_data_read => bus_data_read,
-                               bus_data_write => bus_data_write,
-                               bus_stbr => bus_stbr,
-                               bus_stbw => bus_stbw,
-                               bus_ackr => bus_ackr,
-                               bus_ackw => bus_ackw,
+                               cache_read_addr => dcache_read_addr,
+                               cache_read_data => dcache_read_data,
+                               cache_read_valid => dcache_read_valid,
+                               cache_read_ready => dcache_read_ready,
+                               cache_read_hit => dcache_read_hit,
+                               cache_read_miss => dcache_read_miss,
+                               
+                               cache_write_addr => dcache_write_addr,
+                               cache_write_data => dcache_write_data,
+                               cache_write_size => dcache_write_size,
+                               cache_write_valid => dcache_write_valid,
+                               cache_write_ready => dcache_write_ready,
+                               cache_write_hit => dcache_write_hit,
+                               cache_write_miss => dcache_write_miss,
+                               
+                               loaded_cacheline_tag => dcache_loaded_cacheline_tag,
+                               loaded_cacheline_tag_valid => dcache_loaded_cacheline_tag_valid,
                                
                                reset => reset,
                                clk => clk);
@@ -622,5 +685,11 @@ begin
     
     cdb_granted_1 <= cdb_request_1;
     --cdb_granted_1 <= '0';
+    
+    -- PERFORMANCE COUNTER SIGNALS
+    perf_sched_full <= sched_full;
+    perf_lq_full <= lq_full;
+    perf_sq_full <= sq_full;
+    perf_reg_alloc_empty <= raa_empty;
    
 end structural;

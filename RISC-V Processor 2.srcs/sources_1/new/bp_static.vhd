@@ -28,8 +28,8 @@ use WORK.PKG_CPU.ALL;
 
 entity bp_static is
     port(
-        bp_in : in bp_input_type;
-        bp_out : out bp_output_type;
+        bp_in : in bp_in_type;
+        bp_out : out bp_out_type;
         
         clk : in std_logic;
         reset : in std_logic

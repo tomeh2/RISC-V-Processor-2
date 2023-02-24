@@ -63,6 +63,8 @@ entity reorder_buffer is
 
         full : out std_logic;
         empty : out std_logic;
+        
+        perf_commit_ready : out std_logic;
     
         clk : in std_logic;
         reset : in std_logic
@@ -118,6 +120,8 @@ architecture rtl of reorder_buffer is
     -- ===== STATUS SIGNALS =====
     signal rob_full : std_logic;
     signal rob_empty : std_logic;
+    signal rob_almost_empty : std_logic;
+    signal rob_almost_empty_delayed : std_logic;
     
     signal rob_write_en : std_logic;
     
@@ -128,7 +132,8 @@ architecture rtl of reorder_buffer is
     signal rob_empty_delayed : std_logic;
     -- ===========================
 begin
-    commit_ready <= '1' when commit_1_en = '1' and rob_empty_delayed = '0' and rob_valid_bits(to_integer(unsigned(rob_head_counter_reg))) = '1' and rob_empty = '0' else '0';
+    perf_commit_ready <= commit_ready;
+    commit_ready <= '1' when commit_1_en = '1' and rob_empty_delayed = '0' and rob_almost_empty_delayed = '0' and rob_valid_bits(to_integer(unsigned(rob_head_counter_reg))) = '1' and rob_empty = '0' else '0';
     head_valid <= commit_ready;
 
     -- ========== HEAD & TAIL COUNTER PROCESSES ==========
@@ -209,6 +214,8 @@ begin
         end if;
     end process;
     -- =====================================
+    -- ROB fails if a new value gets written into it
+    
     rob_next_read_addr <= rob_head_counter_next when commit_ready = '1' and rob_empty_delayed = '0' else rob_head_counter_reg;
     
     head_arch_dest_reg <= rob_head_data_1(ARCH_DEST_REG_START downto ARCH_DEST_REG_END);
@@ -223,6 +230,9 @@ begin
 
     full <= rob_full;
     empty <= rob_empty;
+    
+    rob_almost_empty <= '1' when rob_head_counter_next = rob_tail_counter_reg else '0';
+    rob_almost_empty_delayed <= rob_almost_empty when rising_edge(clk);
     
     next_instr_tag <= rob_tail_counter_reg;
 

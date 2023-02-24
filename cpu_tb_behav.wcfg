@@ -16,15 +16,15 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="9,106.796 ns"></ZoomStartTime>
-      <ZoomEndTime time="13,456.311 ns"></ZoomEndTime>
-      <Cursor1Time time="9,738.118 ns"></Cursor1Time>
+      <ZoomStartTime time="15,020.367789 us"></ZoomStartTime>
+      <ZoomEndTime time="15,076.917790 us"></ZoomEndTime>
+      <Cursor1Time time="15,044.050000 us"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
-      <NameColumnWidth column_width="385"></NameColumnWidth>
-      <ValueColumnWidth column_width="101"></ValueColumnWidth>
+      <NameColumnWidth column_width="386"></NameColumnWidth>
+      <ValueColumnWidth column_width="154"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="11" />
+   <WVObjectSize size="27" />
    <wvobject fp_name="/cpu_tb/clk" type="logic">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
@@ -33,257 +33,416 @@
       <obj_property name="ElementShortName">reset</obj_property>
       <obj_property name="ObjectShortName">reset</obj_property>
    </wvobject>
+   <wvobject fp_name="group4540" type="group">
+      <obj_property name="label">PERFORMANCE COUNTERS</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject fp_name="/cpu_tb/cpu/perf_cntrs_gen/perf_cntrs_inst/targ_mispred_counter" type="array">
+         <obj_property name="ElementShortName">targ_mispred_counter[31:0]</obj_property>
+         <obj_property name="ObjectShortName">targ_mispred_counter[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/perf_cntrs_gen/perf_cntrs_inst/icache_miss_counter" type="array">
+         <obj_property name="ElementShortName">icache_miss_counter[31:0]</obj_property>
+         <obj_property name="ObjectShortName">icache_miss_counter[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/perf_cntrs_gen/perf_cntrs_inst/bc_empty_counter" type="array">
+         <obj_property name="ElementShortName">bc_empty_counter[31:0]</obj_property>
+         <obj_property name="ObjectShortName">bc_empty_counter[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/perf_cntrs_gen/perf_cntrs_inst/fifo_full_counter" type="array">
+         <obj_property name="ElementShortName">fifo_full_counter[31:0]</obj_property>
+         <obj_property name="ObjectShortName">fifo_full_counter[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/perf_cntrs_gen/perf_cntrs_inst/cdb_mispred_counter" type="array">
+         <obj_property name="ElementShortName">cdb_mispred_counter[31:0]</obj_property>
+         <obj_property name="ObjectShortName">cdb_mispred_counter[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/perf_cntrs_gen/perf_cntrs_inst/commit_ready_counter" type="array">
+         <obj_property name="ElementShortName">commit_ready_counter[31:0]</obj_property>
+         <obj_property name="ObjectShortName">commit_ready_counter[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/perf_cntrs_gen/perf_cntrs_inst/sched_full_counter" type="array">
+         <obj_property name="ElementShortName">sched_full_counter[31:0]</obj_property>
+         <obj_property name="ObjectShortName">sched_full_counter[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/perf_cntrs_gen/perf_cntrs_inst/lq_full_counter" type="array">
+         <obj_property name="ElementShortName">lq_full_counter[31:0]</obj_property>
+         <obj_property name="ObjectShortName">lq_full_counter[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/perf_cntrs_gen/perf_cntrs_inst/sq_full_counter" type="array">
+         <obj_property name="ElementShortName">sq_full_counter[31:0]</obj_property>
+         <obj_property name="ObjectShortName">sq_full_counter[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/perf_cntrs_gen/perf_cntrs_inst/reg_alloc_empty_counter" type="array">
+         <obj_property name="ElementShortName">reg_alloc_empty_counter[31:0]</obj_property>
+         <obj_property name="ObjectShortName">reg_alloc_empty_counter[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/perf_cntrs_gen/perf_cntrs_inst/timer_temp" type="array">
+         <obj_property name="ElementShortName">timer_temp[31:0]</obj_property>
+         <obj_property name="ObjectShortName">timer_temp[31:0]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="/cpu_tb/cpu/debug_reg_1_addr" type="array">
+      <obj_property name="ElementShortName">debug_reg_1_addr[4:0]</obj_property>
+      <obj_property name="ObjectShortName">debug_reg_1_addr[4:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/cpu_tb/cpu/debug_reg_2_addr" type="array">
+      <obj_property name="ElementShortName">debug_reg_2_addr[4:0]</obj_property>
+      <obj_property name="ObjectShortName">debug_reg_2_addr[4:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/cpu_tb/cpu/debug_reg_3_addr" type="array">
+      <obj_property name="ElementShortName">debug_reg_3_addr[4:0]</obj_property>
+      <obj_property name="ObjectShortName">debug_reg_3_addr[4:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/cpu_tb/cpu/debug_reg_4_addr" type="array">
+      <obj_property name="ElementShortName">debug_reg_4_addr[4:0]</obj_property>
+      <obj_property name="ObjectShortName">debug_reg_4_addr[4:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/cpu_tb/cpu/debug_reg_1_data" type="array">
+      <obj_property name="ElementShortName">debug_reg_1_data[31:0]</obj_property>
+      <obj_property name="ObjectShortName">debug_reg_1_data[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/cpu_tb/cpu/debug_reg_2_data" type="array">
+      <obj_property name="ElementShortName">debug_reg_2_data[31:0]</obj_property>
+      <obj_property name="ObjectShortName">debug_reg_2_data[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/cpu_tb/cpu/debug_reg_3_data" type="array">
+      <obj_property name="ElementShortName">debug_reg_3_data[31:0]</obj_property>
+      <obj_property name="ObjectShortName">debug_reg_3_data[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/cpu_tb/cpu/debug_reg_4_data" type="array">
+      <obj_property name="ElementShortName">debug_reg_4_data[31:0]</obj_property>
+      <obj_property name="ObjectShortName">debug_reg_4_data[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="group18631" type="group">
+      <obj_property name="label">BRANCH PREDICTOR</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/branch_predictor_gen/bp_2bsp/sat_cntrs" type="array">
+         <obj_property name="ElementShortName">sat_cntrs[15:0][1:0]</obj_property>
+         <obj_property name="ObjectShortName">sat_cntrs[15:0][1:0]</obj_property>
+      </wvobject>
+   </wvobject>
    <wvobject fp_name="group9" type="group">
       <obj_property name="label">FRONT_END</obj_property>
       <obj_property name="DisplayName">label</obj_property>
-      <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/bus_data_read" type="array">
-         <obj_property name="ElementShortName">bus_data_read[31:0]</obj_property>
-         <obj_property name="ObjectShortName">bus_data_read[31:0]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/bus_addr_read" type="array">
-         <obj_property name="ElementShortName">bus_addr_read[31:0]</obj_property>
-         <obj_property name="ObjectShortName">bus_addr_read[31:0]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/bus_stbr" type="logic">
-         <obj_property name="ElementShortName">bus_stbr</obj_property>
-         <obj_property name="ObjectShortName">bus_stbr</obj_property>
-      </wvobject>
-      <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/bus_ackr" type="logic">
-         <obj_property name="ElementShortName">bus_ackr</obj_property>
-         <obj_property name="ObjectShortName">bus_ackr</obj_property>
-      </wvobject>
-      <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/state_next" type="other">
-         <obj_property name="ElementShortName">state_next</obj_property>
-         <obj_property name="ObjectShortName">state_next</obj_property>
-      </wvobject>
-      <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/state" type="other">
-         <obj_property name="ElementShortName">state</obj_property>
-         <obj_property name="ObjectShortName">state</obj_property>
-      </wvobject>
-      <wvobject fp_name="/cpu_tb/cpu/core_1/fifo_full" type="logic">
-         <obj_property name="ElementShortName">fifo_full</obj_property>
-         <obj_property name="ObjectShortName">fifo_full</obj_property>
-      </wvobject>
-      <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/stall" type="logic">
-         <obj_property name="ElementShortName">stall</obj_property>
-         <obj_property name="ObjectShortName">stall</obj_property>
-      </wvobject>
-      <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/stall_fe" type="logic">
-         <obj_property name="ElementShortName">stall_fe</obj_property>
-         <obj_property name="ObjectShortName">stall_fe</obj_property>
-      </wvobject>
-      <wvobject fp_name="group1346" type="group">
-         <obj_property name="label">BRANCH TARGET BUFFER</obj_property>
-         <obj_property name="DisplayName">label</obj_property>
-         <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/branch_target_buffer/btb" type="array">
-            <obj_property name="ElementShortName">btb[3:0][31:0]</obj_property>
-            <obj_property name="ObjectShortName">btb[3:0][31:0]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/branch_target_buffer/read_addr" type="array">
-            <obj_property name="ElementShortName">read_addr[3:0]</obj_property>
-            <obj_property name="ObjectShortName">read_addr[3:0]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/branch_target_buffer/predicted_pc" type="array">
-            <obj_property name="ElementShortName">predicted_pc[31:0]</obj_property>
-            <obj_property name="ObjectShortName">predicted_pc[31:0]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/branch_target_buffer/write_addr" type="array">
-            <obj_property name="ElementShortName">write_addr[3:0]</obj_property>
-            <obj_property name="ObjectShortName">write_addr[3:0]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/branch_target_buffer/write_en" type="logic">
-            <obj_property name="ElementShortName">write_en</obj_property>
-            <obj_property name="ObjectShortName">write_en</obj_property>
-         </wvobject>
-         <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/branch_target_buffer/target_pc" type="array">
-            <obj_property name="ElementShortName">target_pc[31:0]</obj_property>
-            <obj_property name="ObjectShortName">target_pc[31:0]</obj_property>
-         </wvobject>
-      </wvobject>
-      <wvobject fp_name="group1353" type="group">
-         <obj_property name="label">2-BIT SATURATING PREDICTORS</obj_property>
-         <obj_property name="DisplayName">label</obj_property>
-         <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/branch_predictor_gen/bp_2bsp/sat_cntrs" type="array">
-            <obj_property name="ElementShortName">sat_cntrs[15:0][1:0]</obj_property>
-            <obj_property name="ObjectShortName">sat_cntrs[15:0][1:0]</obj_property>
-         </wvobject>
-      </wvobject>
-      <wvobject fp_name="group1336" type="group">
-         <obj_property name="label">FIFO</obj_property>
+      <wvobject fp_name="group2322" type="group">
+         <obj_property name="label">ICACHE</obj_property>
          <obj_property name="DisplayName">label</obj_property>
          <obj_property name="isExpanded"></obj_property>
-         <wvobject fp_name="/cpu_tb/cpu/core_1/your_instance_name/cdb" type="array">
-            <obj_property name="ElementShortName">cdb</obj_property>
-            <obj_property name="ObjectShortName">cdb</obj_property>
+         <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/icache_inst/cache_bram_inst/bus_addr_read" type="array">
+            <obj_property name="ElementShortName">bus_addr_read[31:0]</obj_property>
+            <obj_property name="ObjectShortName">bus_addr_read[31:0]</obj_property>
          </wvobject>
-         <wvobject fp_name="/cpu_tb/cpu/core_1/your_instance_name/uop_in" type="array">
-            <obj_property name="ElementShortName">uop_in</obj_property>
-            <obj_property name="ObjectShortName">uop_in</obj_property>
+         <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/icache_inst/cache_bram_inst/bus_data_read" type="array">
+            <obj_property name="ElementShortName">bus_data_read[31:0]</obj_property>
+            <obj_property name="ObjectShortName">bus_data_read[31:0]</obj_property>
          </wvobject>
-         <wvobject fp_name="/cpu_tb/cpu/core_1/your_instance_name/uop_out" type="array">
-            <obj_property name="ElementShortName">uop_out</obj_property>
-            <obj_property name="ObjectShortName">uop_out</obj_property>
+         <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/icache_inst/cache_bram_inst/bus_stbr" type="logic">
+            <obj_property name="ElementShortName">bus_stbr</obj_property>
+            <obj_property name="ObjectShortName">bus_stbr</obj_property>
          </wvobject>
-         <wvobject fp_name="/cpu_tb/cpu/core_1/your_instance_name/rd_en" type="logic">
-            <obj_property name="ElementShortName">rd_en</obj_property>
-            <obj_property name="ObjectShortName">rd_en</obj_property>
+         <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/icache_inst/cache_bram_inst/bus_ackr" type="logic">
+            <obj_property name="ElementShortName">bus_ackr</obj_property>
+            <obj_property name="ObjectShortName">bus_ackr</obj_property>
          </wvobject>
-         <wvobject fp_name="/cpu_tb/cpu/core_1/your_instance_name/rd_ready" type="logic">
-            <obj_property name="ElementShortName">rd_ready</obj_property>
-            <obj_property name="ObjectShortName">rd_ready</obj_property>
+         <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/icache_inst/cache_bram_inst/cache_bus_controller_inst/bus_read_state" type="other">
+            <obj_property name="ElementShortName">bus_read_state</obj_property>
+            <obj_property name="ObjectShortName">bus_read_state</obj_property>
          </wvobject>
-         <wvobject fp_name="/cpu_tb/cpu/core_1/your_instance_name/wr_en" type="logic">
-            <obj_property name="ElementShortName">wr_en</obj_property>
-            <obj_property name="ObjectShortName">wr_en</obj_property>
+         <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/icache_inst/cache_bram_inst/cache_bus_controller_inst/bus_read_state_next" type="other">
+            <obj_property name="ElementShortName">bus_read_state_next</obj_property>
+            <obj_property name="ObjectShortName">bus_read_state_next</obj_property>
          </wvobject>
-         <wvobject fp_name="/cpu_tb/cpu/core_1/your_instance_name/full" type="logic">
-            <obj_property name="ElementShortName">full</obj_property>
-            <obj_property name="ObjectShortName">full</obj_property>
+         <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/icache_inst/cache_bram_inst/data_read" type="array">
+            <obj_property name="ElementShortName">data_read[31:0]</obj_property>
+            <obj_property name="ObjectShortName">data_read[31:0]</obj_property>
          </wvobject>
-         <wvobject fp_name="/cpu_tb/cpu/core_1/your_instance_name/empty" type="logic">
-            <obj_property name="ElementShortName">empty</obj_property>
-            <obj_property name="ObjectShortName">empty</obj_property>
+         <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/icache_inst/cache_bram_inst/clear_pipeline" type="logic">
+            <obj_property name="ElementShortName">clear_pipeline</obj_property>
+            <obj_property name="ObjectShortName">clear_pipeline</obj_property>
          </wvobject>
-         <wvobject fp_name="/cpu_tb/cpu/core_1/your_instance_name/fifo" type="array">
-            <obj_property name="ElementShortName">fifo[3:0][96:0]</obj_property>
-            <obj_property name="ObjectShortName">fifo[3:0][96:0]</obj_property>
+         <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/icache_inst/cache_bram_inst/stall" type="logic">
+            <obj_property name="ElementShortName">stall</obj_property>
+            <obj_property name="ObjectShortName">stall</obj_property>
+         </wvobject>
+         <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/icache_inst/cache_bram_inst/hit" type="logic">
+            <obj_property name="ElementShortName">hit</obj_property>
+            <obj_property name="ObjectShortName">hit</obj_property>
+         </wvobject>
+         <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/icache_inst/cache_bram_inst/miss" type="logic">
+            <obj_property name="ElementShortName">miss</obj_property>
+            <obj_property name="ObjectShortName">miss</obj_property>
+         </wvobject>
+         <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/icache_inst/cache_bram_inst/cacheline_valid" type="logic">
+            <obj_property name="ElementShortName">cacheline_valid</obj_property>
+            <obj_property name="ObjectShortName">cacheline_valid</obj_property>
+         </wvobject>
+         <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/icache_inst/cache_bram_inst/icache_valid_bits" type="array">
+            <obj_property name="ElementShortName">icache_valid_bits[31:0]</obj_property>
+            <obj_property name="ObjectShortName">icache_valid_bits[31:0]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/icache_inst/cache_bram_inst/icache_set_out_bram" type="array">
+            <obj_property name="ElementShortName">icache_set_out_bram[0:1][152:0]</obj_property>
+            <obj_property name="ObjectShortName">icache_set_out_bram[0:1][152:0]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/icache_inst/cache_bram_inst/icache_set_out" type="array">
+            <obj_property name="ElementShortName">icache_set_out[0:1][152:0]</obj_property>
+            <obj_property name="ObjectShortName">icache_set_out[0:1][152:0]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/icache_inst/cache_bram_inst/hit_bits" type="array">
+            <obj_property name="ElementShortName">hit_bits[1:0]</obj_property>
+            <obj_property name="ObjectShortName">hit_bits[1:0]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/icache_inst/cache_bram_inst/i_stall" type="logic">
+            <obj_property name="ElementShortName">i_stall</obj_property>
+            <obj_property name="ObjectShortName">i_stall</obj_property>
+         </wvobject>
+         <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/icache_inst/cache_bram_inst/i_hit" type="logic">
+            <obj_property name="ElementShortName">i_hit</obj_property>
+            <obj_property name="ObjectShortName">i_hit</obj_property>
+         </wvobject>
+         <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/icache_inst/cache_bram_inst/i_bus_addr_read" type="array">
+            <obj_property name="ElementShortName">i_bus_addr_read[31:0]</obj_property>
+            <obj_property name="ObjectShortName">i_bus_addr_read[31:0]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/icache_inst/cache_bram_inst/cacheline_write" type="array">
+            <obj_property name="ElementShortName">cacheline_write[152:0]</obj_property>
+            <obj_property name="ObjectShortName">cacheline_write[152:0]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/icache_inst/cache_bram_inst/cacheline_update_en" type="logic">
+            <obj_property name="ElementShortName">cacheline_update_en</obj_property>
+            <obj_property name="ObjectShortName">cacheline_update_en</obj_property>
+         </wvobject>
+         <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/icache_inst/cache_bram_inst/cacheline_update_sel" type="array">
+            <obj_property name="ElementShortName">cacheline_update_sel[1:0]</obj_property>
+            <obj_property name="ObjectShortName">cacheline_update_sel[1:0]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/icache_inst/cache_bram_inst/addr_read_cache" type="array">
+            <obj_property name="ElementShortName">addr_read_cache[3:0]</obj_property>
+            <obj_property name="ObjectShortName">addr_read_cache[3:0]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/icache_inst/data_out" type="array">
+            <obj_property name="ElementShortName">data_out[31:0]</obj_property>
+            <obj_property name="ObjectShortName">data_out[31:0]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/icache_inst/data_valid" type="logic">
+            <obj_property name="ElementShortName">data_valid</obj_property>
+            <obj_property name="ObjectShortName">data_valid</obj_property>
+         </wvobject>
+         <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/icache_inst/cache_bram_inst/c1_c2_pipeline_reg_1" type="array">
+            <obj_property name="ElementShortName">c1_c2_pipeline_reg_1</obj_property>
+            <obj_property name="ObjectShortName">c1_c2_pipeline_reg_1</obj_property>
             <obj_property name="isExpanded"></obj_property>
          </wvobject>
-         <wvobject fp_name="/cpu_tb/cpu/core_1/your_instance_name/br_spec_masks" type="array">
-            <obj_property name="ElementShortName">br_spec_masks[3:0][3:0]</obj_property>
-            <obj_property name="ObjectShortName">br_spec_masks[3:0][3:0]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/cpu_tb/cpu/core_1/your_instance_name/head_counter_reg" type="array">
-            <obj_property name="ElementShortName">head_counter_reg[1:0]</obj_property>
-            <obj_property name="ObjectShortName">head_counter_reg[1:0]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/cpu_tb/cpu/core_1/your_instance_name/head_counter_next" type="array">
-            <obj_property name="ElementShortName">head_counter_next[1:0]</obj_property>
-            <obj_property name="ObjectShortName">head_counter_next[1:0]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/cpu_tb/cpu/core_1/your_instance_name/tail_counter_reg" type="array">
-            <obj_property name="ElementShortName">tail_counter_reg[1:0]</obj_property>
-            <obj_property name="ObjectShortName">tail_counter_reg[1:0]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/cpu_tb/cpu/core_1/your_instance_name/tail_counter_next" type="array">
-            <obj_property name="ElementShortName">tail_counter_next[1:0]</obj_property>
-            <obj_property name="ObjectShortName">tail_counter_next[1:0]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/cpu_tb/cpu/core_1/your_instance_name/fifo_next_read_addr" type="array">
-            <obj_property name="ElementShortName">fifo_next_read_addr[1:0]</obj_property>
-            <obj_property name="ObjectShortName">fifo_next_read_addr[1:0]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/cpu_tb/cpu/core_1/your_instance_name/i_empty" type="logic">
-            <obj_property name="ElementShortName">i_empty</obj_property>
-            <obj_property name="ObjectShortName">i_empty</obj_property>
-         </wvobject>
-         <wvobject fp_name="/cpu_tb/cpu/core_1/your_instance_name/i_empty_delayed" type="logic">
-            <obj_property name="ElementShortName">i_empty_delayed</obj_property>
-            <obj_property name="ObjectShortName">i_empty_delayed</obj_property>
-         </wvobject>
-         <wvobject fp_name="/cpu_tb/cpu/core_1/your_instance_name/DEPTH" type="other">
-            <obj_property name="ElementShortName">DEPTH</obj_property>
-            <obj_property name="ObjectShortName">DEPTH</obj_property>
-         </wvobject>
-         <wvobject fp_name="/cpu_tb/cpu/core_1/your_instance_name/COUNTER_WIDTH" type="other">
-            <obj_property name="ElementShortName">COUNTER_WIDTH</obj_property>
-            <obj_property name="ObjectShortName">COUNTER_WIDTH</obj_property>
-         </wvobject>
-      </wvobject>
-      <wvobject fp_name="group8787" type="group">
-         <obj_property name="label">BRANCH CONTROLLER</obj_property>
-         <obj_property name="DisplayName">label</obj_property>
-         <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/branch_controller/speculated_branches_mask" type="array">
-            <obj_property name="ElementShortName">speculated_branches_mask[3:0]</obj_property>
-            <obj_property name="ObjectShortName">speculated_branches_mask[3:0]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/branch_controller/alloc_branch_mask" type="array">
-            <obj_property name="ElementShortName">alloc_branch_mask[3:0]</obj_property>
-            <obj_property name="ObjectShortName">alloc_branch_mask[3:0]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/branch_controller/branch_alloc_en" type="logic">
-            <obj_property name="ElementShortName">branch_alloc_en</obj_property>
-            <obj_property name="ObjectShortName">branch_alloc_en</obj_property>
-         </wvobject>
-         <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/branch_controller/empty" type="logic">
-            <obj_property name="ElementShortName">empty</obj_property>
-            <obj_property name="ObjectShortName">empty</obj_property>
-         </wvobject>
-         <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/branch_controller/bc_masks" type="array">
-            <obj_property name="ElementShortName">bc_masks[3:0][3:0]</obj_property>
-            <obj_property name="ObjectShortName">bc_masks[3:0][3:0]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/branch_controller/bc_dependent_masks" type="array">
-            <obj_property name="ElementShortName">bc_dependent_masks[3:0][3:0]</obj_property>
-            <obj_property name="ObjectShortName">bc_dependent_masks[3:0][3:0]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/branch_controller/outstanding_branches_mask_i" type="array">
-            <obj_property name="ElementShortName">outstanding_branches_mask_i[3:0]</obj_property>
-            <obj_property name="ObjectShortName">outstanding_branches_mask_i[3:0]</obj_property>
+         <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/icache_inst/cache_bram_inst/c2_c3_pipeline_reg_1" type="array">
+            <obj_property name="ElementShortName">c2_c3_pipeline_reg_1</obj_property>
+            <obj_property name="ObjectShortName">c2_c3_pipeline_reg_1</obj_property>
             <obj_property name="isExpanded"></obj_property>
          </wvobject>
-         <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/branch_controller/allocated_mask_index" type="array">
-            <obj_property name="ElementShortName">allocated_mask_index[1:0]</obj_property>
-            <obj_property name="ObjectShortName">allocated_mask_index[1:0]</obj_property>
+         <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/icache_inst/cache_bram_inst/ADDR_SIZE_BITS" type="other">
+            <obj_property name="ElementShortName">ADDR_SIZE_BITS</obj_property>
+            <obj_property name="ObjectShortName">ADDR_SIZE_BITS</obj_property>
          </wvobject>
-         <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/branch_controller/bc_empty_i" type="logic">
-            <obj_property name="ElementShortName">bc_empty_i</obj_property>
-            <obj_property name="ObjectShortName">bc_empty_i</obj_property>
+         <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/icache_inst/cache_bram_inst/ENTRY_SIZE_BYTES" type="other">
+            <obj_property name="ElementShortName">ENTRY_SIZE_BYTES</obj_property>
+            <obj_property name="ObjectShortName">ENTRY_SIZE_BYTES</obj_property>
+         </wvobject>
+         <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/icache_inst/cache_bram_inst/ENTRIES_PER_CACHELINE" type="other">
+            <obj_property name="ElementShortName">ENTRIES_PER_CACHELINE</obj_property>
+            <obj_property name="ObjectShortName">ENTRIES_PER_CACHELINE</obj_property>
+         </wvobject>
+         <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/icache_inst/cache_bram_inst/ASSOCIATIVITY" type="other">
+            <obj_property name="ElementShortName">ASSOCIATIVITY</obj_property>
+            <obj_property name="ObjectShortName">ASSOCIATIVITY</obj_property>
+         </wvobject>
+         <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/icache_inst/cache_bram_inst/NUM_SETS" type="other">
+            <obj_property name="ElementShortName">NUM_SETS</obj_property>
+            <obj_property name="ObjectShortName">NUM_SETS</obj_property>
+         </wvobject>
+         <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/icache_inst/cache_bram_inst/TAG_SIZE" type="other">
+            <obj_property name="ElementShortName">TAG_SIZE</obj_property>
+            <obj_property name="ObjectShortName">TAG_SIZE</obj_property>
+         </wvobject>
+         <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/icache_inst/cache_bram_inst/INDEX_SIZE" type="other">
+            <obj_property name="ElementShortName">INDEX_SIZE</obj_property>
+            <obj_property name="ObjectShortName">INDEX_SIZE</obj_property>
+         </wvobject>
+         <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/icache_inst/cache_bram_inst/CACHELINE_SIZE" type="other">
+            <obj_property name="ElementShortName">CACHELINE_SIZE</obj_property>
+            <obj_property name="ObjectShortName">CACHELINE_SIZE</obj_property>
+         </wvobject>
+         <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/icache_inst/cache_bram_inst/CACHELINE_ALIGNMENT" type="other">
+            <obj_property name="ElementShortName">CACHELINE_ALIGNMENT</obj_property>
+            <obj_property name="ObjectShortName">CACHELINE_ALIGNMENT</obj_property>
+         </wvobject>
+         <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/icache_inst/cache_bram_inst/RADDR_TAG_START" type="other">
+            <obj_property name="ElementShortName">RADDR_TAG_START</obj_property>
+            <obj_property name="ObjectShortName">RADDR_TAG_START</obj_property>
+         </wvobject>
+         <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/icache_inst/cache_bram_inst/RADDR_TAG_END" type="other">
+            <obj_property name="ElementShortName">RADDR_TAG_END</obj_property>
+            <obj_property name="ObjectShortName">RADDR_TAG_END</obj_property>
+         </wvobject>
+         <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/icache_inst/cache_bram_inst/RADDR_INDEX_START" type="other">
+            <obj_property name="ElementShortName">RADDR_INDEX_START</obj_property>
+            <obj_property name="ObjectShortName">RADDR_INDEX_START</obj_property>
+         </wvobject>
+         <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/icache_inst/cache_bram_inst/RADDR_INDEX_END" type="other">
+            <obj_property name="ElementShortName">RADDR_INDEX_END</obj_property>
+            <obj_property name="ObjectShortName">RADDR_INDEX_END</obj_property>
+         </wvobject>
+         <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/icache_inst/cache_bram_inst/CACHELINE_TAG_START" type="other">
+            <obj_property name="ElementShortName">CACHELINE_TAG_START</obj_property>
+            <obj_property name="ObjectShortName">CACHELINE_TAG_START</obj_property>
+         </wvobject>
+         <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/icache_inst/cache_bram_inst/CACHELINE_TAG_END" type="other">
+            <obj_property name="ElementShortName">CACHELINE_TAG_END</obj_property>
+            <obj_property name="ObjectShortName">CACHELINE_TAG_END</obj_property>
+         </wvobject>
+         <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/icache_inst/cache_bram_inst/CACHELINE_DATA_START" type="other">
+            <obj_property name="ElementShortName">CACHELINE_DATA_START</obj_property>
+            <obj_property name="ObjectShortName">CACHELINE_DATA_START</obj_property>
+         </wvobject>
+         <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/icache_inst/cache_bram_inst/CACHELINE_DATA_END" type="other">
+            <obj_property name="ElementShortName">CACHELINE_DATA_END</obj_property>
+            <obj_property name="ObjectShortName">CACHELINE_DATA_END</obj_property>
          </wvobject>
       </wvobject>
-      <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/instruction_ready" type="logic">
-         <obj_property name="ElementShortName">instruction_ready</obj_property>
-         <obj_property name="ObjectShortName">instruction_ready</obj_property>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/f1_f2_pipeline_reg" type="array">
+         <obj_property name="ElementShortName">f1_f2_pipeline_reg</obj_property>
+         <obj_property name="ObjectShortName">f1_f2_pipeline_reg</obj_property>
+         <obj_property name="isExpanded"></obj_property>
       </wvobject>
-      <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/fetched_instruction" type="array">
-         <obj_property name="ElementShortName">fetched_instruction[31:0]</obj_property>
-         <obj_property name="ObjectShortName">fetched_instruction[31:0]</obj_property>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/f2_f3_pipeline_reg" type="array">
+         <obj_property name="ElementShortName">f2_f3_pipeline_reg</obj_property>
+         <obj_property name="ObjectShortName">f2_f3_pipeline_reg</obj_property>
+         <obj_property name="isExpanded"></obj_property>
       </wvobject>
-      <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/instruction_decoder/uop" type="array">
-         <obj_property name="ElementShortName">uop</obj_property>
-         <obj_property name="ObjectShortName">uop</obj_property>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/f3_d1_pipeline_reg" type="array">
+         <obj_property name="ElementShortName">f3_d1_pipeline_reg</obj_property>
+         <obj_property name="ObjectShortName">f3_d1_pipeline_reg</obj_property>
+         <obj_property name="isExpanded"></obj_property>
       </wvobject>
-      <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/program_counter_reg" type="array">
-         <obj_property name="ElementShortName">program_counter_reg[31:0]</obj_property>
-         <obj_property name="ObjectShortName">program_counter_reg[31:0]</obj_property>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/decoded_uop" type="array">
+         <obj_property name="ElementShortName">decoded_uop</obj_property>
+         <obj_property name="ObjectShortName">decoded_uop</obj_property>
       </wvobject>
-      <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/pc_force_overwrite" type="logic">
-         <obj_property name="ElementShortName">pc_force_overwrite</obj_property>
-         <obj_property name="ObjectShortName">pc_force_overwrite</obj_property>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/decoded_uop_valid" type="logic">
+         <obj_property name="ElementShortName">decoded_uop_valid</obj_property>
+         <obj_property name="ObjectShortName">decoded_uop_valid</obj_property>
       </wvobject>
-      <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/is_speculative_branch" type="logic">
-         <obj_property name="ElementShortName">is_speculative_branch</obj_property>
-         <obj_property name="ObjectShortName">is_speculative_branch</obj_property>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/branch_mask" type="array">
+         <obj_property name="ElementShortName">branch_mask[3:0]</obj_property>
+         <obj_property name="ObjectShortName">branch_mask[3:0]</obj_property>
       </wvobject>
-      <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/is_uncond_branch" type="logic">
-         <obj_property name="ElementShortName">is_uncond_branch</obj_property>
-         <obj_property name="ObjectShortName">is_uncond_branch</obj_property>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/branch_predicted_pc" type="array">
+         <obj_property name="ElementShortName">branch_predicted_pc[31:0]</obj_property>
+         <obj_property name="ObjectShortName">branch_predicted_pc[31:0]</obj_property>
       </wvobject>
-      <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/btb_predicted_pc" type="array">
-         <obj_property name="ElementShortName">btb_predicted_pc[31:0]</obj_property>
-         <obj_property name="ObjectShortName">btb_predicted_pc[31:0]</obj_property>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/branch_prediction" type="logic">
+         <obj_property name="ElementShortName">branch_prediction</obj_property>
+         <obj_property name="ObjectShortName">branch_prediction</obj_property>
       </wvobject>
-      <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/branch_taken_pc" type="array">
-         <obj_property name="ElementShortName">branch_taken_pc[31:0]</obj_property>
-         <obj_property name="ObjectShortName">branch_taken_pc[31:0]</obj_property>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/f1_pc_reg" type="array">
+         <obj_property name="ElementShortName">f1_pc_reg[31:0]</obj_property>
+         <obj_property name="ObjectShortName">f1_pc_reg[31:0]</obj_property>
       </wvobject>
-      <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/branch_not_taken_pc" type="array">
-         <obj_property name="ElementShortName">branch_not_taken_pc[31:0]</obj_property>
-         <obj_property name="ObjectShortName">branch_not_taken_pc[31:0]</obj_property>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/f1_pred_target_pc" type="array">
+         <obj_property name="ElementShortName">f1_pred_target_pc[31:0]</obj_property>
+         <obj_property name="ObjectShortName">f1_pred_target_pc[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/f1_pred_is_branch" type="logic">
+         <obj_property name="ElementShortName">f1_pred_is_branch</obj_property>
+         <obj_property name="ObjectShortName">f1_pred_is_branch</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/f1_pred_outcome" type="logic">
+         <obj_property name="ElementShortName">f1_pred_outcome</obj_property>
+         <obj_property name="ObjectShortName">f1_pred_outcome</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/d1_pc" type="array">
+         <obj_property name="ElementShortName">d1_pc[31:0]</obj_property>
+         <obj_property name="ObjectShortName">d1_pc[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/d1_instr" type="array">
+         <obj_property name="ElementShortName">d1_instr[31:0]</obj_property>
+         <obj_property name="ObjectShortName">d1_instr[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/d1_branch_taken_pc" type="array">
+         <obj_property name="ElementShortName">d1_branch_taken_pc[31:0]</obj_property>
+         <obj_property name="ObjectShortName">d1_branch_taken_pc[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/d1_speculated_branches_mask" type="array">
+         <obj_property name="ElementShortName">d1_speculated_branches_mask[3:0]</obj_property>
+         <obj_property name="ObjectShortName">d1_speculated_branches_mask[3:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/d1_alloc_branch_mask" type="array">
+         <obj_property name="ElementShortName">d1_alloc_branch_mask[3:0]</obj_property>
+         <obj_property name="ObjectShortName">d1_alloc_branch_mask[3:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/d1_bc_empty" type="logic">
+         <obj_property name="ElementShortName">d1_bc_empty</obj_property>
+         <obj_property name="ObjectShortName">d1_bc_empty</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/d1_is_speculative_br" type="logic">
+         <obj_property name="ElementShortName">d1_is_speculative_br</obj_property>
+         <obj_property name="ObjectShortName">d1_is_speculative_br</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/d1_is_uncond_br" type="logic">
+         <obj_property name="ElementShortName">d1_is_uncond_br</obj_property>
+         <obj_property name="ObjectShortName">d1_is_uncond_br</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/d1_is_jalr" type="logic">
+         <obj_property name="ElementShortName">d1_is_jalr</obj_property>
+         <obj_property name="ObjectShortName">d1_is_jalr</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/d1_fifo_insert_ready" type="logic">
+         <obj_property name="ElementShortName">d1_fifo_insert_ready</obj_property>
+         <obj_property name="ObjectShortName">d1_fifo_insert_ready</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/d1_instr_dec_uop" type="array">
+         <obj_property name="ElementShortName">d1_instr_dec_uop</obj_property>
+         <obj_property name="ObjectShortName">d1_instr_dec_uop</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/d1_branch_target_mispredict" type="logic">
+         <obj_property name="ElementShortName">d1_branch_target_mispredict</obj_property>
+         <obj_property name="ObjectShortName">d1_branch_target_mispredict</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/d1_target_mispred_recovery_pc" type="array">
+         <obj_property name="ElementShortName">d1_target_mispred_recovery_pc[31:0]</obj_property>
+         <obj_property name="ObjectShortName">d1_target_mispred_recovery_pc[31:0]</obj_property>
       </wvobject>
       <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/cdb" type="array">
          <obj_property name="ElementShortName">cdb</obj_property>
          <obj_property name="ObjectShortName">cdb</obj_property>
       </wvobject>
-      <wvobject fp_name="/cpu_tb/cpu/core_1/uop_decoded_tmp" type="array">
-         <obj_property name="ElementShortName">uop_decoded_tmp</obj_property>
-         <obj_property name="ObjectShortName">uop_decoded_tmp</obj_property>
-         <obj_property name="isExpanded"></obj_property>
-      </wvobject>
    </wvobject>
-   <wvobject fp_name="/cpu_tb/cpu/core_1/fifo_full" type="logic">
-      <obj_property name="ElementShortName">fifo_full</obj_property>
-      <obj_property name="ObjectShortName">fifo_full</obj_property>
+   <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/icache_inst/cache_bram_inst/\bram_gen(0)\/bram_inst/bram" type="array">
+      <obj_property name="ElementShortName">bram[15:0][152:0]</obj_property>
+      <obj_property name="ObjectShortName">bram[15:0][152:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/cpu_tb/cpu/core_1/front_end/icache_inst/cache_bram_inst/\bram_gen(1)\/bram_inst/bram" type="array">
+      <obj_property name="ElementShortName">bram[15:0][152:0]</obj_property>
+      <obj_property name="ObjectShortName">bram[15:0][152:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/cpu_tb/cpu/core_1/your_instance_name/fifo" type="array">
+      <obj_property name="ElementShortName">fifo[3:0][96:0]</obj_property>
+      <obj_property name="ObjectShortName">fifo[3:0][96:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/cpu_tb/cpu/core_1/your_instance_name/rd_ready" type="logic">
+      <obj_property name="ElementShortName">rd_ready</obj_property>
+      <obj_property name="ObjectShortName">rd_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/cpu_tb/cpu/core_1/your_instance_name/wr_en" type="logic">
+      <obj_property name="ElementShortName">wr_en</obj_property>
+      <obj_property name="ObjectShortName">wr_en</obj_property>
+   </wvobject>
+   <wvobject fp_name="/cpu_tb/cpu/core_1/your_instance_name/i_full" type="logic">
+      <obj_property name="ElementShortName">i_full</obj_property>
+      <obj_property name="ObjectShortName">i_full</obj_property>
+   </wvobject>
+   <wvobject fp_name="/cpu_tb/cpu/core_1/your_instance_name/i_empty" type="logic">
+      <obj_property name="ElementShortName">i_empty</obj_property>
+      <obj_property name="ObjectShortName">i_empty</obj_property>
    </wvobject>
    <wvobject fp_name="group7" type="group">
       <obj_property name="label">EXECUTION_ENGINE</obj_property>
@@ -316,11 +475,11 @@
       <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/pipeline_reg_2_0" type="array">
          <obj_property name="ElementShortName">pipeline_reg_2_0</obj_property>
          <obj_property name="ObjectShortName">pipeline_reg_2_0</obj_property>
-         <obj_property name="isExpanded"></obj_property>
       </wvobject>
       <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/pipeline_reg_2_1" type="array">
          <obj_property name="ElementShortName">pipeline_reg_2_1</obj_property>
          <obj_property name="ObjectShortName">pipeline_reg_2_1</obj_property>
+         <obj_property name="isExpanded"></obj_property>
       </wvobject>
       <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/pipeline_reg_3_0" type="array">
          <obj_property name="ElementShortName">pipeline_reg_3_0</obj_property>
@@ -333,6 +492,7 @@
       <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/pipeline_reg_3_1" type="array">
          <obj_property name="ElementShortName">pipeline_reg_3_1</obj_property>
          <obj_property name="ObjectShortName">pipeline_reg_3_1</obj_property>
+         <obj_property name="isExpanded"></obj_property>
       </wvobject>
       <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/pipeline_reg_4_0_next" type="array">
          <obj_property name="ElementShortName">pipeline_reg_4_0_next</obj_property>
@@ -345,14 +505,15 @@
       <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/pipeline_reg_4_1" type="array">
          <obj_property name="ElementShortName">pipeline_reg_4_1</obj_property>
          <obj_property name="ObjectShortName">pipeline_reg_4_1</obj_property>
+         <obj_property name="isExpanded"></obj_property>
       </wvobject>
       <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/pipeline_reg_4_1_next" type="array">
          <obj_property name="ElementShortName">pipeline_reg_4_1_next</obj_property>
          <obj_property name="ObjectShortName">pipeline_reg_4_1_next</obj_property>
       </wvobject>
       <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/lq_alloc_tag" type="array">
-         <obj_property name="ElementShortName">lq_alloc_tag[2:0]</obj_property>
-         <obj_property name="ObjectShortName">lq_alloc_tag[2:0]</obj_property>
+         <obj_property name="ElementShortName">lq_alloc_tag[1:0]</obj_property>
+         <obj_property name="ObjectShortName">lq_alloc_tag[1:0]</obj_property>
       </wvobject>
       <wvobject fp_name="group1012" type="group">
          <obj_property name="label">BRANCH PREDICTION TABLE</obj_property>
@@ -401,12 +562,12 @@
                <obj_property name="ObjectShortName">next_instr_branch_mask[3:0]</obj_property>
             </wvobject>
             <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/frontend_register_alias_table/rat" type="array">
-               <obj_property name="ElementShortName">rat[31:0][6:0]</obj_property>
-               <obj_property name="ObjectShortName">rat[31:0][6:0]</obj_property>
+               <obj_property name="ElementShortName">rat[31:0][5:0]</obj_property>
+               <obj_property name="ObjectShortName">rat[31:0][5:0]</obj_property>
             </wvobject>
             <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/frontend_register_alias_table/rat_mispredict_recovery_memory" type="array">
-               <obj_property name="ElementShortName">rat_mispredict_recovery_memory[3:0][31:0][6:0]</obj_property>
-               <obj_property name="ObjectShortName">rat_mispredict_recovery_memory[3:0][31:0][6:0]</obj_property>
+               <obj_property name="ElementShortName">rat_mispredict_recovery_memory[3:0][31:0][5:0]</obj_property>
+               <obj_property name="ObjectShortName">rat_mispredict_recovery_memory[3:0][31:0][5:0]</obj_property>
             </wvobject>
          </wvobject>
          <wvobject fp_name="group142" type="group">
@@ -418,20 +579,20 @@
                <obj_property name="ObjectShortName">arch_reg_addr_read_1[4:0]</obj_property>
             </wvobject>
             <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/retirement_register_alias_table/phys_reg_addr_read_1" type="array">
-               <obj_property name="ElementShortName">phys_reg_addr_read_1[6:0]</obj_property>
-               <obj_property name="ObjectShortName">phys_reg_addr_read_1[6:0]</obj_property>
+               <obj_property name="ElementShortName">phys_reg_addr_read_1[5:0]</obj_property>
+               <obj_property name="ObjectShortName">phys_reg_addr_read_1[5:0]</obj_property>
             </wvobject>
             <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/retirement_register_alias_table/arch_reg_addr_write_1" type="array">
                <obj_property name="ElementShortName">arch_reg_addr_write_1[4:0]</obj_property>
                <obj_property name="ObjectShortName">arch_reg_addr_write_1[4:0]</obj_property>
             </wvobject>
             <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/retirement_register_alias_table/phys_reg_addr_write_1" type="array">
-               <obj_property name="ElementShortName">phys_reg_addr_write_1[6:0]</obj_property>
-               <obj_property name="ObjectShortName">phys_reg_addr_write_1[6:0]</obj_property>
+               <obj_property name="ElementShortName">phys_reg_addr_write_1[5:0]</obj_property>
+               <obj_property name="ObjectShortName">phys_reg_addr_write_1[5:0]</obj_property>
             </wvobject>
             <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/retirement_register_alias_table/rat" type="array">
-               <obj_property name="ElementShortName">rat[31:0][6:0]</obj_property>
-               <obj_property name="ObjectShortName">rat[31:0][6:0]</obj_property>
+               <obj_property name="ElementShortName">rat[31:0][5:0]</obj_property>
+               <obj_property name="ObjectShortName">rat[31:0][5:0]</obj_property>
             </wvobject>
          </wvobject>
          <wvobject fp_name="group1161" type="group">
@@ -439,12 +600,12 @@
             <obj_property name="DisplayName">label</obj_property>
             <obj_property name="isExpanded"></obj_property>
             <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/register_alias_allocator/free_reg_alias" type="array">
-               <obj_property name="ElementShortName">free_reg_alias[6:0]</obj_property>
-               <obj_property name="ObjectShortName">free_reg_alias[6:0]</obj_property>
+               <obj_property name="ElementShortName">free_reg_alias[5:0]</obj_property>
+               <obj_property name="ObjectShortName">free_reg_alias[5:0]</obj_property>
             </wvobject>
             <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/register_alias_allocator/alloc_reg_alias" type="array">
-               <obj_property name="ElementShortName">alloc_reg_alias[6:0]</obj_property>
-               <obj_property name="ObjectShortName">alloc_reg_alias[6:0]</obj_property>
+               <obj_property name="ElementShortName">alloc_reg_alias[5:0]</obj_property>
+               <obj_property name="ObjectShortName">alloc_reg_alias[5:0]</obj_property>
             </wvobject>
             <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/register_alias_allocator/put_en" type="logic">
                <obj_property name="ElementShortName">put_en</obj_property>
@@ -463,22 +624,22 @@
                <obj_property name="ObjectShortName">n_empty</obj_property>
             </wvobject>
             <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/register_alias_allocator/rsv_mispredict_recovery_memory" type="array">
-               <obj_property name="ElementShortName">rsv_mispredict_recovery_memory[3:0][95:0]</obj_property>
-               <obj_property name="ObjectShortName">rsv_mispredict_recovery_memory[3:0][95:0]</obj_property>
+               <obj_property name="ElementShortName">rsv_mispredict_recovery_memory[3:0][47:0]</obj_property>
+               <obj_property name="ObjectShortName">rsv_mispredict_recovery_memory[3:0][47:0]</obj_property>
                <obj_property name="isExpanded"></obj_property>
             </wvobject>
             <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/register_alias_allocator/i_alloc_reg_alias" type="array">
-               <obj_property name="ElementShortName">i_alloc_reg_alias[6:0]</obj_property>
-               <obj_property name="ObjectShortName">i_alloc_reg_alias[6:0]</obj_property>
+               <obj_property name="ElementShortName">i_alloc_reg_alias[5:0]</obj_property>
+               <obj_property name="ObjectShortName">i_alloc_reg_alias[5:0]</obj_property>
             </wvobject>
             <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/register_alias_allocator/register_status_vector" type="array">
-               <obj_property name="ElementShortName">register_status_vector[95:0]</obj_property>
-               <obj_property name="ObjectShortName">register_status_vector[95:0]</obj_property>
+               <obj_property name="ElementShortName">register_status_vector[47:0]</obj_property>
+               <obj_property name="ObjectShortName">register_status_vector[47:0]</obj_property>
                <obj_property name="isExpanded"></obj_property>
             </wvobject>
             <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/register_alias_allocator/free_reg_alias" type="array">
-               <obj_property name="ElementShortName">free_reg_alias[6:0]</obj_property>
-               <obj_property name="ObjectShortName">free_reg_alias[6:0]</obj_property>
+               <obj_property name="ElementShortName">free_reg_alias[5:0]</obj_property>
+               <obj_property name="ObjectShortName">free_reg_alias[5:0]</obj_property>
             </wvobject>
             <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/register_alias_allocator/put_en" type="logic">
                <obj_property name="ElementShortName">put_en</obj_property>
@@ -502,12 +663,12 @@
          <obj_property name="label">REGFILE</obj_property>
          <obj_property name="DisplayName">label</obj_property>
          <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/register_file/reg_1_valid_bit_addr" type="array">
-            <obj_property name="ElementShortName">reg_1_valid_bit_addr[6:0]</obj_property>
-            <obj_property name="ObjectShortName">reg_1_valid_bit_addr[6:0]</obj_property>
+            <obj_property name="ElementShortName">reg_1_valid_bit_addr[5:0]</obj_property>
+            <obj_property name="ObjectShortName">reg_1_valid_bit_addr[5:0]</obj_property>
          </wvobject>
          <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/register_file/reg_2_valid_bit_addr" type="array">
-            <obj_property name="ElementShortName">reg_2_valid_bit_addr[6:0]</obj_property>
-            <obj_property name="ObjectShortName">reg_2_valid_bit_addr[6:0]</obj_property>
+            <obj_property name="ElementShortName">reg_2_valid_bit_addr[5:0]</obj_property>
+            <obj_property name="ObjectShortName">reg_2_valid_bit_addr[5:0]</obj_property>
          </wvobject>
          <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/register_file/reg_1_valid" type="logic">
             <obj_property name="ElementShortName">reg_1_valid</obj_property>
@@ -518,20 +679,20 @@
             <obj_property name="ObjectShortName">reg_2_valid</obj_property>
          </wvobject>
          <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/register_file/rd_1_addr" type="array">
-            <obj_property name="ElementShortName">rd_1_addr[6:0]</obj_property>
-            <obj_property name="ObjectShortName">rd_1_addr[6:0]</obj_property>
+            <obj_property name="ElementShortName">rd_1_addr[5:0]</obj_property>
+            <obj_property name="ObjectShortName">rd_1_addr[5:0]</obj_property>
          </wvobject>
          <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/register_file/rd_2_addr" type="array">
-            <obj_property name="ElementShortName">rd_2_addr[6:0]</obj_property>
-            <obj_property name="ObjectShortName">rd_2_addr[6:0]</obj_property>
+            <obj_property name="ElementShortName">rd_2_addr[5:0]</obj_property>
+            <obj_property name="ObjectShortName">rd_2_addr[5:0]</obj_property>
          </wvobject>
          <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/register_file/rd_3_addr" type="array">
-            <obj_property name="ElementShortName">rd_3_addr[6:0]</obj_property>
-            <obj_property name="ObjectShortName">rd_3_addr[6:0]</obj_property>
+            <obj_property name="ElementShortName">rd_3_addr[5:0]</obj_property>
+            <obj_property name="ObjectShortName">rd_3_addr[5:0]</obj_property>
          </wvobject>
          <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/register_file/rd_4_addr" type="array">
-            <obj_property name="ElementShortName">rd_4_addr[6:0]</obj_property>
-            <obj_property name="ObjectShortName">rd_4_addr[6:0]</obj_property>
+            <obj_property name="ElementShortName">rd_4_addr[5:0]</obj_property>
+            <obj_property name="ObjectShortName">rd_4_addr[5:0]</obj_property>
          </wvobject>
          <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/register_file/rd_1_data" type="array">
             <obj_property name="ElementShortName">rd_1_data[31:0]</obj_property>
@@ -550,12 +711,12 @@
             <obj_property name="ObjectShortName">rd_4_data[31:0]</obj_property>
          </wvobject>
          <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/register_file/reg_file" type="array">
-            <obj_property name="ElementShortName">reg_file[95:0][31:0]</obj_property>
-            <obj_property name="ObjectShortName">reg_file[95:0][31:0]</obj_property>
+            <obj_property name="ElementShortName">reg_file[47:0][31:0]</obj_property>
+            <obj_property name="ObjectShortName">reg_file[47:0][31:0]</obj_property>
          </wvobject>
          <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/register_file/reg_file_valid_bits" type="array">
-            <obj_property name="ElementShortName">reg_file_valid_bits[95:0]</obj_property>
-            <obj_property name="ObjectShortName">reg_file_valid_bits[95:0]</obj_property>
+            <obj_property name="ElementShortName">reg_file_valid_bits[47:0]</obj_property>
+            <obj_property name="ObjectShortName">reg_file_valid_bits[47:0]</obj_property>
          </wvobject>
          <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/register_file/en" type="logic">
             <obj_property name="ElementShortName">en</obj_property>
@@ -565,7 +726,6 @@
       <wvobject fp_name="group34" type="group">
          <obj_property name="label">UNIFIED SCHEDULER</obj_property>
          <obj_property name="DisplayName">label</obj_property>
-         <obj_property name="isExpanded"></obj_property>
          <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/unified_scheduler/uop_in_0" type="array">
             <obj_property name="ElementShortName">uop_in_0</obj_property>
             <obj_property name="ObjectShortName">uop_in_0</obj_property>
@@ -603,25 +763,25 @@
             <obj_property name="ObjectShortName">dispatch_en[1:0]</obj_property>
          </wvobject>
          <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/unified_scheduler/sched_dispatch_ready_bits" type="array">
-            <obj_property name="ElementShortName">sched_dispatch_ready_bits[1:0][15:0]</obj_property>
-            <obj_property name="ObjectShortName">sched_dispatch_ready_bits[1:0][15:0]</obj_property>
+            <obj_property name="ElementShortName">sched_dispatch_ready_bits[1:0][7:0]</obj_property>
+            <obj_property name="ObjectShortName">sched_dispatch_ready_bits[1:0][7:0]</obj_property>
          </wvobject>
          <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/unified_scheduler/sched_read_sel" type="array">
-            <obj_property name="ElementShortName">sched_read_sel[1:0][3:0]</obj_property>
-            <obj_property name="ObjectShortName">sched_read_sel[1:0][3:0]</obj_property>
+            <obj_property name="ElementShortName">sched_read_sel[1:0][2:0]</obj_property>
+            <obj_property name="ObjectShortName">sched_read_sel[1:0][2:0]</obj_property>
          </wvobject>
          <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/unified_scheduler/sched_sel_write_1" type="array">
-            <obj_property name="ElementShortName">sched_sel_write_1[3:0]</obj_property>
-            <obj_property name="ObjectShortName">sched_sel_write_1[3:0]</obj_property>
+            <obj_property name="ElementShortName">sched_sel_write_1[2:0]</obj_property>
+            <obj_property name="ObjectShortName">sched_sel_write_1[2:0]</obj_property>
          </wvobject>
          <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/unified_scheduler/sched_entries" type="array">
-            <obj_property name="ElementShortName">sched_entries[15:0]</obj_property>
-            <obj_property name="ObjectShortName">sched_entries[15:0]</obj_property>
+            <obj_property name="ElementShortName">sched_entries[7:0]</obj_property>
+            <obj_property name="ObjectShortName">sched_entries[7:0]</obj_property>
             <obj_property name="isExpanded"></obj_property>
          </wvobject>
          <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/unified_scheduler/sched_sel_write_1" type="array">
-            <obj_property name="ElementShortName">sched_sel_write_1[3:0]</obj_property>
-            <obj_property name="ObjectShortName">sched_sel_write_1[3:0]</obj_property>
+            <obj_property name="ElementShortName">sched_sel_write_1[2:0]</obj_property>
+            <obj_property name="ObjectShortName">sched_sel_write_1[2:0]</obj_property>
          </wvobject>
          <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/unified_scheduler/full" type="logic">
             <obj_property name="ElementShortName">full</obj_property>
@@ -631,11 +791,9 @@
       <wvobject fp_name="group35" type="group">
          <obj_property name="label">EXECUTION UNIT 0</obj_property>
          <obj_property name="DisplayName">label</obj_property>
-         <obj_property name="isExpanded"></obj_property>
          <wvobject fp_name="group5362" type="group">
             <obj_property name="label">BARREL SHIFTER</obj_property>
             <obj_property name="DisplayName">label</obj_property>
-            <obj_property name="isExpanded"></obj_property>
             <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/execution_unit_0/alu/barrel_shifter/data_in" type="array">
                <obj_property name="ElementShortName">data_in[31:0]</obj_property>
                <obj_property name="ObjectShortName">data_in[31:0]</obj_property>
@@ -697,6 +855,7 @@
          <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/execution_unit_0/cdb" type="array">
             <obj_property name="ElementShortName">cdb</obj_property>
             <obj_property name="ObjectShortName">cdb</obj_property>
+            <obj_property name="isExpanded"></obj_property>
          </wvobject>
          <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/execution_unit_0/cdb_request" type="logic">
             <obj_property name="ElementShortName">cdb_request</obj_property>
@@ -710,6 +869,11 @@
       <wvobject fp_name="group987" type="group">
          <obj_property name="label">EXECUTION UNIT 1</obj_property>
          <obj_property name="DisplayName">label</obj_property>
+         <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/execution_unit_1/eu_in_0" type="array">
+            <obj_property name="ElementShortName">eu_in_0</obj_property>
+            <obj_property name="ObjectShortName">eu_in_0</obj_property>
+            <obj_property name="isExpanded"></obj_property>
+         </wvobject>
          <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/execution_unit_1/valid" type="logic">
             <obj_property name="ElementShortName">valid</obj_property>
             <obj_property name="ObjectShortName">valid</obj_property>
@@ -727,16 +891,16 @@
             <obj_property name="ObjectShortName">lsu_generated_data[31:0]</obj_property>
          </wvobject>
          <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/execution_unit_1/lsu_stq_tag" type="array">
-            <obj_property name="ElementShortName">lsu_stq_tag[2:0]</obj_property>
-            <obj_property name="ObjectShortName">lsu_stq_tag[2:0]</obj_property>
+            <obj_property name="ElementShortName">lsu_stq_tag[1:0]</obj_property>
+            <obj_property name="ObjectShortName">lsu_stq_tag[1:0]</obj_property>
          </wvobject>
          <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/execution_unit_1/lsu_stq_tag_valid" type="logic">
             <obj_property name="ElementShortName">lsu_stq_tag_valid</obj_property>
             <obj_property name="ObjectShortName">lsu_stq_tag_valid</obj_property>
          </wvobject>
          <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/execution_unit_1/lsu_ldq_tag" type="array">
-            <obj_property name="ElementShortName">lsu_ldq_tag[2:0]</obj_property>
-            <obj_property name="ObjectShortName">lsu_ldq_tag[2:0]</obj_property>
+            <obj_property name="ElementShortName">lsu_ldq_tag[1:0]</obj_property>
+            <obj_property name="ObjectShortName">lsu_ldq_tag[1:0]</obj_property>
          </wvobject>
          <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/execution_unit_1/lsu_ldq_tag_valid" type="logic">
             <obj_property name="ElementShortName">lsu_ldq_tag_valid</obj_property>
@@ -745,17 +909,77 @@
          <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/execution_unit_1/pipeline_reg_0" type="array">
             <obj_property name="ElementShortName">pipeline_reg_0</obj_property>
             <obj_property name="ObjectShortName">pipeline_reg_0</obj_property>
+            <obj_property name="isExpanded"></obj_property>
          </wvobject>
          <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/execution_unit_1/pipeline_reg_0_next" type="array">
             <obj_property name="ElementShortName">pipeline_reg_0_next</obj_property>
             <obj_property name="ObjectShortName">pipeline_reg_0_next</obj_property>
-            <obj_property name="isExpanded"></obj_property>
          </wvobject>
       </wvobject>
       <wvobject fp_name="group513" type="group">
          <obj_property name="label">LOAD STORE UNIT</obj_property>
          <obj_property name="DisplayName">label</obj_property>
          <obj_property name="isExpanded"></obj_property>
+         <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/load_store_unit/cache_read_addr" type="array">
+            <obj_property name="ElementShortName">cache_read_addr[31:0]</obj_property>
+            <obj_property name="ObjectShortName">cache_read_addr[31:0]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/load_store_unit/cache_read_data" type="array">
+            <obj_property name="ElementShortName">cache_read_data[31:0]</obj_property>
+            <obj_property name="ObjectShortName">cache_read_data[31:0]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/load_store_unit/cache_read_valid" type="logic">
+            <obj_property name="ElementShortName">cache_read_valid</obj_property>
+            <obj_property name="ObjectShortName">cache_read_valid</obj_property>
+         </wvobject>
+         <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/load_store_unit/cache_read_ready" type="logic">
+            <obj_property name="ElementShortName">cache_read_ready</obj_property>
+            <obj_property name="ObjectShortName">cache_read_ready</obj_property>
+         </wvobject>
+         <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/load_store_unit/cache_read_hit" type="logic">
+            <obj_property name="ElementShortName">cache_read_hit</obj_property>
+            <obj_property name="ObjectShortName">cache_read_hit</obj_property>
+         </wvobject>
+         <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/load_store_unit/cache_read_miss" type="logic">
+            <obj_property name="ElementShortName">cache_read_miss</obj_property>
+            <obj_property name="ObjectShortName">cache_read_miss</obj_property>
+         </wvobject>
+         <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/load_store_unit/cache_write_addr" type="array">
+            <obj_property name="ElementShortName">cache_write_addr[31:0]</obj_property>
+            <obj_property name="ObjectShortName">cache_write_addr[31:0]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/load_store_unit/cache_write_data" type="array">
+            <obj_property name="ElementShortName">cache_write_data[31:0]</obj_property>
+            <obj_property name="ObjectShortName">cache_write_data[31:0]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/load_store_unit/cache_write_size" type="array">
+            <obj_property name="ElementShortName">cache_write_size[1:0]</obj_property>
+            <obj_property name="ObjectShortName">cache_write_size[1:0]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/load_store_unit/cache_write_valid" type="logic">
+            <obj_property name="ElementShortName">cache_write_valid</obj_property>
+            <obj_property name="ObjectShortName">cache_write_valid</obj_property>
+         </wvobject>
+         <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/load_store_unit/cache_write_ready" type="logic">
+            <obj_property name="ElementShortName">cache_write_ready</obj_property>
+            <obj_property name="ObjectShortName">cache_write_ready</obj_property>
+         </wvobject>
+         <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/load_store_unit/cache_write_hit" type="logic">
+            <obj_property name="ElementShortName">cache_write_hit</obj_property>
+            <obj_property name="ObjectShortName">cache_write_hit</obj_property>
+         </wvobject>
+         <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/load_store_unit/cache_write_miss" type="logic">
+            <obj_property name="ElementShortName">cache_write_miss</obj_property>
+            <obj_property name="ObjectShortName">cache_write_miss</obj_property>
+         </wvobject>
+         <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/load_store_unit/loaded_cacheline_tag" type="array">
+            <obj_property name="ElementShortName">loaded_cacheline_tag[23:0]</obj_property>
+            <obj_property name="ObjectShortName">loaded_cacheline_tag[23:0]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/load_store_unit/loaded_cacheline_tag_valid" type="logic">
+            <obj_property name="ElementShortName">loaded_cacheline_tag_valid</obj_property>
+            <obj_property name="ObjectShortName">loaded_cacheline_tag_valid</obj_property>
+         </wvobject>
          <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/load_store_unit/cdb_request" type="logic">
             <obj_property name="ElementShortName">cdb_request</obj_property>
             <obj_property name="ObjectShortName">cdb_request</obj_property>
@@ -764,14 +988,29 @@
             <obj_property name="ElementShortName">cdb_granted</obj_property>
             <obj_property name="ObjectShortName">cdb_granted</obj_property>
          </wvobject>
+         <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/load_store_unit/load_wait_tag" type="array">
+            <obj_property name="ElementShortName">load_wait_tag[23:0]</obj_property>
+            <obj_property name="ObjectShortName">load_wait_tag[23:0]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/load_store_unit/load_wait" type="logic">
+            <obj_property name="ElementShortName">load_wait</obj_property>
+            <obj_property name="ObjectShortName">load_wait</obj_property>
+         </wvobject>
+         <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/load_store_unit/store_wait_tag" type="array">
+            <obj_property name="ElementShortName">store_wait_tag[23:0]</obj_property>
+            <obj_property name="ObjectShortName">store_wait_tag[23:0]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/load_store_unit/store_wait" type="logic">
+            <obj_property name="ElementShortName">store_wait</obj_property>
+            <obj_property name="ObjectShortName">store_wait</obj_property>
+         </wvobject>
          <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/load_store_unit/store_queue" type="array">
-            <obj_property name="ElementShortName">store_queue[7:0][76:0]</obj_property>
-            <obj_property name="ObjectShortName">store_queue[7:0][76:0]</obj_property>
+            <obj_property name="ElementShortName">store_queue[3:0][75:0]</obj_property>
+            <obj_property name="ObjectShortName">store_queue[3:0][75:0]</obj_property>
          </wvobject>
          <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/load_store_unit/load_queue" type="array">
-            <obj_property name="ElementShortName">load_queue[7:0][58:0]</obj_property>
-            <obj_property name="ObjectShortName">load_queue[7:0][58:0]</obj_property>
-            <obj_property name="isExpanded"></obj_property>
+            <obj_property name="ElementShortName">load_queue[3:0][51:0]</obj_property>
+            <obj_property name="ObjectShortName">load_queue[3:0][51:0]</obj_property>
          </wvobject>
          <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/load_store_unit/store_state_reg" type="other">
             <obj_property name="ElementShortName">store_state_reg</obj_property>
@@ -786,40 +1025,44 @@
             <obj_property name="ObjectShortName">cdb_out</obj_property>
          </wvobject>
          <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/load_store_unit/sq_head_counter_reg" type="array">
-            <obj_property name="ElementShortName">sq_head_counter_reg[2:0]</obj_property>
-            <obj_property name="ObjectShortName">sq_head_counter_reg[2:0]</obj_property>
+            <obj_property name="ElementShortName">sq_head_counter_reg[1:0]</obj_property>
+            <obj_property name="ObjectShortName">sq_head_counter_reg[1:0]</obj_property>
          </wvobject>
          <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/load_store_unit/sq_tail_counter_reg" type="array">
-            <obj_property name="ElementShortName">sq_tail_counter_reg[2:0]</obj_property>
-            <obj_property name="ObjectShortName">sq_tail_counter_reg[2:0]</obj_property>
+            <obj_property name="ElementShortName">sq_tail_counter_reg[1:0]</obj_property>
+            <obj_property name="ObjectShortName">sq_tail_counter_reg[1:0]</obj_property>
          </wvobject>
          <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/load_store_unit/sq_finished_tag" type="array">
-            <obj_property name="ElementShortName">sq_finished_tag[2:0]</obj_property>
-            <obj_property name="ObjectShortName">sq_finished_tag[2:0]</obj_property>
+            <obj_property name="ElementShortName">sq_finished_tag[1:0]</obj_property>
+            <obj_property name="ObjectShortName">sq_finished_tag[1:0]</obj_property>
          </wvobject>
          <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/load_store_unit/sq_finished_tag_valid" type="logic">
             <obj_property name="ElementShortName">sq_finished_tag_valid</obj_property>
             <obj_property name="ObjectShortName">sq_finished_tag_valid</obj_property>
          </wvobject>
          <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/load_store_unit/sq_retire_tag" type="array">
-            <obj_property name="ElementShortName">sq_retire_tag[2:0]</obj_property>
-            <obj_property name="ObjectShortName">sq_retire_tag[2:0]</obj_property>
+            <obj_property name="ElementShortName">sq_retire_tag[1:0]</obj_property>
+            <obj_property name="ObjectShortName">sq_retire_tag[1:0]</obj_property>
          </wvobject>
          <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/load_store_unit/sq_retire_tag_valid" type="logic">
             <obj_property name="ElementShortName">sq_retire_tag_valid</obj_property>
             <obj_property name="ObjectShortName">sq_retire_tag_valid</obj_property>
          </wvobject>
          <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/load_store_unit/sq_calc_addr_tag" type="array">
-            <obj_property name="ElementShortName">sq_calc_addr_tag[2:0]</obj_property>
-            <obj_property name="ObjectShortName">sq_calc_addr_tag[2:0]</obj_property>
+            <obj_property name="ElementShortName">sq_calc_addr_tag[1:0]</obj_property>
+            <obj_property name="ObjectShortName">sq_calc_addr_tag[1:0]</obj_property>
          </wvobject>
          <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/load_store_unit/sq_calc_addr_valid" type="logic">
             <obj_property name="ElementShortName">sq_calc_addr_valid</obj_property>
             <obj_property name="ObjectShortName">sq_calc_addr_valid</obj_property>
          </wvobject>
+         <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/load_store_unit/generated_address" type="array">
+            <obj_property name="ElementShortName">generated_address[31:0]</obj_property>
+            <obj_property name="ObjectShortName">generated_address[31:0]</obj_property>
+         </wvobject>
          <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/load_store_unit/lq_calc_addr_tag" type="array">
-            <obj_property name="ElementShortName">lq_calc_addr_tag[2:0]</obj_property>
-            <obj_property name="ObjectShortName">lq_calc_addr_tag[2:0]</obj_property>
+            <obj_property name="ElementShortName">lq_calc_addr_tag[1:0]</obj_property>
+            <obj_property name="ObjectShortName">lq_calc_addr_tag[1:0]</obj_property>
          </wvobject>
          <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/load_store_unit/lq_calc_addr_valid" type="logic">
             <obj_property name="ElementShortName">lq_calc_addr_valid</obj_property>
@@ -830,20 +1073,20 @@
             <obj_property name="ObjectShortName">sq_store_data[31:0]</obj_property>
          </wvobject>
          <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/load_store_unit/sq_store_data_tag" type="array">
-            <obj_property name="ElementShortName">sq_store_data_tag[6:0]</obj_property>
-            <obj_property name="ObjectShortName">sq_store_data_tag[6:0]</obj_property>
+            <obj_property name="ElementShortName">sq_store_data_tag[5:0]</obj_property>
+            <obj_property name="ObjectShortName">sq_store_data_tag[5:0]</obj_property>
          </wvobject>
          <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/load_store_unit/sq_store_data_valid" type="logic">
             <obj_property name="ElementShortName">sq_store_data_valid</obj_property>
             <obj_property name="ObjectShortName">sq_store_data_valid</obj_property>
          </wvobject>
          <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/load_store_unit/lq_mask_bits" type="array">
-            <obj_property name="ElementShortName">lq_mask_bits[7:0]</obj_property>
-            <obj_property name="ObjectShortName">lq_mask_bits[7:0]</obj_property>
+            <obj_property name="ElementShortName">lq_mask_bits[3:0]</obj_property>
+            <obj_property name="ObjectShortName">lq_mask_bits[3:0]</obj_property>
          </wvobject>
          <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/load_store_unit/lq_ready_loads" type="array">
-            <obj_property name="ElementShortName">lq_ready_loads[7:0]</obj_property>
-            <obj_property name="ObjectShortName">lq_ready_loads[7:0]</obj_property>
+            <obj_property name="ElementShortName">lq_ready_loads[3:0]</obj_property>
+            <obj_property name="ObjectShortName">lq_ready_loads[3:0]</obj_property>
          </wvobject>
          <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/load_store_unit/sq_store_ready" type="logic">
             <obj_property name="ElementShortName">sq_store_ready</obj_property>
@@ -858,32 +1101,32 @@
             <obj_property name="ObjectShortName">lq_enqueue_en</obj_property>
          </wvobject>
          <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/load_store_unit/lq_head_counter_reg" type="array">
-            <obj_property name="ElementShortName">lq_head_counter_reg[2:0]</obj_property>
-            <obj_property name="ObjectShortName">lq_head_counter_reg[2:0]</obj_property>
+            <obj_property name="ElementShortName">lq_head_counter_reg[1:0]</obj_property>
+            <obj_property name="ObjectShortName">lq_head_counter_reg[1:0]</obj_property>
          </wvobject>
          <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/load_store_unit/lq_head_counter_next" type="array">
-            <obj_property name="ElementShortName">lq_head_counter_next[2:0]</obj_property>
-            <obj_property name="ObjectShortName">lq_head_counter_next[2:0]</obj_property>
+            <obj_property name="ElementShortName">lq_head_counter_next[1:0]</obj_property>
+            <obj_property name="ObjectShortName">lq_head_counter_next[1:0]</obj_property>
          </wvobject>
          <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/load_store_unit/lq_tail_counter_reg" type="array">
-            <obj_property name="ElementShortName">lq_tail_counter_reg[2:0]</obj_property>
-            <obj_property name="ObjectShortName">lq_tail_counter_reg[2:0]</obj_property>
+            <obj_property name="ElementShortName">lq_tail_counter_reg[1:0]</obj_property>
+            <obj_property name="ObjectShortName">lq_tail_counter_reg[1:0]</obj_property>
          </wvobject>
          <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/load_store_unit/lq_tail_counter_next" type="array">
-            <obj_property name="ElementShortName">lq_tail_counter_next[2:0]</obj_property>
-            <obj_property name="ObjectShortName">lq_tail_counter_next[2:0]</obj_property>
+            <obj_property name="ElementShortName">lq_tail_counter_next[1:0]</obj_property>
+            <obj_property name="ObjectShortName">lq_tail_counter_next[1:0]</obj_property>
          </wvobject>
          <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/load_store_unit/lq_load_ready" type="logic">
             <obj_property name="ElementShortName">lq_load_ready</obj_property>
             <obj_property name="ObjectShortName">lq_load_ready</obj_property>
          </wvobject>
          <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/load_store_unit/sq_alloc_tag" type="array">
-            <obj_property name="ElementShortName">sq_alloc_tag[2:0]</obj_property>
-            <obj_property name="ObjectShortName">sq_alloc_tag[2:0]</obj_property>
+            <obj_property name="ElementShortName">sq_alloc_tag[1:0]</obj_property>
+            <obj_property name="ObjectShortName">sq_alloc_tag[1:0]</obj_property>
          </wvobject>
          <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/load_store_unit/lq_alloc_tag" type="array">
-            <obj_property name="ElementShortName">lq_alloc_tag[2:0]</obj_property>
-            <obj_property name="ObjectShortName">lq_alloc_tag[2:0]</obj_property>
+            <obj_property name="ElementShortName">lq_alloc_tag[1:0]</obj_property>
+            <obj_property name="ObjectShortName">lq_alloc_tag[1:0]</obj_property>
          </wvobject>
          <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/load_store_unit/sq_full" type="logic">
             <obj_property name="ElementShortName">sq_full</obj_property>
@@ -906,12 +1149,12 @@
             <obj_property name="ObjectShortName">branch_mask[3:0]</obj_property>
          </wvobject>
          <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/load_store_unit/sq_tail_mispredict_recovery_memory" type="array">
-            <obj_property name="ElementShortName">sq_tail_mispredict_recovery_memory[3:0][2:0]</obj_property>
-            <obj_property name="ObjectShortName">sq_tail_mispredict_recovery_memory[3:0][2:0]</obj_property>
+            <obj_property name="ElementShortName">sq_tail_mispredict_recovery_memory[3:0][1:0]</obj_property>
+            <obj_property name="ObjectShortName">sq_tail_mispredict_recovery_memory[3:0][1:0]</obj_property>
          </wvobject>
          <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/load_store_unit/lq_tail_mispredict_recovery_memory" type="array">
-            <obj_property name="ElementShortName">lq_tail_mispredict_recovery_memory[3:0][2:0]</obj_property>
-            <obj_property name="ObjectShortName">lq_tail_mispredict_recovery_memory[3:0][2:0]</obj_property>
+            <obj_property name="ElementShortName">lq_tail_mispredict_recovery_memory[3:0][1:0]</obj_property>
+            <obj_property name="ObjectShortName">lq_tail_mispredict_recovery_memory[3:0][1:0]</obj_property>
          </wvobject>
          <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/load_store_unit/SQ_ADDR_VALID" type="other">
             <obj_property name="ElementShortName">SQ_ADDR_VALID</obj_property>
@@ -1002,16 +1245,16 @@
          <obj_property name="label">REORDER BUFFER</obj_property>
          <obj_property name="DisplayName">label</obj_property>
          <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/reorder_buffer/rob_tail_mispredict_recovery_memory" type="array">
-            <obj_property name="ElementShortName">rob_tail_mispredict_recovery_memory[3:0][5:0]</obj_property>
-            <obj_property name="ObjectShortName">rob_tail_mispredict_recovery_memory[3:0][5:0]</obj_property>
+            <obj_property name="ElementShortName">rob_tail_mispredict_recovery_memory[3:0][3:0]</obj_property>
+            <obj_property name="ObjectShortName">rob_tail_mispredict_recovery_memory[3:0][3:0]</obj_property>
          </wvobject>
          <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/reorder_buffer/rob_valid_bits" type="array">
-            <obj_property name="ElementShortName">rob_valid_bits[47:0]</obj_property>
-            <obj_property name="ObjectShortName">rob_valid_bits[47:0]</obj_property>
+            <obj_property name="ElementShortName">rob_valid_bits[15:0]</obj_property>
+            <obj_property name="ObjectShortName">rob_valid_bits[15:0]</obj_property>
          </wvobject>
          <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/reorder_buffer/reorder_buffer" type="array">
-            <obj_property name="ElementShortName">reorder_buffer[47:0][49:0]</obj_property>
-            <obj_property name="ObjectShortName">reorder_buffer[47:0][49:0]</obj_property>
+            <obj_property name="ElementShortName">reorder_buffer[15:0][47:0]</obj_property>
+            <obj_property name="ObjectShortName">reorder_buffer[15:0][47:0]</obj_property>
          </wvobject>
          <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/reorder_buffer/ARCH_REGFILE_ENTRIES" type="other">
             <obj_property name="ElementShortName">ARCH_REGFILE_ENTRIES</obj_property>
@@ -1042,20 +1285,20 @@
             <obj_property name="ObjectShortName">ROB_ENTRY_BITS</obj_property>
          </wvobject>
          <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/reorder_buffer/TAG_ZERO" type="array">
-            <obj_property name="ElementShortName">TAG_ZERO[5:0]</obj_property>
-            <obj_property name="ObjectShortName">TAG_ZERO[5:0]</obj_property>
+            <obj_property name="ElementShortName">TAG_ZERO[3:0]</obj_property>
+            <obj_property name="ObjectShortName">TAG_ZERO[3:0]</obj_property>
          </wvobject>
          <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/reorder_buffer/ROB_TAG_ZERO" type="array">
-            <obj_property name="ElementShortName">ROB_TAG_ZERO[5:0]</obj_property>
-            <obj_property name="ObjectShortName">ROB_TAG_ZERO[5:0]</obj_property>
+            <obj_property name="ElementShortName">ROB_TAG_ZERO[3:0]</obj_property>
+            <obj_property name="ObjectShortName">ROB_TAG_ZERO[3:0]</obj_property>
          </wvobject>
          <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/reorder_buffer/REGFILE_TAG_ZERO" type="array">
             <obj_property name="ElementShortName">REGFILE_TAG_ZERO[4:0]</obj_property>
             <obj_property name="ObjectShortName">REGFILE_TAG_ZERO[4:0]</obj_property>
          </wvobject>
          <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/reorder_buffer/COUNTER_ONE" type="array">
-            <obj_property name="ElementShortName">COUNTER_ONE[5:0]</obj_property>
-            <obj_property name="ObjectShortName">COUNTER_ONE[5:0]</obj_property>
+            <obj_property name="ElementShortName">COUNTER_ONE[3:0]</obj_property>
+            <obj_property name="ObjectShortName">COUNTER_ONE[3:0]</obj_property>
          </wvobject>
          <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/reorder_buffer/OP_TYPE_START" type="other">
             <obj_property name="ElementShortName">OP_TYPE_START</obj_property>
@@ -1102,8 +1345,8 @@
             <obj_property name="ObjectShortName">head_operation_type[2:0]</obj_property>
          </wvobject>
          <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/reorder_buffer/head_stq_tag" type="array">
-            <obj_property name="ElementShortName">head_stq_tag[2:0]</obj_property>
-            <obj_property name="ObjectShortName">head_stq_tag[2:0]</obj_property>
+            <obj_property name="ElementShortName">head_stq_tag[1:0]</obj_property>
+            <obj_property name="ObjectShortName">head_stq_tag[1:0]</obj_property>
          </wvobject>
          <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/reorder_buffer/head_valid" type="logic">
             <obj_property name="ElementShortName">head_valid</obj_property>
@@ -1130,12 +1373,12 @@
             <obj_property name="ObjectShortName">commit_1_en</obj_property>
          </wvobject>
          <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/reorder_buffer/rob_valid_bits" type="array">
-            <obj_property name="ElementShortName">rob_valid_bits[47:0]</obj_property>
-            <obj_property name="ObjectShortName">rob_valid_bits[47:0]</obj_property>
+            <obj_property name="ElementShortName">rob_valid_bits[15:0]</obj_property>
+            <obj_property name="ObjectShortName">rob_valid_bits[15:0]</obj_property>
          </wvobject>
          <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/reorder_buffer/rob_head_data_1" type="array">
-            <obj_property name="ElementShortName">rob_head_data_1[49:0]</obj_property>
-            <obj_property name="ObjectShortName">rob_head_data_1[49:0]</obj_property>
+            <obj_property name="ElementShortName">rob_head_data_1[47:0]</obj_property>
+            <obj_property name="ObjectShortName">rob_head_data_1[47:0]</obj_property>
          </wvobject>
          <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/rob_head_operation_type" type="array">
             <obj_property name="ElementShortName">rob_head_operation_type[2:0]</obj_property>
@@ -1146,42 +1389,41 @@
             <obj_property name="ObjectShortName">rob_head_arch_dest_reg[4:0]</obj_property>
          </wvobject>
          <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/rob_head_phys_dest_reg" type="array">
-            <obj_property name="ElementShortName">rob_head_phys_dest_reg[6:0]</obj_property>
-            <obj_property name="ObjectShortName">rob_head_phys_dest_reg[6:0]</obj_property>
+            <obj_property name="ElementShortName">rob_head_phys_dest_reg[5:0]</obj_property>
+            <obj_property name="ObjectShortName">rob_head_phys_dest_reg[5:0]</obj_property>
          </wvobject>
          <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/reorder_buffer/rob_head_data_2" type="array">
-            <obj_property name="ElementShortName">rob_head_data_2[49:0]</obj_property>
-            <obj_property name="ObjectShortName">rob_head_data_2[49:0]</obj_property>
+            <obj_property name="ElementShortName">rob_head_data_2[47:0]</obj_property>
+            <obj_property name="ObjectShortName">rob_head_data_2[47:0]</obj_property>
          </wvobject>
          <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/reorder_buffer/rob_head_counter_reg" type="array">
-            <obj_property name="ElementShortName">rob_head_counter_reg[5:0]</obj_property>
-            <obj_property name="ObjectShortName">rob_head_counter_reg[5:0]</obj_property>
+            <obj_property name="ElementShortName">rob_head_counter_reg[3:0]</obj_property>
+            <obj_property name="ObjectShortName">rob_head_counter_reg[3:0]</obj_property>
          </wvobject>
          <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/reorder_buffer/rob_head_counter_next" type="array">
-            <obj_property name="ElementShortName">rob_head_counter_next[5:0]</obj_property>
-            <obj_property name="ObjectShortName">rob_head_counter_next[5:0]</obj_property>
+            <obj_property name="ElementShortName">rob_head_counter_next[3:0]</obj_property>
+            <obj_property name="ObjectShortName">rob_head_counter_next[3:0]</obj_property>
          </wvobject>
          <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/reorder_buffer/rob_tail_counter_reg" type="array">
-            <obj_property name="ElementShortName">rob_tail_counter_reg[5:0]</obj_property>
-            <obj_property name="ObjectShortName">rob_tail_counter_reg[5:0]</obj_property>
+            <obj_property name="ElementShortName">rob_tail_counter_reg[3:0]</obj_property>
+            <obj_property name="ObjectShortName">rob_tail_counter_reg[3:0]</obj_property>
          </wvobject>
          <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/reorder_buffer/rob_tail_counter_next" type="array">
-            <obj_property name="ElementShortName">rob_tail_counter_next[5:0]</obj_property>
-            <obj_property name="ObjectShortName">rob_tail_counter_next[5:0]</obj_property>
+            <obj_property name="ElementShortName">rob_tail_counter_next[3:0]</obj_property>
+            <obj_property name="ObjectShortName">rob_tail_counter_next[3:0]</obj_property>
          </wvobject>
          <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/reorder_buffer/rob_entry_addr" type="array">
-            <obj_property name="ElementShortName">rob_entry_addr[5:0]</obj_property>
-            <obj_property name="ObjectShortName">rob_entry_addr[5:0]</obj_property>
+            <obj_property name="ElementShortName">rob_entry_addr[3:0]</obj_property>
+            <obj_property name="ObjectShortName">rob_entry_addr[3:0]</obj_property>
          </wvobject>
          <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/reorder_buffer/rob_head_data_2" type="array">
-            <obj_property name="ElementShortName">rob_head_data_2[49:0]</obj_property>
-            <obj_property name="ObjectShortName">rob_head_data_2[49:0]</obj_property>
+            <obj_property name="ElementShortName">rob_head_data_2[47:0]</obj_property>
+            <obj_property name="ObjectShortName">rob_head_data_2[47:0]</obj_property>
          </wvobject>
       </wvobject>
       <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/cdb" type="array">
          <obj_property name="ElementShortName">cdb</obj_property>
          <obj_property name="ObjectShortName">cdb</obj_property>
-         <obj_property name="isExpanded"></obj_property>
       </wvobject>
       <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/rf_rd_data_1" type="array">
          <obj_property name="ElementShortName">rf_rd_data_1[31:0]</obj_property>
@@ -1196,13 +1438,10 @@
          <obj_property name="ObjectShortName">sched_full</obj_property>
       </wvobject>
    </wvobject>
-   <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/stall_ee" type="logic">
-      <obj_property name="ElementShortName">stall_ee</obj_property>
-      <obj_property name="ObjectShortName">stall_ee</obj_property>
-   </wvobject>
    <wvobject fp_name="group569" type="group">
       <obj_property name="label">LED DEVICE</obj_property>
       <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
    </wvobject>
    <wvobject fp_name="group3592" type="group">
       <obj_property name="label">RAM MEMORY</obj_property>
@@ -1242,6 +1481,7 @@
       <wvobject fp_name="/cpu_tb/cpu/ram_memory/ram" type="array">
          <obj_property name="ElementShortName">ram[0:4095][31:0]</obj_property>
          <obj_property name="ObjectShortName">ram[0:4095][31:0]</obj_property>
+         <obj_property name="isExpanded"></obj_property>
       </wvobject>
       <wvobject fp_name="/cpu_tb/cpu/ram_memory/SIZE_BYTES" type="other">
          <obj_property name="ElementShortName">SIZE_BYTES</obj_property>
@@ -1264,6 +1504,22 @@
       <obj_property name="label">BUS</obj_property>
       <obj_property name="DisplayName">label</obj_property>
       <obj_property name="isExpanded"></obj_property>
+      <wvobject fp_name="/cpu_tb/cpu/bus_data_read_rom" type="array">
+         <obj_property name="ElementShortName">bus_data_read_rom[31:0]</obj_property>
+         <obj_property name="ObjectShortName">bus_data_read_rom[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/bus_data_read_ram" type="array">
+         <obj_property name="ElementShortName">bus_data_read_ram[31:0]</obj_property>
+         <obj_property name="ObjectShortName">bus_data_read_ram[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/bus_data_read_uart" type="array">
+         <obj_property name="ElementShortName">bus_data_read_uart[31:0]</obj_property>
+         <obj_property name="ObjectShortName">bus_data_read_uart[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/bus_data_read_gpio" type="array">
+         <obj_property name="ElementShortName">bus_data_read_gpio[31:0]</obj_property>
+         <obj_property name="ObjectShortName">bus_data_read_gpio[31:0]</obj_property>
+      </wvobject>
       <wvobject fp_name="/cpu_tb/cpu/bus_addr_read" type="array">
          <obj_property name="ElementShortName">bus_addr_read[31:0]</obj_property>
          <obj_property name="ObjectShortName">bus_addr_read[31:0]</obj_property>
@@ -1332,6 +1588,7 @@
    <wvobject fp_name="group1957" type="group">
       <obj_property name="label">UART CONTROLLER</obj_property>
       <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
       <wvobject fp_name="/cpu_tb/cpu/uart_controller/tx" type="logic">
          <obj_property name="ElementShortName">tx</obj_property>
          <obj_property name="ObjectShortName">tx</obj_property>
@@ -1343,14 +1600,21 @@
       <wvobject fp_name="/cpu_tb/cpu/uart_controller/div_h_reg" type="array">
          <obj_property name="ElementShortName">div_h_reg[7:0]</obj_property>
          <obj_property name="ObjectShortName">div_h_reg[7:0]</obj_property>
+         <obj_property name="isExpanded"></obj_property>
       </wvobject>
       <wvobject fp_name="/cpu_tb/cpu/uart_controller/div_l_reg" type="array">
          <obj_property name="ElementShortName">div_l_reg[7:0]</obj_property>
          <obj_property name="ObjectShortName">div_l_reg[7:0]</obj_property>
+         <obj_property name="isExpanded"></obj_property>
       </wvobject>
       <wvobject fp_name="/cpu_tb/cpu/uart_controller/data_tx_reg" type="array">
          <obj_property name="ElementShortName">data_tx_reg[7:0]</obj_property>
          <obj_property name="ObjectShortName">data_tx_reg[7:0]</obj_property>
+         <obj_property name="Radix">ASCIIRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/uart_controller/data_tx_reg[7]" type="logic">
+         <obj_property name="ElementShortName">[7]</obj_property>
+         <obj_property name="ObjectShortName">[7]</obj_property>
       </wvobject>
       <wvobject fp_name="/cpu_tb/cpu/uart_controller/data_rx_reg" type="array">
          <obj_property name="ElementShortName">data_rx_reg[7:0]</obj_property>
@@ -1383,6 +1647,50 @@
       <wvobject fp_name="/cpu_tb/cpu/uart_controller/bus_data_read" type="array">
          <obj_property name="ElementShortName">bus_data_read[31:0]</obj_property>
          <obj_property name="ObjectShortName">bus_data_read[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/uart_controller/uart_rx_sampling_counter_reg" type="array">
+         <obj_property name="ElementShortName">uart_rx_sampling_counter_reg[3:0]</obj_property>
+         <obj_property name="ObjectShortName">uart_rx_sampling_counter_reg[3:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/uart_controller/uart_rx_sample_en" type="logic">
+         <obj_property name="ElementShortName">uart_rx_sample_en</obj_property>
+         <obj_property name="ObjectShortName">uart_rx_sample_en</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/uart_controller/rx_start" type="logic">
+         <obj_property name="ElementShortName">rx_start</obj_property>
+         <obj_property name="ObjectShortName">rx_start</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/uart_controller/rx_end" type="logic">
+         <obj_property name="ElementShortName">rx_end</obj_property>
+         <obj_property name="ObjectShortName">rx_end</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/uart_controller/baud_gen_x16_counter_reg" type="array">
+         <obj_property name="ElementShortName">baud_gen_x16_counter_reg[15:0]</obj_property>
+         <obj_property name="ObjectShortName">baud_gen_x16_counter_reg[15:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/uart_controller/baud_gen_x16_counter_next" type="array">
+         <obj_property name="ElementShortName">baud_gen_x16_counter_next[15:0]</obj_property>
+         <obj_property name="ObjectShortName">baud_gen_x16_counter_next[15:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/uart_controller/baud_gen_x16_counter_en" type="logic">
+         <obj_property name="ElementShortName">baud_gen_x16_counter_en</obj_property>
+         <obj_property name="ObjectShortName">baud_gen_x16_counter_en</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/uart_controller/baud_tick_x16" type="logic">
+         <obj_property name="ElementShortName">baud_tick_x16</obj_property>
+         <obj_property name="ObjectShortName">baud_tick_x16</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/uart_controller/uart_rx_state" type="other">
+         <obj_property name="ElementShortName">uart_rx_state</obj_property>
+         <obj_property name="ObjectShortName">uart_rx_state</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/uart_controller/uart_rx_state_next" type="other">
+         <obj_property name="ElementShortName">uart_rx_state_next</obj_property>
+         <obj_property name="ObjectShortName">uart_rx_state_next</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/uart_controller/bits_received" type="array">
+         <obj_property name="ElementShortName">bits_received[2:0]</obj_property>
+         <obj_property name="ObjectShortName">bits_received[2:0]</obj_property>
       </wvobject>
    </wvobject>
    <wvobject fp_name="group1241" type="group">
@@ -1443,6 +1751,293 @@
       <wvobject fp_name="/cpu_tb/cpu/gpio_controller/bus_ackr_i" type="logic">
          <obj_property name="ElementShortName">bus_ackr_i</obj_property>
          <obj_property name="ObjectShortName">bus_ackr_i</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group6237" type="group">
+      <obj_property name="label">DCACHE</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/read_addr_1" type="array">
+         <obj_property name="ElementShortName">read_addr_1[31:0]</obj_property>
+         <obj_property name="ObjectShortName">read_addr_1[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/read_tag_1" type="array">
+         <obj_property name="ElementShortName">read_tag_1[1:0]</obj_property>
+         <obj_property name="ObjectShortName">read_tag_1[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/read_valid_1" type="logic">
+         <obj_property name="ElementShortName">read_valid_1</obj_property>
+         <obj_property name="ObjectShortName">read_valid_1</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/read_ready_1" type="logic">
+         <obj_property name="ElementShortName">read_ready_1</obj_property>
+         <obj_property name="ObjectShortName">read_ready_1</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/read_data_out_1" type="array">
+         <obj_property name="ElementShortName">read_data_out_1[31:0]</obj_property>
+         <obj_property name="ObjectShortName">read_data_out_1[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/write_addr_1" type="array">
+         <obj_property name="ElementShortName">write_addr_1[31:0]</obj_property>
+         <obj_property name="ObjectShortName">write_addr_1[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/write_data_1" type="array">
+         <obj_property name="ElementShortName">write_data_1[31:0]</obj_property>
+         <obj_property name="ObjectShortName">write_data_1[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/write_size_1" type="array">
+         <obj_property name="ElementShortName">write_size_1[1:0]</obj_property>
+         <obj_property name="ObjectShortName">write_size_1[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/write_tag_1" type="array">
+         <obj_property name="ElementShortName">write_tag_1[1:0]</obj_property>
+         <obj_property name="ObjectShortName">write_tag_1[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/write_valid_1" type="logic">
+         <obj_property name="ElementShortName">write_valid_1</obj_property>
+         <obj_property name="ObjectShortName">write_valid_1</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/write_ready_1" type="logic">
+         <obj_property name="ElementShortName">write_ready_1</obj_property>
+         <obj_property name="ObjectShortName">write_ready_1</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/write_hit_1" type="logic">
+         <obj_property name="ElementShortName">write_hit_1</obj_property>
+         <obj_property name="ObjectShortName">write_hit_1</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/write_miss_1" type="logic">
+         <obj_property name="ElementShortName">write_miss_1</obj_property>
+         <obj_property name="ObjectShortName">write_miss_1</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/read_hit_1" type="logic">
+         <obj_property name="ElementShortName">read_hit_1</obj_property>
+         <obj_property name="ObjectShortName">read_hit_1</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/read_miss_1" type="logic">
+         <obj_property name="ElementShortName">read_miss_1</obj_property>
+         <obj_property name="ObjectShortName">read_miss_1</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/read_miss_tag_1" type="array">
+         <obj_property name="ElementShortName">read_miss_tag_1[1:0]</obj_property>
+         <obj_property name="ObjectShortName">read_miss_tag_1[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/write_miss_tag_1" type="array">
+         <obj_property name="ElementShortName">write_miss_tag_1[1:0]</obj_property>
+         <obj_property name="ObjectShortName">write_miss_tag_1[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/loaded_cacheline_tag" type="array">
+         <obj_property name="ElementShortName">loaded_cacheline_tag[23:0]</obj_property>
+         <obj_property name="ObjectShortName">loaded_cacheline_tag[23:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/loaded_cacheline_tag_valid" type="logic">
+         <obj_property name="ElementShortName">loaded_cacheline_tag_valid</obj_property>
+         <obj_property name="ObjectShortName">loaded_cacheline_tag_valid</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/cbc_fwd_en" type="logic">
+         <obj_property name="ElementShortName">cbc_fwd_en</obj_property>
+         <obj_property name="ObjectShortName">cbc_fwd_en</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/cbc_writeback_cacheline" type="array">
+         <obj_property name="ElementShortName">cbc_writeback_cacheline[127:0]</obj_property>
+         <obj_property name="ObjectShortName">cbc_writeback_cacheline[127:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/cbc_writeback_addr" type="array">
+         <obj_property name="ElementShortName">cbc_writeback_addr[31:0]</obj_property>
+         <obj_property name="ObjectShortName">cbc_writeback_addr[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/cbc_writeback_en" type="logic">
+         <obj_property name="ElementShortName">cbc_writeback_en</obj_property>
+         <obj_property name="ObjectShortName">cbc_writeback_en</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/\bram_gen(0)\/bram_inst/bram" type="array">
+         <obj_property name="ElementShortName">bram[15:0][152:0]</obj_property>
+         <obj_property name="ObjectShortName">bram[15:0][152:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/\bram_gen(1)\/bram_inst/bram" type="array">
+         <obj_property name="ElementShortName">bram[15:0][152:0]</obj_property>
+         <obj_property name="ObjectShortName">bram[15:0][152:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/icache_valid_bits" type="array">
+         <obj_property name="ElementShortName">icache_valid_bits[31:0]</obj_property>
+         <obj_property name="ObjectShortName">icache_valid_bits[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/icache_set_out_bram" type="array">
+         <obj_property name="ElementShortName">icache_set_out_bram[0:1][152:0]</obj_property>
+         <obj_property name="ObjectShortName">icache_set_out_bram[0:1][152:0]</obj_property>
+         <obj_property name="isExpanded"></obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/icache_set_out" type="array">
+         <obj_property name="ElementShortName">icache_set_out[0:1][152:0]</obj_property>
+         <obj_property name="ObjectShortName">icache_set_out[0:1][152:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/icache_set_valid_1" type="array">
+         <obj_property name="ElementShortName">icache_set_valid_1[1:0]</obj_property>
+         <obj_property name="ObjectShortName">icache_set_valid_1[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/icache_set_valid_2" type="array">
+         <obj_property name="ElementShortName">icache_set_valid_2[1:0]</obj_property>
+         <obj_property name="ObjectShortName">icache_set_valid_2[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/hit_bits" type="array">
+         <obj_property name="ElementShortName">hit_bits[1:0]</obj_property>
+         <obj_property name="ObjectShortName">hit_bits[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/cacheline_update" type="array">
+         <obj_property name="ElementShortName">cacheline_update[152:0]</obj_property>
+         <obj_property name="ObjectShortName">cacheline_update[152:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/cacheline_write" type="array">
+         <obj_property name="ElementShortName">cacheline_write[152:0]</obj_property>
+         <obj_property name="ObjectShortName">cacheline_write[152:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/cacheline_update_en" type="logic">
+         <obj_property name="ElementShortName">cacheline_update_en</obj_property>
+         <obj_property name="ObjectShortName">cacheline_update_en</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/cacheline_update_sel" type="array">
+         <obj_property name="ElementShortName">cacheline_update_sel[1:0]</obj_property>
+         <obj_property name="ObjectShortName">cacheline_update_sel[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/cacheline_evict_en" type="logic">
+         <obj_property name="ElementShortName">cacheline_evict_en</obj_property>
+         <obj_property name="ObjectShortName">cacheline_evict_en</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/cacheline_evict_write_en" type="logic">
+         <obj_property name="ElementShortName">cacheline_evict_write_en</obj_property>
+         <obj_property name="ObjectShortName">cacheline_evict_write_en</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/cacheline_addr_aligned" type="array">
+         <obj_property name="ElementShortName">cacheline_addr_aligned[31:0]</obj_property>
+         <obj_property name="ObjectShortName">cacheline_addr_aligned[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/cbc_load_busy" type="logic">
+         <obj_property name="ElementShortName">cbc_load_busy</obj_property>
+         <obj_property name="ObjectShortName">cbc_load_busy</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/cbc_write_busy" type="logic">
+         <obj_property name="ElementShortName">cbc_write_busy</obj_property>
+         <obj_property name="ObjectShortName">cbc_write_busy</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/stall" type="logic">
+         <obj_property name="ElementShortName">stall</obj_property>
+         <obj_property name="ObjectShortName">stall</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/c1_c2_pipeline_reg_1" type="array">
+         <obj_property name="ElementShortName">c1_c2_pipeline_reg_1</obj_property>
+         <obj_property name="ObjectShortName">c1_c2_pipeline_reg_1</obj_property>
+         <obj_property name="isExpanded"></obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/c2_c3_pipeline_reg_1" type="array">
+         <obj_property name="ElementShortName">c2_c3_pipeline_reg_1</obj_property>
+         <obj_property name="ObjectShortName">c2_c3_pipeline_reg_1</obj_property>
+         <obj_property name="isExpanded"></obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/cache_bus_controller_inst/bus_read_state" type="other">
+         <obj_property name="ElementShortName">bus_read_state</obj_property>
+         <obj_property name="ObjectShortName">bus_read_state</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/cache_bus_controller_inst/bus_read_state_next" type="other">
+         <obj_property name="ElementShortName">bus_read_state_next</obj_property>
+         <obj_property name="ObjectShortName">bus_read_state_next</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/cache_bus_controller_inst/bus_write_state" type="other">
+         <obj_property name="ElementShortName">bus_write_state</obj_property>
+         <obj_property name="ObjectShortName">bus_write_state</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/cache_bus_controller_inst/bus_write_state_next" type="other">
+         <obj_property name="ElementShortName">bus_write_state_next</obj_property>
+         <obj_property name="ObjectShortName">bus_write_state_next</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/ADDR_SIZE_BITS" type="other">
+         <obj_property name="ElementShortName">ADDR_SIZE_BITS</obj_property>
+         <obj_property name="ObjectShortName">ADDR_SIZE_BITS</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/ENTRY_SIZE_BYTES" type="other">
+         <obj_property name="ElementShortName">ENTRY_SIZE_BYTES</obj_property>
+         <obj_property name="ObjectShortName">ENTRY_SIZE_BYTES</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/ENTRIES_PER_CACHELINE" type="other">
+         <obj_property name="ElementShortName">ENTRIES_PER_CACHELINE</obj_property>
+         <obj_property name="ObjectShortName">ENTRIES_PER_CACHELINE</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/ASSOCIATIVITY" type="other">
+         <obj_property name="ElementShortName">ASSOCIATIVITY</obj_property>
+         <obj_property name="ObjectShortName">ASSOCIATIVITY</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/NUM_SETS" type="other">
+         <obj_property name="ElementShortName">NUM_SETS</obj_property>
+         <obj_property name="ObjectShortName">NUM_SETS</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/ENABLE_WRITES" type="other">
+         <obj_property name="ElementShortName">ENABLE_WRITES</obj_property>
+         <obj_property name="ObjectShortName">ENABLE_WRITES</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/ENABLE_FORWARDING" type="other">
+         <obj_property name="ElementShortName">ENABLE_FORWARDING</obj_property>
+         <obj_property name="ObjectShortName">ENABLE_FORWARDING</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/IS_BLOCKING" type="other">
+         <obj_property name="ElementShortName">IS_BLOCKING</obj_property>
+         <obj_property name="ObjectShortName">IS_BLOCKING</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/TAG_SIZE" type="other">
+         <obj_property name="ElementShortName">TAG_SIZE</obj_property>
+         <obj_property name="ObjectShortName">TAG_SIZE</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/INDEX_SIZE" type="other">
+         <obj_property name="ElementShortName">INDEX_SIZE</obj_property>
+         <obj_property name="ObjectShortName">INDEX_SIZE</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/CACHELINE_SIZE" type="other">
+         <obj_property name="ElementShortName">CACHELINE_SIZE</obj_property>
+         <obj_property name="ObjectShortName">CACHELINE_SIZE</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/CACHELINE_ALIGNMENT" type="other">
+         <obj_property name="ElementShortName">CACHELINE_ALIGNMENT</obj_property>
+         <obj_property name="ObjectShortName">CACHELINE_ALIGNMENT</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/RADDR_TAG_START" type="other">
+         <obj_property name="ElementShortName">RADDR_TAG_START</obj_property>
+         <obj_property name="ObjectShortName">RADDR_TAG_START</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/RADDR_TAG_END" type="other">
+         <obj_property name="ElementShortName">RADDR_TAG_END</obj_property>
+         <obj_property name="ObjectShortName">RADDR_TAG_END</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/RADDR_INDEX_START" type="other">
+         <obj_property name="ElementShortName">RADDR_INDEX_START</obj_property>
+         <obj_property name="ObjectShortName">RADDR_INDEX_START</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/RADDR_INDEX_END" type="other">
+         <obj_property name="ElementShortName">RADDR_INDEX_END</obj_property>
+         <obj_property name="ObjectShortName">RADDR_INDEX_END</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/RADDR_OFFSET_START" type="other">
+         <obj_property name="ElementShortName">RADDR_OFFSET_START</obj_property>
+         <obj_property name="ObjectShortName">RADDR_OFFSET_START</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/RADDR_OFFSET_END" type="other">
+         <obj_property name="ElementShortName">RADDR_OFFSET_END</obj_property>
+         <obj_property name="ObjectShortName">RADDR_OFFSET_END</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/CACHELINE_DIRTY_BIT" type="other">
+         <obj_property name="ElementShortName">CACHELINE_DIRTY_BIT</obj_property>
+         <obj_property name="ObjectShortName">CACHELINE_DIRTY_BIT</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/CACHELINE_TAG_START" type="other">
+         <obj_property name="ElementShortName">CACHELINE_TAG_START</obj_property>
+         <obj_property name="ObjectShortName">CACHELINE_TAG_START</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/CACHELINE_TAG_END" type="other">
+         <obj_property name="ElementShortName">CACHELINE_TAG_END</obj_property>
+         <obj_property name="ObjectShortName">CACHELINE_TAG_END</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/CACHELINE_DATA_START" type="other">
+         <obj_property name="ElementShortName">CACHELINE_DATA_START</obj_property>
+         <obj_property name="ObjectShortName">CACHELINE_DATA_START</obj_property>
+      </wvobject>
+      <wvobject fp_name="/cpu_tb/cpu/core_1/dcache_inst/cache_bram_inst/CACHELINE_DATA_END" type="other">
+         <obj_property name="ElementShortName">CACHELINE_DATA_END</obj_property>
+         <obj_property name="ObjectShortName">CACHELINE_DATA_END</obj_property>
       </wvobject>
    </wvobject>
 </wave_config>

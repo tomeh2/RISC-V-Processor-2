@@ -34,20 +34,45 @@ package pkg_cpu is
     constant ARCH_REGFILE_ENTRIES : integer range 1 to 1024 := 32;
     constant ARCH_REGFILE_ADDR_BITS : integer := integer(ceil(log2(real(ARCH_REGFILE_ENTRIES))));
     
-    constant PHYS_REGFILE_ENTRIES : integer range 1 to 1024 := 96;
+    constant PHYS_REGFILE_ENTRIES : integer range 1 to 1024 := 48;
     constant PHYS_REGFILE_ADDR_BITS : integer := integer(ceil(log2(real(PHYS_REGFILE_ENTRIES))));
     
-    constant SCHEDULER_ENTRIES : integer range 1 to 1023 := 12;
-    constant REORDER_BUFFER_ENTRIES : integer := 48;
-    constant SQ_ENTRIES : integer := 8;
-    constant LQ_ENTRIES : integer := 8;
+    -- ========================= DEBUG =========================
+    constant ENABLE_EXT_BUS_ILA : boolean := false;
+    constant ENABLE_UART_ILA : boolean := false;
+    -- =========================================================
+    
+    -- ========================= CAN BE MODIFIED =========================
+    constant SCHEDULER_ENTRIES : integer range 1 to 1023 := 8;
+    constant REORDER_BUFFER_ENTRIES : integer := 16;
+    constant SQ_ENTRIES : integer := 4;
+    constant LQ_ENTRIES : integer := 4;
     constant DECODED_INSTR_QUEUE_ENTRIES : integer := 4;
+    
     constant BRANCHING_DEPTH : integer := 4;            -- How many branches this CPU is capable of speculating against. For ex. 4 Means 4 cond. branch instructions before further fetching is halted
     constant BP_TYPE : string := "2BSP";              -- Selects a branch predictor type to implement. Options: STATIC, 2BSP (2-Bit Saturating Counters)
     constant BP_STATIC_PREDICTION : std_logic := '1';      -- Value of 1 configures the static predictor to always predict taken, 0 does the opposite
     constant BP_2BST_ENTRIES : integer := 16;           -- MUST BE POWER OF 2!
     constant BP_2BST_INIT_VAL : std_logic_vector(1 downto 0) := "00";  -- Initial value of 2-bit saturating counters
     constant BTB_ENTRIES : integer := 4;                 -- MUST BE POWER OF 2!
+    
+    constant ICACHE_ASSOCIATIVITY : integer := 2;                   -- MUST BE POWER OF 2!
+    constant ICACHE_INSTR_PER_CACHELINE : integer := 4;
+    constant ICACHE_NUM_SETS : integer := 16;                     -- MUST BE POWER OF 2!
+    --constant ICACHE_REPLACEMENT_POLICY : string := "FIFO";                -- In consideration
+    
+    constant DCACHE_ASSOCIATIVITY : integer := 2;                   -- MUST BE POWER OF 2!
+    constant DCACHE_ENTRIES_PER_CACHELINE : integer := 4;
+    constant DCACHE_NUM_SETS : integer := 16;                     -- MUST BE POWER OF 2!
+    
+    constant PERF_COUNTERS_EN : boolean := false;
+    constant PERF_COUNTERS_WIDTH_BITS : integer := 32;
+    -- ===================================================================
+    
+    constant DCACHE_CACHELINE_SIZE : integer := (CPU_ADDR_WIDTH_BITS - integer(ceil(log2(real(DCACHE_ENTRIES_PER_CACHELINE)))) - 
+                                              integer(ceil(log2(real(DCACHE_NUM_SETS)))) - 2 + DCACHE_ENTRIES_PER_CACHELINE * 4 * 8);
+    
+    constant DCACHE_TAG_SIZE : integer := CPU_ADDR_WIDTH_BITS - integer(ceil(log2(real(DCACHE_ENTRIES_PER_CACHELINE)))) - integer(ceil(log2(real(DCACHE_NUM_SETS)))) - integer(ceil(log2(real(4))));
     
     constant CDB_PC_BITS : integer := integer(ceil(log2(real(BP_2BST_ENTRIES))));
     
@@ -60,6 +85,7 @@ package pkg_cpu is
     constant INSTR_TAG_BITS : integer := integer(ceil(log2(real(REORDER_BUFFER_ENTRIES))));
     
     -- Constants
+    constant PC_VAL_INIT : std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0) := (others => '0');
     constant INSTR_TAG_ZERO : std_logic_vector(INSTR_TAG_BITS - 1 downto 0) := (others => '0');
     constant REG_ADDR_ZERO : std_logic_vector(ARCH_REGFILE_ADDR_BITS - 1 downto 0) := (others => '0');
     constant PHYS_REG_TAG_ZERO : std_logic_vector(PHYS_REGFILE_ADDR_BITS - 1 downto 0) := (others => '0');
@@ -164,14 +190,14 @@ package pkg_cpu is
         branch_predicted_outcome : std_logic;
     end record;
     
-    type bp_input_type is record
+    type bp_in_type is record
         fetch_addr : std_logic_vector(CDB_PC_BITS - 1 downto 0);      -- Last few bits of the PC for fetching a prediction from a specific address
         put_addr : std_logic_vector(CDB_PC_BITS - 1 downto 0);        -- Last few bits of the PC for for updating an entry at a specific address
         put_outcome : std_logic;                                                                -- Outcome of the branch entry to be updated   
         put_en : std_logic; 
     end record;
     
-    type bp_output_type is record
+    type bp_out_type is record
         predicted_outcome : std_logic;
     end record;
     
@@ -266,10 +292,43 @@ package pkg_cpu is
     
     function branch_mask_to_int(branch_mask : in std_logic_vector(BRANCHING_DEPTH - 1 downto 0)) return integer;
     
-    type front_end_pipeline_reg_0 is record
-        uop_decoded : uop_decoded_type;
+    type f1_f2_pipeline_reg_type is record
+        pc : std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);
+        branch_pred_target : std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);
+        branch_pred_outcome : std_logic;
         valid : std_logic;
     end record;
+    
+    type f2_f3_pipeline_reg_type is record
+        pc : std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);
+        branch_pred_target : std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);
+        branch_pred_outcome : std_logic;
+        valid : std_logic;
+    end record;
+    
+    type f3_d1_pipeline_reg_type is record
+        instruction : std_logic_vector(CPU_DATA_WIDTH_BITS - 1 downto 0);
+        pc : std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);
+        branch_pred_target : std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);
+        branch_pred_outcome : std_logic;
+        valid : std_logic;
+    end record; 
+    
+    constant F1_F2_PIPELINE_REG_INIT : f1_f2_pipeline_reg_type := ((others => '0'),
+                                                                   (others => '0'),
+                                                                   '0',
+                                                                   '0');
+                                                                   
+    constant F2_F3_PIPELINE_REG_INIT : f2_f3_pipeline_reg_type := ((others => '0'),
+                                                                   (others => '0'),
+                                                                   '0',
+                                                                   '0');
+                                                             
+    constant F3_D1_PIPELINE_REG_INIT : f3_d1_pipeline_reg_type := ((others => '0'),
+                                                                   (others => '0'),
+                                                                   (others => '0'),
+                                                                   '0',
+                                                                    '0');
 end pkg_cpu;
 
 package body pkg_cpu is

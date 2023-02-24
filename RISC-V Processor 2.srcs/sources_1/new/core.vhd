@@ -29,6 +29,15 @@ use WORK.PKG_AXI.ALL;
 
 entity core is
     port(
+        debug_reg_1_addr : in std_logic_vector(4 downto 0);
+        debug_reg_2_addr : in std_logic_vector(4 downto 0);
+        debug_reg_3_addr : in std_logic_vector(4 downto 0);
+        debug_reg_4_addr : in std_logic_vector(4 downto 0);
+        
+        debug_reg_1_data : out std_logic_vector(CPU_DATA_WIDTH_BITS - 1 downto 0);
+        debug_reg_2_data : out std_logic_vector(CPU_DATA_WIDTH_BITS - 1 downto 0);
+        debug_reg_3_data : out std_logic_vector(CPU_DATA_WIDTH_BITS - 1 downto 0);
+        debug_reg_4_data : out std_logic_vector(CPU_DATA_WIDTH_BITS - 1 downto 0);
         -- TEMPORARY BUS STUFF
         bus_addr_read : out std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);
         bus_addr_write : out std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);
@@ -39,14 +48,28 @@ entity core is
         bus_ackr : in std_logic;
         bus_ackw : in std_logic;
     
+        -- FE
+        perf_targ_mispred : out std_logic;
+        perf_icache_miss : out std_logic;
+        perf_bc_empty : out std_logic;
+        perf_fifo_full : out std_logic;
+        
+        -- EE
+        perf_cdb_mispred : out std_logic;
+        perf_commit_ready : out std_logic;
+        perf_sched_full : out std_logic;
+        perf_lq_full : out std_logic;
+        perf_sq_full : out std_logic;
+        perf_reg_alloc_empty : out std_logic;
+    
         clk : in std_logic;
         reset : in std_logic
     );
 end core;
 
 architecture structural of core is
-    signal uop_decoded_tmp : front_end_pipeline_reg_0;
     signal uop_ee_in : uop_decoded_type;
+    signal uop_fe_out : uop_decoded_type;
     signal instruction_ready : std_logic;
     
     signal stall : std_logic;
@@ -67,52 +90,99 @@ architecture structural of core is
     signal branch_predicted_pc : std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);
     signal branch_prediction : std_logic;
     
+    signal ee_addr : std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);
+    signal ee_data_read : std_logic_vector(CPU_DATA_WIDTH_BITS - 1 downto 0);
+    signal ee_data_write : std_logic_vector(CPU_DATA_WIDTH_BITS - 1 downto 0);
+    signal ee_is_write : std_logic;
+    signal ee_req_valid : std_logic;
+    
+    signal dcache_read_addr : std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);
+    signal dcache_read_data : std_logic_vector(CPU_DATA_WIDTH_BITS - 1 downto 0);
+    signal dcache_read_valid : std_logic;
+    signal dcache_read_ready : std_logic;
+    signal dcache_read_hit : std_logic;
+    signal dcache_read_miss : std_logic;
+        
+    signal dcache_write_addr : std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);
+    signal dcache_write_data : std_logic_vector(CPU_DATA_WIDTH_BITS - 1 downto 0);
+    signal dcache_write_size : std_logic_vector(1 downto 0);
+    signal dcache_write_valid : std_logic;
+    signal dcache_write_ready : std_logic;
+    signal dcache_write_hit : std_logic;
+    signal dcache_write_miss : std_logic;
+    
+    signal dcache_loaded_cacheline_tag : std_logic_vector(DCACHE_TAG_SIZE - 1 downto 0);
+    signal dcache_loaded_cacheline_tag_valid : std_logic;
+    
     signal cdb : cdb_type;
 begin
     front_end : entity work.front_end(structural)
                 port map(cdb => cdb,
                 
-                        bus_data_read => bus_data_read,
-                        bus_addr_read => bus_addr_read_fe,
-                        bus_ackr => bus_ackr_fe,
-                        bus_stbr => bus_stbr_fe,
+                         fifo_full => fifo_full,
                 
-                         uop_decoded_tmp => uop_decoded_tmp,
-
-                         stall => stall,
+                         bus_data_read => bus_data_read,
+                         bus_addr_read => bus_addr_read_fe,
+                         bus_ackr => bus_ackr_fe,
+                         bus_stbr => bus_stbr_fe,
+                         
+                         decoded_uop => uop_fe_out,
+                         decoded_uop_valid => instruction_ready,
                          
                          branch_mask => branch_mask,
                          branch_predicted_pc => branch_predicted_pc,
                          branch_prediction => branch_prediction,
                         
+                         perf_targ_mispred => perf_targ_mispred,
+                         perf_icache_miss => perf_icache_miss,
+                         perf_bc_empty => perf_bc_empty,
+                        
                          clk => clk,
                          reset => reset);
                          
-    stall <= fifo_full;
-
     your_instance_name : entity work.decoded_uop_fifo
         generic map(DEPTH => DECODED_INSTR_QUEUE_ENTRIES)
       PORT MAP (
         cdb => cdb,
         clk => clk,
         reset => reset or (cdb.branch_mispredicted and cdb.valid),
-        uop_in => uop_decoded_tmp.uop_decoded,
-        wr_en => uop_decoded_tmp.valid,
+        uop_in => uop_fe_out,
+        wr_en => instruction_ready,
         rd_en => fifo_read_en,
         uop_out => uop_ee_in,
         full => fifo_full,
         rd_ready => fifo_ready
       );
+      perf_fifo_full <= fifo_full;
 
     execution_engine : entity work.execution_engine(structural)
-                       port map(bus_addr_read => bus_addr_read_ee,
-                                bus_addr_write => bus_addr_write,
-                                bus_data_read => bus_data_read,
-                                bus_data_write => bus_data_write,
-                                bus_stbr => bus_stbr_ee,
-                                bus_stbw => bus_stbw,
-                                bus_ackr => bus_ackr_ee,
-                                bus_ackw => bus_ackw,
+                       port map(debug_reg_1_addr => debug_reg_1_addr,
+                                debug_reg_2_addr => debug_reg_2_addr,
+                                debug_reg_3_addr => debug_reg_3_addr,
+                                debug_reg_4_addr => debug_reg_4_addr,
+                       
+                                debug_reg_1_data => debug_reg_1_data,
+                                debug_reg_2_data => debug_reg_2_data,
+                                debug_reg_3_data => debug_reg_3_data,
+                                debug_reg_4_data => debug_reg_4_data,
+                       
+                                dcache_read_addr => dcache_read_addr,
+                                dcache_read_data => dcache_read_data,
+                                dcache_read_valid => dcache_read_valid,
+                                dcache_read_ready => dcache_read_ready,
+                                dcache_read_hit => dcache_read_hit,
+                                dcache_read_miss => dcache_read_miss,
+                                
+                                dcache_write_addr => dcache_write_addr,
+                                dcache_write_data => dcache_write_data,
+                                dcache_write_size => dcache_write_size,
+                                dcache_write_valid => dcache_write_valid,
+                                dcache_write_ready => dcache_write_ready,
+                                dcache_write_hit => dcache_write_hit,
+                                dcache_write_miss => dcache_write_miss,
+                                
+                                dcache_loaded_cacheline_tag => dcache_loaded_cacheline_tag,
+                                dcache_loaded_cacheline_tag_valid => dcache_loaded_cacheline_tag_valid,
 
                                 cdb_out => cdb,
                                    
@@ -123,9 +193,50 @@ begin
                                 fe_branch_predicted_pc => branch_predicted_pc,
                                 fe_branch_prediction => branch_prediction,
                                    
+                                perf_commit_ready => perf_commit_ready,
+                                perf_sched_full => perf_sched_full,
+                                perf_lq_full => perf_lq_full,
+                                perf_sq_full => perf_sq_full,
+                                perf_reg_alloc_empty => perf_reg_alloc_empty,
+                                   
                                 next_uop => uop_ee_in,
                                 clk => clk,
                                 reset => reset);
+
+    dcache_inst : entity work.dcache(rtl)
+                      port map(bus_data_read => bus_data_read,
+                               bus_data_write => bus_data_write,
+                               bus_addr_read => bus_addr_read_ee,
+                               bus_addr_write => bus_addr_write,
+                               bus_stbr => bus_stbr_ee,
+                               bus_stbw => bus_stbw,
+                               bus_ackr => bus_ackr_ee,
+                               bus_ackw => bus_ackw,
+                               
+                               read_addr_1 => dcache_read_addr,
+                               read_tag_1 => (others => '0'),
+                               read_valid_1 => dcache_read_valid,
+                               read_ready_1 => dcache_read_ready,
+                               read_data_out_1 => dcache_read_data,
+                               read_hit_1 => dcache_read_hit,
+                               read_miss_1 => dcache_read_miss,
+                               read_miss_tag_1 => open,
+                               
+                               write_addr_1 => dcache_write_addr,
+                               write_data_1 => dcache_write_data,
+                               write_size_1 => dcache_write_size,
+                               write_tag_1 => (others => '0'),
+                               write_valid_1 => dcache_write_valid,
+                               write_ready_1 => dcache_write_ready,
+                               write_hit_1 => dcache_write_hit,
+                               write_miss_1 => dcache_write_miss,
+                               write_miss_tag_1 => open,
+                               
+                               loaded_cacheline_tag => dcache_loaded_cacheline_tag,
+                               loaded_cacheline_tag_valid => dcache_loaded_cacheline_tag_valid,
+                               
+                               clk => clk,
+                               reset => reset);
 
     process(all)
     begin
@@ -173,6 +284,8 @@ begin
             end if;
         end if;
     end process;
+    
+    perf_cdb_mispred <= cdb.branch_mispredicted and cdb.valid;
 
 end structural;
 

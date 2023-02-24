@@ -11,15 +11,15 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="993.030 ns"></ZoomStartTime>
-      <ZoomEndTime time="1,106.286 ns"></ZoomEndTime>
-      <Cursor1Time time="1,050.000 ns"></Cursor1Time>
+      <ZoomStartTime time="0.000000 us"></ZoomStartTime>
+      <ZoomEndTime time="20.000001 us"></ZoomEndTime>
+      <Cursor1Time time="4.301821 us"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="385"></NameColumnWidth>
-      <ValueColumnWidth column_width="137"></ValueColumnWidth>
+      <ValueColumnWidth column_width="133"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="37" />
+   <WVObjectSize size="52" />
    <wvobject fp_name="/uart_simple_tb/clk" type="logic">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
@@ -29,20 +29,20 @@
       <obj_property name="ObjectShortName">reset</obj_property>
    </wvobject>
    <wvobject fp_name="/uart_simple_tb/bus_data_write" type="array">
-      <obj_property name="ElementShortName">bus_data_write[7:0]</obj_property>
-      <obj_property name="ObjectShortName">bus_data_write[7:0]</obj_property>
+      <obj_property name="ElementShortName">bus_data_write[31:0]</obj_property>
+      <obj_property name="ObjectShortName">bus_data_write[31:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/uart_simple_tb/bus_data_read" type="array">
-      <obj_property name="ElementShortName">bus_data_read[7:0]</obj_property>
-      <obj_property name="ObjectShortName">bus_data_read[7:0]</obj_property>
+      <obj_property name="ElementShortName">bus_data_read[31:0]</obj_property>
+      <obj_property name="ObjectShortName">bus_data_read[31:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/uart_simple_tb/bus_addr_write" type="array">
-      <obj_property name="ElementShortName">bus_addr_write[2:0]</obj_property>
-      <obj_property name="ObjectShortName">bus_addr_write[2:0]</obj_property>
+      <obj_property name="ElementShortName">bus_addr_write[3:0]</obj_property>
+      <obj_property name="ObjectShortName">bus_addr_write[3:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/uart_simple_tb/bus_addr_read" type="array">
-      <obj_property name="ElementShortName">bus_addr_read[2:0]</obj_property>
-      <obj_property name="ObjectShortName">bus_addr_read[2:0]</obj_property>
+      <obj_property name="ElementShortName">bus_addr_read[3:0]</obj_property>
+      <obj_property name="ObjectShortName">bus_addr_read[3:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/uart_simple_tb/en" type="logic">
       <obj_property name="ElementShortName">en</obj_property>
@@ -69,20 +69,20 @@
       <obj_property name="DisplayName">label</obj_property>
    </wvobject>
    <wvobject fp_name="/uart_simple_tb/uut/bus_data_write" type="array">
-      <obj_property name="ElementShortName">bus_data_write[7:0]</obj_property>
-      <obj_property name="ObjectShortName">bus_data_write[7:0]</obj_property>
+      <obj_property name="ElementShortName">bus_data_write[31:0]</obj_property>
+      <obj_property name="ObjectShortName">bus_data_write[31:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/uart_simple_tb/uut/bus_data_read" type="array">
-      <obj_property name="ElementShortName">bus_data_read[7:0]</obj_property>
-      <obj_property name="ObjectShortName">bus_data_read[7:0]</obj_property>
+      <obj_property name="ElementShortName">bus_data_read[31:0]</obj_property>
+      <obj_property name="ObjectShortName">bus_data_read[31:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/uart_simple_tb/uut/bus_addr_write" type="array">
-      <obj_property name="ElementShortName">bus_addr_write[2:0]</obj_property>
-      <obj_property name="ObjectShortName">bus_addr_write[2:0]</obj_property>
+      <obj_property name="ElementShortName">bus_addr_write[3:0]</obj_property>
+      <obj_property name="ObjectShortName">bus_addr_write[3:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/uart_simple_tb/uut/bus_addr_read" type="array">
-      <obj_property name="ElementShortName">bus_addr_read[2:0]</obj_property>
-      <obj_property name="ObjectShortName">bus_addr_read[2:0]</obj_property>
+      <obj_property name="ElementShortName">bus_addr_read[3:0]</obj_property>
+      <obj_property name="ObjectShortName">bus_addr_read[3:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/uart_simple_tb/uut/bus_ack" type="logic">
       <obj_property name="ElementShortName">bus_ack</obj_property>
@@ -96,9 +96,21 @@
       <obj_property name="ElementShortName">rx</obj_property>
       <obj_property name="ObjectShortName">rx</obj_property>
    </wvobject>
-   <wvobject fp_name="/uart_simple_tb/uut/en" type="logic">
-      <obj_property name="ElementShortName">en</obj_property>
-      <obj_property name="ObjectShortName">en</obj_property>
+   <wvobject fp_name="/uart_simple_tb/uut/wr_en" type="logic">
+      <obj_property name="ElementShortName">wr_en</obj_property>
+      <obj_property name="ObjectShortName">wr_en</obj_property>
+   </wvobject>
+   <wvobject fp_name="/uart_simple_tb/uut/rd_en" type="logic">
+      <obj_property name="ElementShortName">rd_en</obj_property>
+      <obj_property name="ObjectShortName">rd_en</obj_property>
+   </wvobject>
+   <wvobject fp_name="/uart_simple_tb/uut/clk" type="logic">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/uart_simple_tb/uut/reset" type="logic">
+      <obj_property name="ElementShortName">reset</obj_property>
+      <obj_property name="ObjectShortName">reset</obj_property>
    </wvobject>
    <wvobject fp_name="/uart_simple_tb/uut/div_h_reg" type="array">
       <obj_property name="ElementShortName">div_h_reg[7:0]</obj_property>
@@ -119,7 +131,6 @@
    <wvobject fp_name="/uart_simple_tb/uut/status_reg" type="array">
       <obj_property name="ElementShortName">status_reg[7:0]</obj_property>
       <obj_property name="ObjectShortName">status_reg[7:0]</obj_property>
-      <obj_property name="isExpanded"></obj_property>
    </wvobject>
    <wvobject fp_name="/uart_simple_tb/uut/status_reg_en" type="logic">
       <obj_property name="ElementShortName">status_reg_en</obj_property>
@@ -145,6 +156,22 @@
       <obj_property name="ElementShortName">baud_tick</obj_property>
       <obj_property name="ObjectShortName">baud_tick</obj_property>
    </wvobject>
+   <wvobject fp_name="/uart_simple_tb/uut/baud_gen_x16_counter_reg" type="array">
+      <obj_property name="ElementShortName">baud_gen_x16_counter_reg[15:0]</obj_property>
+      <obj_property name="ObjectShortName">baud_gen_x16_counter_reg[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/uart_simple_tb/uut/baud_gen_x16_counter_next" type="array">
+      <obj_property name="ElementShortName">baud_gen_x16_counter_next[15:0]</obj_property>
+      <obj_property name="ObjectShortName">baud_gen_x16_counter_next[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/uart_simple_tb/uut/baud_gen_x16_counter_en" type="logic">
+      <obj_property name="ElementShortName">baud_gen_x16_counter_en</obj_property>
+      <obj_property name="ObjectShortName">baud_gen_x16_counter_en</obj_property>
+   </wvobject>
+   <wvobject fp_name="/uart_simple_tb/uut/baud_tick_x16" type="logic">
+      <obj_property name="ElementShortName">baud_tick_x16</obj_property>
+      <obj_property name="ObjectShortName">baud_tick_x16</obj_property>
+   </wvobject>
    <wvobject fp_name="/uart_simple_tb/uut/tx_start" type="logic">
       <obj_property name="ElementShortName">tx_start</obj_property>
       <obj_property name="ObjectShortName">tx_start</obj_property>
@@ -164,6 +191,38 @@
    <wvobject fp_name="/uart_simple_tb/uut/uart_tx_state_next" type="other">
       <obj_property name="ElementShortName">uart_tx_state_next</obj_property>
       <obj_property name="ObjectShortName">uart_tx_state_next</obj_property>
+   </wvobject>
+   <wvobject fp_name="/uart_simple_tb/uut/uart_rx_state" type="other">
+      <obj_property name="ElementShortName">uart_rx_state</obj_property>
+      <obj_property name="ObjectShortName">uart_rx_state</obj_property>
+   </wvobject>
+   <wvobject fp_name="/uart_simple_tb/uut/uart_rx_state_next" type="other">
+      <obj_property name="ElementShortName">uart_rx_state_next</obj_property>
+      <obj_property name="ObjectShortName">uart_rx_state_next</obj_property>
+   </wvobject>
+   <wvobject fp_name="/uart_simple_tb/uut/uart_rx_sampling_counter_reg" type="array">
+      <obj_property name="ElementShortName">uart_rx_sampling_counter_reg[3:0]</obj_property>
+      <obj_property name="ObjectShortName">uart_rx_sampling_counter_reg[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/uart_simple_tb/uut/uart_rx_sample_en" type="logic">
+      <obj_property name="ElementShortName">uart_rx_sample_en</obj_property>
+      <obj_property name="ObjectShortName">uart_rx_sample_en</obj_property>
+   </wvobject>
+   <wvobject fp_name="/uart_simple_tb/uut/rx_start" type="logic">
+      <obj_property name="ElementShortName">rx_start</obj_property>
+      <obj_property name="ObjectShortName">rx_start</obj_property>
+   </wvobject>
+   <wvobject fp_name="/uart_simple_tb/uut/rx_end" type="logic">
+      <obj_property name="ElementShortName">rx_end</obj_property>
+      <obj_property name="ObjectShortName">rx_end</obj_property>
+   </wvobject>
+   <wvobject fp_name="/uart_simple_tb/uut/bits_received" type="array">
+      <obj_property name="ElementShortName">bits_received[2:0]</obj_property>
+      <obj_property name="ObjectShortName">bits_received[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/uart_simple_tb/uut/bus_data_read_i" type="array">
+      <obj_property name="ElementShortName">bus_data_read_i[31:0]</obj_property>
+      <obj_property name="ObjectShortName">bus_data_read_i[31:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/uart_simple_tb/uut/ack_i" type="logic">
       <obj_property name="ElementShortName">ack_i</obj_property>

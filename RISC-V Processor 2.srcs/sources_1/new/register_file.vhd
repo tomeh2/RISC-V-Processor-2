@@ -41,6 +41,15 @@ entity register_file is
         REGFILE_ENTRIES : integer                                                                -- Number of registers in the register file (2 ** REGFILE_SIZE)
     );
     port(
+        debug_1_addr : in std_logic_vector(integer(ceil(log2(real(REGFILE_ENTRIES)))) - 1 downto 0);
+        debug_2_addr : in std_logic_vector(integer(ceil(log2(real(REGFILE_ENTRIES)))) - 1 downto 0);
+        debug_3_addr : in std_logic_vector(integer(ceil(log2(real(REGFILE_ENTRIES)))) - 1 downto 0);
+        debug_4_addr : in std_logic_vector(integer(ceil(log2(real(REGFILE_ENTRIES)))) - 1 downto 0);
+        
+        debug_1_data : out std_logic_vector(REG_DATA_WIDTH_BITS - 1 downto 0);
+        debug_2_data : out std_logic_vector(REG_DATA_WIDTH_BITS - 1 downto 0);
+        debug_3_data : out std_logic_vector(REG_DATA_WIDTH_BITS - 1 downto 0);
+        debug_4_data : out std_logic_vector(REG_DATA_WIDTH_BITS - 1 downto 0);
         -- Address busses
         rd_1_addr : in std_logic_vector(integer(ceil(log2(real(REGFILE_ENTRIES)))) - 1 downto 0);
         rd_2_addr : in std_logic_vector(integer(ceil(log2(real(REGFILE_ENTRIES)))) - 1 downto 0);
@@ -131,4 +140,9 @@ begin
     
     reg_1_valid <= reg_file_valid_bits(to_integer(unsigned(reg_1_valid_bit_addr)));
     reg_2_valid <= reg_file_valid_bits(to_integer(unsigned(reg_2_valid_bit_addr)));
+    
+    --debug_1_data <= reg_file(to_integer(unsigned(debug_1_addr)));
+    --debug_2_data <= reg_file(to_integer(unsigned(debug_2_addr)));
+    --debug_3_data <= reg_file(to_integer(unsigned(debug_3_addr)));
+    --debug_4_data <= reg_file(to_integer(unsigned(debug_4_addr)));
 end rtl;
