@@ -25,12 +25,14 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
+use IEEE.MATH_REAL.ALL;
 use WORK.PKG_CPU.ALL;
 
 entity bp_saturating_counter is
     port(
         bp_in : in bp_in_type;
         bp_out : out bp_out_type;
+        stall : in std_logic;
         
         clk : in std_logic;
         reset : in std_logic
@@ -38,49 +40,60 @@ entity bp_saturating_counter is
 end bp_saturating_counter;
 
 architecture rtl of bp_saturating_counter is
-    type sat_cntrs_type is array (BP_2BST_ENTRIES - 1 downto 0) of std_logic_vector(1 downto 0);
+    constant INDEX_BITS : integer := integer(ceil(log2(real(BP_ENTRIES))));
+
+    type sat_cntrs_type is array (BP_ENTRIES - 1 downto 0) of std_logic_vector(1 downto 0);
     signal sat_cntrs : sat_cntrs_type; 
+    
+    signal read_addr : std_logic_vector(INDEX_BITS - 1 downto 0);
+    signal write_addr : std_logic_vector(INDEX_BITS - 1 downto 0);
 begin
+    read_addr <= bp_in.fetch_addr(INDEX_BITS + 1 downto 2);
+    write_addr <= bp_in.put_addr(INDEX_BITS + 1 downto 2);
+
     process(clk)
     begin
         if (rising_edge(clk)) then
             if (reset = '1') then
-                for i in 0 to BP_2BST_ENTRIES - 1 loop
+                for i in 0 to BP_ENTRIES - 1 loop
                     sat_cntrs(i) <= BP_2BST_INIT_VAL;
                 end loop;
             else
                 if (bp_in.put_en = '1') then
-                    case (sat_cntrs(to_integer(unsigned(bp_in.put_addr)))) is
+                    case (sat_cntrs(to_integer(unsigned(write_addr)))) is
                         when "00" =>
                             if (bp_in.put_outcome = '0') then
-                                sat_cntrs(to_integer(unsigned(bp_in.put_addr))) <= "00";
+                                sat_cntrs(to_integer(unsigned(write_addr))) <= "00";
                             else 
-                                sat_cntrs(to_integer(unsigned(bp_in.put_addr))) <= "01";
+                                sat_cntrs(to_integer(unsigned(write_addr))) <= "01";
                             end if;
                         when "01" => 
                             if (bp_in.put_outcome = '0') then
-                                sat_cntrs(to_integer(unsigned(bp_in.put_addr))) <= "00";
+                                sat_cntrs(to_integer(unsigned(write_addr))) <= "00";
                             else 
-                                sat_cntrs(to_integer(unsigned(bp_in.put_addr))) <= "10";
+                                sat_cntrs(to_integer(unsigned(write_addr))) <= "10";
                             end if;
                         when "10" => 
                             if (bp_in.put_outcome = '0') then
-                                sat_cntrs(to_integer(unsigned(bp_in.put_addr))) <= "01";
+                                sat_cntrs(to_integer(unsigned(write_addr))) <= "01";
                             else 
-                                sat_cntrs(to_integer(unsigned(bp_in.put_addr))) <= "11";
+                                sat_cntrs(to_integer(unsigned(write_addr))) <= "11";
                             end if;
                         when "11" =>
                             if (bp_in.put_outcome = '0') then
-                                sat_cntrs(to_integer(unsigned(bp_in.put_addr))) <= "10";
+                                sat_cntrs(to_integer(unsigned(write_addr))) <= "10";
                             else 
-                                sat_cntrs(to_integer(unsigned(bp_in.put_addr))) <= "11";
+                                sat_cntrs(to_integer(unsigned(write_addr))) <= "11";
                             end if;
                         when others => 
                     end case;
                 end if;
             end if;
+            
+            if (stall = '0') then
+                bp_out.predicted_outcome <= sat_cntrs(to_integer(unsigned(read_addr)))(1);
+            end if;
         end if;
-        bp_out.predicted_outcome <= '1' when sat_cntrs(to_integer(unsigned(bp_in.fetch_addr)))(1) = '1' else '0';
     end process;
 
 end rtl;

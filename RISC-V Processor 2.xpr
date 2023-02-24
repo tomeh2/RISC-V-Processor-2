@@ -58,20 +58,20 @@
     <Option Name="IPStaticSourceDir" Val="$PIPUSERFILESDIR/ipstatic"/>
     <Option Name="EnableBDX" Val="FALSE"/>
     <Option Name="DSABoardId" Val="nexys-a7-100t"/>
-    <Option Name="WTXSimLaunchSim" Val="3970"/>
+    <Option Name="WTXSimLaunchSim" Val="4018"/>
     <Option Name="WTModelSimLaunchSim" Val="0"/>
     <Option Name="WTQuestaLaunchSim" Val="0"/>
     <Option Name="WTIesLaunchSim" Val="0"/>
     <Option Name="WTVcsLaunchSim" Val="0"/>
     <Option Name="WTRivieraLaunchSim" Val="0"/>
     <Option Name="WTActivehdlLaunchSim" Val="0"/>
-    <Option Name="WTXSimExportSim" Val="129"/>
-    <Option Name="WTModelSimExportSim" Val="129"/>
-    <Option Name="WTQuestaExportSim" Val="129"/>
+    <Option Name="WTXSimExportSim" Val="131"/>
+    <Option Name="WTModelSimExportSim" Val="131"/>
+    <Option Name="WTQuestaExportSim" Val="131"/>
     <Option Name="WTIesExportSim" Val="36"/>
-    <Option Name="WTVcsExportSim" Val="129"/>
-    <Option Name="WTRivieraExportSim" Val="129"/>
-    <Option Name="WTActivehdlExportSim" Val="129"/>
+    <Option Name="WTVcsExportSim" Val="131"/>
+    <Option Name="WTRivieraExportSim" Val="131"/>
+    <Option Name="WTActivehdlExportSim" Val="131"/>
     <Option Name="GenerateIPUpgradeLog" Val="TRUE"/>
     <Option Name="XSimRadix" Val="hex"/>
     <Option Name="XSimTimeUnit" Val="ns"/>
@@ -130,6 +130,12 @@
         </FileInfo>
       </File>
       <File Path="$PSRCDIR/sources_1/new/branch_prediction_table.vhd">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PSRCDIR/sources_1/new/branch_target_buffer.vhd">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="simulation"/>
@@ -355,13 +361,6 @@
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PSRCDIR/sources_1/new/branch_target_buffer.vhd">
-        <FileInfo>
-          <Attr Name="AutoDisabled" Val="1"/>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
       <File Path="$PSRCDIR/sources_1/new/execution_unit_0.vhd">
         <FileInfo SFType="VHDL2008">
           <Attr Name="AutoDisabled" Val="1"/>
@@ -463,6 +462,14 @@
       <File Path="$PSRCDIR/sim_1/new/cpu_tb.vhd">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PSRCDIR/sim_1/new/btb_tb.sv">
+        <FileInfo>
+          <Attr Name="AutoDisabled" Val="1"/>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
@@ -709,6 +716,11 @@
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
+      <File Path="$PPRDIR/btb_tb_behav.wcfg">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
       <Config>
         <Option Name="DesignMode" Val="RTL"/>
         <Option Name="TopModule" Val="cpu_tb"/>
@@ -742,6 +754,7 @@
         <Option Name="XSimWcfgFile" Val="$PPRDIR/icache_tb_behav.wcfg"/>
         <Option Name="XSimWcfgFile" Val="$PPRDIR/front_end_tb_behav.wcfg"/>
         <Option Name="XSimWcfgFile" Val="$PPRDIR/dcache_tb_behav.wcfg"/>
+        <Option Name="XSimWcfgFile" Val="$PPRDIR/btb_tb_behav.wcfg"/>
         <Option Name="xsim.simulate.runtime" Val="20us"/>
         <Option Name="NLNetlistMode" Val="funcsim"/>
       </Config>
@@ -817,11 +830,11 @@
         <StratHandle Name="Flow_PerfOptimized_high" Flow="Vivado Synthesis 2022"/>
         <Step Id="synth_design">
           <Option Id="ResourceSharing">2</Option>
+          <Option Id="ShregMinSize">5</Option>
           <Option Id="Directive">7</Option>
           <Option Id="KeepEquivalentRegisters">1</Option>
-          <Option Id="NoCombineLuts">1</Option>
           <Option Id="FsmExtraction">1</Option>
-          <Option Id="ShregMinSize">5</Option>
+          <Option Id="NoCombineLuts">1</Option>
         </Step>
       </Strategy>
       <GeneratedRun Dir="$PRUNDIR" File="gen_run.xml"/>

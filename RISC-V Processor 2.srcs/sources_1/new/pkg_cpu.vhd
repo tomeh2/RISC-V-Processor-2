@@ -52,18 +52,18 @@ package pkg_cpu is
     constant BRANCHING_DEPTH : integer := 4;            -- How many branches this CPU is capable of speculating against. For ex. 4 Means 4 cond. branch instructions before further fetching is halted
     constant BP_TYPE : string := "2BSP";              -- Selects a branch predictor type to implement. Options: STATIC, 2BSP (2-Bit Saturating Counters)
     constant BP_STATIC_PREDICTION : std_logic := '1';      -- Value of 1 configures the static predictor to always predict taken, 0 does the opposite
-    constant BP_2BST_ENTRIES : integer := 16;           -- MUST BE POWER OF 2!
     constant BP_2BST_INIT_VAL : std_logic_vector(1 downto 0) := "00";  -- Initial value of 2-bit saturating counters
-    constant BTB_ENTRIES : integer := 4;                 -- MUST BE POWER OF 2!
+    constant BP_ENTRIES : integer := 16;                 -- MUST BE POWER OF 2!
+    constant BTB_TAG_BITS : integer := 16;
     
     constant ICACHE_ASSOCIATIVITY : integer := 2;                   -- MUST BE POWER OF 2!
     constant ICACHE_INSTR_PER_CACHELINE : integer := 4;
-    constant ICACHE_NUM_SETS : integer := 16;                     -- MUST BE POWER OF 2!
+    constant ICACHE_NUM_SETS : integer := 32;                     -- MUST BE POWER OF 2!
     --constant ICACHE_REPLACEMENT_POLICY : string := "FIFO";                -- In consideration
     
     constant DCACHE_ASSOCIATIVITY : integer := 2;                   -- MUST BE POWER OF 2!
     constant DCACHE_ENTRIES_PER_CACHELINE : integer := 4;
-    constant DCACHE_NUM_SETS : integer := 16;                     -- MUST BE POWER OF 2!
+    constant DCACHE_NUM_SETS : integer := 32;                     -- MUST BE POWER OF 2!
     
     constant PERF_COUNTERS_EN : boolean := false;
     constant PERF_COUNTERS_WIDTH_BITS : integer := 32;
@@ -74,7 +74,7 @@ package pkg_cpu is
     
     constant DCACHE_TAG_SIZE : integer := CPU_ADDR_WIDTH_BITS - integer(ceil(log2(real(DCACHE_ENTRIES_PER_CACHELINE)))) - integer(ceil(log2(real(DCACHE_NUM_SETS)))) - integer(ceil(log2(real(4))));
     
-    constant CDB_PC_BITS : integer := integer(ceil(log2(real(BP_2BST_ENTRIES))));
+    constant CDB_PC_BITS : integer := 32;
     
     constant OPCODE_BITS : integer := 5;
     constant OPERATION_TYPE_BITS : integer := 3;
@@ -191,8 +191,8 @@ package pkg_cpu is
     end record;
     
     type bp_in_type is record
-        fetch_addr : std_logic_vector(CDB_PC_BITS - 1 downto 0);      -- Last few bits of the PC for fetching a prediction from a specific address
-        put_addr : std_logic_vector(CDB_PC_BITS - 1 downto 0);        -- Last few bits of the PC for for updating an entry at a specific address
+        fetch_addr : std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);      
+        put_addr : std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);        
         put_outcome : std_logic;                                                                -- Outcome of the branch entry to be updated   
         put_en : std_logic; 
     end record;
@@ -294,8 +294,6 @@ package pkg_cpu is
     
     type f1_f2_pipeline_reg_type is record
         pc : std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);
-        branch_pred_target : std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);
-        branch_pred_outcome : std_logic;
         valid : std_logic;
     end record;
     
@@ -315,8 +313,6 @@ package pkg_cpu is
     end record; 
     
     constant F1_F2_PIPELINE_REG_INIT : f1_f2_pipeline_reg_type := ((others => '0'),
-                                                                   (others => '0'),
-                                                                   '0',
                                                                    '0');
                                                                    
     constant F2_F3_PIPELINE_REG_INIT : f2_f3_pipeline_reg_type := ((others => '0'),

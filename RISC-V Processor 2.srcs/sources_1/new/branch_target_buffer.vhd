@@ -28,39 +28,77 @@ use IEEE.NUMERIC_STD.ALL;
 use IEEE.MATH_REAL.ALL;
 use WORK.PKG_CPU.ALL;
 
--- The BTB helps to speed up JALR instructions by predicting the target address. 
+-- Implements a direct-mapped BTB
 
 entity branch_target_buffer is
     port(
-            source_addr : in std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);
+            pc : in std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);
             target_addr : out std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);
+            hit : out std_logic;
+            stall : in std_logic;
             
-            write_addr : in std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);
+            branch_write_addr : in std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);
+            branch_write_target_addr : in std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);
             write_en : in std_logic;
             
+            reset : in std_logic;
             clk : in std_logic
         );
 end branch_target_buffer;
 
 architecture rtl of branch_target_buffer is
-    constant BTB_ADDR_WIDTH : integer := integer(ceil(log2(real(BTB_ENTRIES))));
+    constant INDEX_BITS : integer := integer(ceil(log2(real(BP_ENTRIES))));
     
-    type btb_type is array (BTB_ENTRIES - 1 downto 0) of std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);
-    signal btb : btb_type  := (
-        others => (others => '0')
-    );
+    constant TAG_BITS_START : integer := CPU_ADDR_WIDTH_BITS + BTB_TAG_BITS - 1;
+    constant TAG_BITS_END : integer := CPU_ADDR_WIDTH_BITS;
+    constant TARG_BITS_START : integer := CPU_ADDR_WIDTH_BITS - 1;
+    constant TARG_BITS_END : integer := 0;
+
+    type btb_type is array (BP_ENTRIES - 1 downto 0) of std_logic_vector(BTB_TAG_BITS + CPU_ADDR_WIDTH_BITS - 1 downto 0);
+    signal btb : btb_type;
+    signal btb_valid_bits : std_logic_vector(BP_ENTRIES - 1 downto 0);
+    
+    signal btb_read_entry : std_logic_vector(BTB_TAG_BITS + CPU_ADDR_WIDTH_BITS - 1 downto 0); 
+    signal btb_read_targ_addr : std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0); 
+    signal btb_read_tag : std_logic_vector(BTB_TAG_BITS - 1 downto 0); 
+    signal btb_read_valid : std_logic; 
+    
+    signal branch_tag_pipeline_reg : std_logic_vector(BTB_TAG_BITS - 1 downto 0);
 begin
-    process(clk)
+    pipeline_proc : process(clk)
     begin
         if (rising_edge(clk)) then
+            if (stall = '0') then
+                branch_tag_pipeline_reg <= pc(BTB_TAG_BITS + INDEX_BITS + 1 downto INDEX_BITS + 2);
+            end if;
+        end if;
+    end process;
+
+    btb_proc : process(clk)
+    begin 
+        if (rising_edge(clk)) then
+            if (reset = '1') then
+                btb_valid_bits <= (others => '0');
+            end if;
+            
+            if (stall = '0') then
+                btb_read_entry <= btb(to_integer(unsigned(pc(INDEX_BITS + 1 downto 2))));
+                btb_read_valid <= btb_valid_bits(to_integer(unsigned(pc(INDEX_BITS + 1 downto 2))));
+            end if;
+            
             if (write_en = '1') then
-                btb(to_integer(unsigned(write_addr(BTB_ADDR_WIDTH - 1 downto 0)))) <= target_pc;
+                btb(to_integer(unsigned(branch_write_addr(INDEX_BITS + 1 downto 2)))) <= 
+                    branch_write_addr(BTB_TAG_BITS + INDEX_BITS + 1 downto INDEX_BITS + 2) & branch_write_target_addr;
+                    btb_valid_bits(to_integer(unsigned(branch_write_addr(INDEX_BITS + 1 downto 2)))) <= '1';
             end if;
         end if;
     end process;
     
-    predicted_pc <= btb(to_integer(unsigned(read_addr(BTB_ADDR_WIDTH - 1 downto 0))));
-
+    btb_read_targ_addr <= btb_read_entry(TARG_BITS_START downto TARG_BITS_END);
+    btb_read_tag <= btb_read_entry(TAG_BITS_START downto TAG_BITS_END);
+    
+    hit <= '1' when btb_read_tag = branch_tag_pipeline_reg and btb_read_valid = '1' else '0';
+    target_addr <= btb_read_targ_addr;
 end rtl;
 
 

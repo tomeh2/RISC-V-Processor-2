@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="btb_tb_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="btb_tb" />
+            <top_module name="glbl" />
+            <top_module name="pkg_cpu" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="0.000 ns"></ZoomStartTime>
+      <ZoomEndTime time="155.490 ns"></ZoomEndTime>
+      <Cursor1Time time="18.631 ns"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="386"></NameColumnWidth>
+      <ValueColumnWidth column_width="150"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="20" />
+   <wvobject fp_name="/btb_tb/uut/clk" type="logic">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/btb_tb/uut/branch_addr" type="array">
+      <obj_property name="ElementShortName">branch_addr[31:0]</obj_property>
+      <obj_property name="ObjectShortName">branch_addr[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/btb_tb/uut/read_en" type="logic">
+      <obj_property name="ElementShortName">read_en</obj_property>
+      <obj_property name="ObjectShortName">read_en</obj_property>
+   </wvobject>
+   <wvobject fp_name="/btb_tb/uut/target_addr" type="array">
+      <obj_property name="ElementShortName">target_addr[31:0]</obj_property>
+      <obj_property name="ObjectShortName">target_addr[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/btb_tb/uut/hit" type="logic">
+      <obj_property name="ElementShortName">hit</obj_property>
+      <obj_property name="ObjectShortName">hit</obj_property>
+   </wvobject>
+   <wvobject fp_name="/btb_tb/uut/branch_write_addr" type="array">
+      <obj_property name="ElementShortName">branch_write_addr[31:0]</obj_property>
+      <obj_property name="ObjectShortName">branch_write_addr[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/btb_tb/uut/branch_write_target_addr" type="array">
+      <obj_property name="ElementShortName">branch_write_target_addr[31:0]</obj_property>
+      <obj_property name="ObjectShortName">branch_write_target_addr[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/btb_tb/uut/write_en" type="logic">
+      <obj_property name="ElementShortName">write_en</obj_property>
+      <obj_property name="ObjectShortName">write_en</obj_property>
+   </wvobject>
+   <wvobject fp_name="/btb_tb/uut/reset" type="logic">
+      <obj_property name="ElementShortName">reset</obj_property>
+      <obj_property name="ObjectShortName">reset</obj_property>
+   </wvobject>
+   <wvobject fp_name="/btb_tb/uut/btb" type="array">
+      <obj_property name="ElementShortName">btb[3:0][47:0]</obj_property>
+      <obj_property name="ObjectShortName">btb[3:0][47:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/btb_tb/uut/btb_valid_bits" type="array">
+      <obj_property name="ElementShortName">btb_valid_bits[3:0]</obj_property>
+      <obj_property name="ObjectShortName">btb_valid_bits[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/btb_tb/uut/btb_read_entry" type="array">
+      <obj_property name="ElementShortName">btb_read_entry[47:0]</obj_property>
+      <obj_property name="ObjectShortName">btb_read_entry[47:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/btb_tb/uut/btb_read_targ_addr" type="array">
+      <obj_property name="ElementShortName">btb_read_targ_addr[31:0]</obj_property>
+      <obj_property name="ObjectShortName">btb_read_targ_addr[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/btb_tb/uut/btb_read_tag" type="array">
+      <obj_property name="ElementShortName">btb_read_tag[15:0]</obj_property>
+      <obj_property name="ObjectShortName">btb_read_tag[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/btb_tb/uut/branch_tag_pipeline_reg" type="array">
+      <obj_property name="ElementShortName">branch_tag_pipeline_reg[15:0]</obj_property>
+      <obj_property name="ObjectShortName">branch_tag_pipeline_reg[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/btb_tb/uut/INDEX_BITS" type="other">
+      <obj_property name="ElementShortName">INDEX_BITS</obj_property>
+      <obj_property name="ObjectShortName">INDEX_BITS</obj_property>
+   </wvobject>
+   <wvobject fp_name="/btb_tb/uut/TAG_BITS_START" type="other">
+      <obj_property name="ElementShortName">TAG_BITS_START</obj_property>
+      <obj_property name="ObjectShortName">TAG_BITS_START</obj_property>
+   </wvobject>
+   <wvobject fp_name="/btb_tb/uut/TAG_BITS_END" type="other">
+      <obj_property name="ElementShortName">TAG_BITS_END</obj_property>
+      <obj_property name="ObjectShortName">TAG_BITS_END</obj_property>
+   </wvobject>
+   <wvobject fp_name="/btb_tb/uut/TARG_BITS_START" type="other">
+      <obj_property name="ElementShortName">TARG_BITS_START</obj_property>
+      <obj_property name="ObjectShortName">TARG_BITS_START</obj_property>
+   </wvobject>
+   <wvobject fp_name="/btb_tb/uut/TARG_BITS_END" type="other">
+      <obj_property name="ElementShortName">TARG_BITS_END</obj_property>
+      <obj_property name="ObjectShortName">TARG_BITS_END</obj_property>
+   </wvobject>
+</wave_config>

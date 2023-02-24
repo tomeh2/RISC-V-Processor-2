@@ -110,7 +110,7 @@ begin
     
     branch_target_addr <= branch_target_addr_t when branch_taken = '1' else branch_target_addr_nt;
     
-    eu0_pipeline_reg_0_next.pc_low_bits <= eu_in_0.pc(CDB_PC_BITS + 1 downto 2);
+    eu0_pipeline_reg_0_next.pc_low_bits <= eu_in_0.pc;
     eu0_pipeline_reg_0_next.data <= alu_result;
     eu0_pipeline_reg_0_next.target_addr <= branch_target_addr;
     eu0_pipeline_reg_0_next.instr_tag <= eu_in_0.instr_tag;

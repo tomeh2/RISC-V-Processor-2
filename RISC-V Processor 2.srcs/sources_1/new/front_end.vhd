@@ -115,13 +115,14 @@ architecture Structural of front_end is
     signal bp_out : bp_out_type;
         
     signal f1_pc_reg : std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);
-    
-    signal f1_pred_target_pc : std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);
-    signal f1_pred_is_branch : std_logic;
-    signal f1_pred_outcome : std_logic;
+    signal f1_pc : std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);
     -- F2 STAGE
     signal f2_ic_data_valid : std_logic;
     signal f2_icache_miss : std_logic;
+    
+    signal f2_pred_target_pc : std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);
+    signal f2_pred_is_branch : std_logic;
+    signal f2_pred_outcome : std_logic;
 
     -- D1 STAGE
     signal d1_pc : std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);
@@ -152,9 +153,13 @@ begin
             else
                 if (flush_pipeline or d1_branch_target_mispredict) then
                     f1_f2_pipeline_reg.valid <= '0';
-                    f2_f3_pipeline_reg.valid <= '0';
                 elsif (stall_f1_f3 = '0') then
                     f1_f2_pipeline_reg <= f1_f2_pipeline_reg_next;
+                end if;
+                
+                if (flush_pipeline or d1_branch_target_mispredict) then
+                    f2_f3_pipeline_reg.valid <= '0';
+                elsif (stall_f1_f3 = '0') then
                     f2_f3_pipeline_reg <= f2_f3_pipeline_reg_next;
                 end if;
                 
@@ -167,13 +172,11 @@ begin
         end if;
     end process;
     
-    f1_f2_pipeline_reg_next.pc <= f1_pc_reg;
-    f1_f2_pipeline_reg_next.branch_pred_outcome <= f1_pred_outcome;
-    f1_f2_pipeline_reg_next.branch_pred_target <= f1_pred_target_pc;
+    f1_f2_pipeline_reg_next.pc <= f1_pc;
     
     f2_f3_pipeline_reg_next.pc <= f1_f2_pipeline_reg.pc;
-    f2_f3_pipeline_reg_next.branch_pred_target <= f1_f2_pipeline_reg.branch_pred_target;
-    f2_f3_pipeline_reg_next.branch_pred_outcome <= f1_f2_pipeline_reg.branch_pred_outcome;
+    f2_f3_pipeline_reg_next.branch_pred_target <= f2_pred_target_pc;
+    f2_f3_pipeline_reg_next.branch_pred_outcome <= f2_pred_outcome;
     
     f3_d1_pipeline_reg_next.pc <= f2_f3_pipeline_reg.pc;
     f3_d1_pipeline_reg_next.branch_pred_outcome <= f2_f3_pipeline_reg.branch_pred_outcome;
@@ -190,6 +193,19 @@ begin
     -- ======================================================================
 
     -- ========================== F1 STAGE ========================== 
+    branch_target_buffer : entity work.branch_target_buffer(rtl)
+                           port map(pc => f1_pc_reg,
+                                    target_addr => f2_pred_target_pc,
+                                    hit => f2_pred_is_branch,
+                                    stall => stall_f1_f3,
+                                    
+                                    branch_write_addr => cdb.pc_low_bits,
+                                    branch_write_target_addr => cdb.target_addr,
+                                    write_en => cdb.branch_taken and cdb.valid,
+                                    
+                                    clk => clk,
+                                    reset => reset);
+    
     branch_predictor_gen : if (BP_TYPE = "STATIC") generate
             bp_static : entity work.bp_static(rtl)
                         port map(bp_in => bp_in,
@@ -201,6 +217,7 @@ begin
             bp_2bsp : entity work.bp_saturating_counter(rtl)
                       port map(bp_in => bp_in,
                               bp_out => bp_out,
+                              stall => stall_f1_f3,
                                           
                               clk => clk,
                               reset => reset);
@@ -216,28 +233,27 @@ begin
                     f1_pc_reg <= cdb.target_addr;--debug_cdb_targ_addr;
                 elsif (d1_branch_target_mispredict = '1') then
                     f1_pc_reg <= d1_target_mispred_recovery_pc;
-                elsif (f1_pred_is_branch = '1' and f1_pred_outcome = '1') then
-                    f1_pc_reg <= f1_pred_target_pc;
+                elsif (f2_pred_is_branch = '1' and f2_pred_outcome = '1' and f1_f2_pipeline_reg.valid = '1') then
+                    f1_pc_reg <= std_logic_vector(unsigned(f2_pred_target_pc) + 4);
                 elsif (stall_f1_f3 = '0') then
                     f1_pc_reg <= std_logic_vector(unsigned(f1_pc_reg) + 4);
                 end if;
             end if;
         end if;
     end process;
+    f1_pc <= f2_pred_target_pc when f2_pred_is_branch = '1' and f2_pred_outcome = '1' and d1_branch_target_mispredict = '0' and branch_mispredicted = '0' and f1_f2_pipeline_reg.valid = '1' else f1_pc_reg;
     
-    bp_in.fetch_addr <= f1_pc_reg(CDB_PC_BITS + 1 downto 2);
+    bp_in.fetch_addr <= f1_pc;
     bp_in.put_addr <= cdb.pc_low_bits;
     bp_in.put_outcome <= cdb.branch_taken;
     bp_in.put_en <= '1' when cdb.branch_mask /= BRANCH_MASK_ZERO and cdb.is_jalr = '0' and cdb.valid = '1' else '0';
     
-    f1_pred_target_pc <= (others => '0');
-    f1_pred_is_branch <= '0';
-    f1_pred_outcome <= (bp_out.predicted_outcome or '1') and f1_pred_is_branch;
+    f2_pred_outcome <= bp_out.predicted_outcome;
     -- ==============================================================
     
     -- ========================== F2 STAGE ==========================
     icache_inst : entity work.icache(rtl)
-                  port map(read_addr => f1_pc_reg,
+                  port map(read_addr => f1_pc,
                            read_en => '1',
                            read_cancel => flush_pipeline or d1_branch_target_mispredict,
                            stall => stall_f1_f3,
@@ -310,7 +326,7 @@ begin
     decoded_uop.branch_mask <= d1_alloc_branch_mask;
     decoded_uop.branch_predicted_outcome <= f3_d1_pipeline_reg.branch_pred_outcome;
     decoded_uop.speculated_branches_mask <= d1_speculated_branches_mask;
-    decoded_uop_valid <= f3_d1_pipeline_reg.valid and not flush_pipeline;
+    decoded_uop_valid <= d1_fifo_insert_ready and not flush_pipeline;
     
     branch_mask <= d1_alloc_branch_mask;
     branch_predicted_pc <= d1_target_mispred_recovery_pc;
