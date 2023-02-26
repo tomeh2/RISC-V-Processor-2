@@ -36,16 +36,6 @@ use WORK.PKG_AXI.ALL;
 
 entity execution_engine is
     port(
-        debug_reg_1_addr : in std_logic_vector(4 downto 0);
-        debug_reg_2_addr : in std_logic_vector(4 downto 0);
-        debug_reg_3_addr : in std_logic_vector(4 downto 0);
-        debug_reg_4_addr : in std_logic_vector(4 downto 0);
-    
-        debug_reg_1_data : out std_logic_vector(CPU_DATA_WIDTH_BITS - 1 downto 0);
-        debug_reg_2_data : out std_logic_vector(CPU_DATA_WIDTH_BITS - 1 downto 0);
-        debug_reg_3_data : out std_logic_vector(CPU_DATA_WIDTH_BITS - 1 downto 0);
-        debug_reg_4_data : out std_logic_vector(CPU_DATA_WIDTH_BITS - 1 downto 0);
-    
         cdb_out : out cdb_type;
     
         next_uop : in uop_decoded_type;
@@ -235,6 +225,8 @@ architecture Structural of execution_engine is
     signal sched_op_1_ready : std_logic;
     signal sched_op_2_ready : std_logic;
     -- =======================================
+    
+    signal debug_rat : debug_rat_type;
 begin
     -- ========================================================================================
     --                                PIPELINE REGISTER LOGIC
@@ -419,15 +411,7 @@ begin
                                                 ARCH_REGFILE_ENTRIES => ARCH_REGFILE_ENTRIES,
                                                 VALID_BIT_INIT_VAL => '1',
                                                 ENABLE_VALID_BITS => true)
-                                    port map(debug_reg_1_addr => debug_reg_1_addr,
-                                             debug_reg_2_addr => debug_reg_2_addr,
-                                             debug_reg_3_addr => debug_reg_3_addr,
-                                             debug_reg_4_addr => debug_reg_4_addr,
-                                             
-                                             debug_reg_1_paddr => debug_reg_1_paddr,
-                                             debug_reg_2_paddr => debug_reg_2_paddr,
-                                             debug_reg_3_paddr => debug_reg_3_paddr,
-                                             debug_reg_4_paddr => debug_reg_4_paddr,
+                                    port map(debug_rat => debug_rat,
                                     
                                              cdb => cdb,
                                     
@@ -452,12 +436,7 @@ begin
                                                 ARCH_REGFILE_ENTRIES => ARCH_REGFILE_ENTRIES,
                                                 VALID_BIT_INIT_VAL => '0',
                                                 ENABLE_VALID_BITS => false)
-                                      port map(debug_reg_1_addr => (others => '0'),
-                                               debug_reg_2_addr => (others => '0'),
-                                               debug_reg_3_addr => (others => '0'),
-                                               debug_reg_4_addr => (others => '0'),
-                                      
-                                               cdb => CDB_OPEN_CONST,
+                                      port map(cdb => CDB_OPEN_CONST,
                                       
                                                arch_reg_addr_read_1 => rob_head_arch_dest_reg,                   -- Architectural address of a register to be marked as free
                                                arch_reg_addr_read_2 => REG_ADDR_ZERO,                       -- Currently unused
@@ -481,16 +460,9 @@ begin
     register_file : entity work.register_file(rtl)
                     generic map(REG_DATA_WIDTH_BITS => CPU_DATA_WIDTH_BITS,
                                 REGFILE_ENTRIES => PHYS_REGFILE_ENTRIES)
-                    port map(debug_1_addr => debug_reg_1_paddr,
-                             debug_2_addr => debug_reg_2_paddr,
-                             debug_3_addr => debug_reg_3_paddr,
-                             debug_4_addr => debug_reg_4_paddr,
-                             
-                             debug_1_data => debug_reg_1_data,
-                             debug_2_data => debug_reg_2_data,
-                             debug_3_data => debug_reg_3_data,
-                             debug_4_data => debug_reg_4_data,
-                             
+                    port map(-- DEBUG
+                             debug_rat => debug_rat,
+                    
                              -- ADDRESSES
                              rd_1_addr => pipeline_reg_2_0.uop.phys_src_reg_1_addr,     -- Operand for ALU operations
                              rd_2_addr => pipeline_reg_2_0.uop.phys_src_reg_2_addr,     -- Operand for ALU operations

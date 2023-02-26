@@ -43,16 +43,6 @@ use IEEE.STD_LOGIC_1164.ALL;
 
 entity top is
     port(
---        debug_reg_1_addr : in std_logic_vector(4 downto 0);
---        debug_reg_2_addr : in std_logic_vector(4 downto 0);
---        debug_reg_3_addr : in std_logic_vector(4 downto 0);
---        debug_reg_4_addr : in std_logic_vector(4 downto 0);
-        
---        debug_reg_1_data : out std_logic_vector(32 - 1 downto 0);
---        debug_reg_2_data : out std_logic_vector(32 - 1 downto 0);
---        debug_reg_3_data : out std_logic_vector(32 - 1 downto 0);
---        debug_reg_4_data : out std_logic_vector(32 - 1 downto 0);
-    
         LED : out std_logic_vector(15 downto 0);
         CLK100MHZ : in std_logic;
         BTNC : in std_logic;
@@ -89,18 +79,7 @@ begin
     LED <= gpio_o(15 downto 0);
 
     cpu : entity work.cpu(structural)
-          port map(
-                   debug_reg_1_addr => (others => '0'),
-                   debug_reg_2_addr => (others => '0'),
-                   debug_reg_3_addr => (others => '0'),
-                   debug_reg_4_addr => (others => '0'),
-                       
---                   debug_reg_1_data => debug_reg_1_data,
---                   debug_reg_2_data => debug_reg_2_data,
---                   debug_reg_3_data => debug_reg_3_data,
---                   debug_reg_4_data => debug_reg_4_data,
-          
-                   uart_rx => UART_TXD_IN,
+          port map(uart_rx => UART_TXD_IN,
                    uart_tx => UART_RXD_OUT,
                    uart_rts => '0',
                    

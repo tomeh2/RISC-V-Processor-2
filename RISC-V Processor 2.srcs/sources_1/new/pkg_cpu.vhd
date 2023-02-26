@@ -40,6 +40,7 @@ package pkg_cpu is
     -- ========================= DEBUG =========================
     constant ENABLE_EXT_BUS_ILA : boolean := false;
     constant ENABLE_UART_ILA : boolean := false;
+    constant ENABLE_ARCH_REGFILE_MONITORING : boolean := false;
     -- =========================================================
     
     -- ========================= CAN BE MODIFIED =========================
@@ -58,12 +59,12 @@ package pkg_cpu is
     
     constant ICACHE_ASSOCIATIVITY : integer := 2;                   -- MUST BE POWER OF 2!
     constant ICACHE_INSTR_PER_CACHELINE : integer := 4;
-    constant ICACHE_NUM_SETS : integer := 32;                     -- MUST BE POWER OF 2!
+    constant ICACHE_NUM_SETS : integer := 16;                     -- MUST BE POWER OF 2!
     --constant ICACHE_REPLACEMENT_POLICY : string := "FIFO";                -- In consideration
     
     constant DCACHE_ASSOCIATIVITY : integer := 2;                   -- MUST BE POWER OF 2!
     constant DCACHE_ENTRIES_PER_CACHELINE : integer := 4;
-    constant DCACHE_NUM_SETS : integer := 32;                     -- MUST BE POWER OF 2!
+    constant DCACHE_NUM_SETS : integer := 16;                     -- MUST BE POWER OF 2!
     
     constant PERF_COUNTERS_EN : boolean := false;
     constant PERF_COUNTERS_WIDTH_BITS : integer := 32;
@@ -101,6 +102,9 @@ package pkg_cpu is
     constant CONST_4 : std_logic_vector(CPU_DATA_WIDTH_BITS - 1 downto 0) := X"00000004";
     
     -- CPU Data Types
+    type debug_regfile_type is array(ARCH_REGFILE_ENTRIES - 1 downto 0) of std_logic_vector(CPU_DATA_WIDTH_BITS - 1 downto 0);
+    type debug_rat_type is array(ARCH_REGFILE_ENTRIES - 1 downto 0) of std_logic_vector(PHYS_REGFILE_ADDR_BITS - 1 downto 0);
+    
     type uop_instr_dec_type is record
         pc : std_logic_vector(CPU_ADDR_WIDTH_BITS - 1 downto 0);
         

@@ -27,18 +27,7 @@ use IEEE.STD_LOGIC_1164.ALL;
 use WORK.PKG_CPU.ALL;
 
 entity cpu is
-    port(
-        debug_reg_1_addr : in std_logic_vector(4 downto 0);
-        debug_reg_2_addr : in std_logic_vector(4 downto 0);
-        debug_reg_3_addr : in std_logic_vector(4 downto 0);
-        debug_reg_4_addr : in std_logic_vector(4 downto 0);
-        
-        debug_reg_1_data : out std_logic_vector(CPU_DATA_WIDTH_BITS - 1 downto 0);
-        debug_reg_2_data : out std_logic_vector(CPU_DATA_WIDTH_BITS - 1 downto 0);
-        debug_reg_3_data : out std_logic_vector(CPU_DATA_WIDTH_BITS - 1 downto 0);
-        debug_reg_4_data : out std_logic_vector(CPU_DATA_WIDTH_BITS - 1 downto 0);
-    
-        uart_rx : in std_logic;
+    port(uart_rx : in std_logic;
         uart_tx : out std_logic;
         uart_cts : out std_logic;
         uart_rts : in std_logic;
@@ -140,17 +129,7 @@ begin
     end generate;
 
     core_1 : entity work.core(structural)
-             port map(debug_reg_1_addr => debug_reg_1_addr,
-                      debug_reg_2_addr => debug_reg_2_addr,
-                      debug_reg_3_addr => debug_reg_3_addr,
-                      debug_reg_4_addr => debug_reg_4_addr,
-                       
-                      debug_reg_1_data => debug_reg_1_data,
-                      debug_reg_2_data => debug_reg_2_data,
-                      debug_reg_3_data => debug_reg_3_data,
-                      debug_reg_4_data => debug_reg_4_data,
-             
-                      bus_addr_read => bus_addr_read,
+             port map(bus_addr_read => bus_addr_read,
                       bus_addr_write => bus_addr_write,
                       bus_data_read => bus_data_read,
                       bus_data_write => bus_data_write,
@@ -232,9 +211,9 @@ begin
                         clk => clk_cpu);
     
     ram_memory : entity work.ram_memory(rtl)
-                 generic map(SIZE_BYTES => 16384)
-                 port map(bus_raddr => bus_addr_read(13 downto 0),
-                          bus_waddr => bus_addr_write(13 downto 0),
+                 generic map(SIZE_BYTES => 32768)
+                 port map(bus_raddr => bus_addr_read(14 downto 0),
+                          bus_waddr => bus_addr_write(14 downto 0),
                           bus_wdata => bus_data_write,
                           bus_rdata => bus_data_read_ram,
                           bus_rstrb => re_ram,

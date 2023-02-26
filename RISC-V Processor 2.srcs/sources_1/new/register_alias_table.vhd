@@ -39,16 +39,10 @@ entity register_alias_table is
         ENABLE_VALID_BITS : boolean
     );
     port(
-        debug_reg_1_addr : in std_logic_vector(4 downto 0);
-        debug_reg_2_addr : in std_logic_vector(4 downto 0);
-        debug_reg_3_addr : in std_logic_vector(4 downto 0);
-        debug_reg_4_addr : in std_logic_vector(4 downto 0);
+        -- ========== DEBUG ==========
+        debug_rat : out debug_rat_type;
+        -- ===========================
         
-        debug_reg_1_paddr : out std_logic_vector(integer(ceil(log2(real(PHYS_REGFILE_ENTRIES)))) - 1 downto 0);
-        debug_reg_2_paddr : out std_logic_vector(integer(ceil(log2(real(PHYS_REGFILE_ENTRIES)))) - 1 downto 0);
-        debug_reg_3_paddr : out std_logic_vector(integer(ceil(log2(real(PHYS_REGFILE_ENTRIES)))) - 1 downto 0);
-        debug_reg_4_paddr : out std_logic_vector(integer(ceil(log2(real(PHYS_REGFILE_ENTRIES)))) - 1 downto 0);
-    
         cdb : in cdb_type;
         -- ========== READING PORTS ==========
         -- Inputs take the architectural register address for which we want the physical entry address
@@ -122,8 +116,12 @@ begin
     phys_reg_addr_read_1 <= rat(to_integer(unsigned(arch_reg_addr_read_1)));
     phys_reg_addr_read_2 <= rat(to_integer(unsigned(arch_reg_addr_read_2)));
     
-    --debug_reg_1_paddr <= rat(to_integer(unsigned(debug_reg_1_addr)));
-    --debug_reg_2_paddr <= rat(to_integer(unsigned(debug_reg_2_addr)));
-    --debug_reg_3_paddr <= rat(to_integer(unsigned(debug_reg_3_addr)));
-    --debug_reg_4_paddr <= rat(to_integer(unsigned(debug_reg_4_addr)));
+    rat_debug_gen : if (ENABLE_ARCH_REGFILE_MONITORING = true) generate
+        process(all)
+        begin
+            for i in 0 to ARCH_REGFILE_ENTRIES - 1 loop
+                debug_rat(i) <= rat(i);
+            end loop;
+        end process;
+    end generate;
 end rtl;
