@@ -124,7 +124,7 @@ begin
     sched_optype_bits_proc : process(sched_entries, sched_operands_ready_bits)
     begin
         for i in 0 to SCHEDULER_ENTRIES - 1 loop
-            if ((sched_entries(i).uop.operation_type = OPTYPE_INTEGER or sched_entries(i).uop.operation_type = OPTYPE_BRANCH)) then
+            if ((sched_entries(i).uop.operation_type = OPTYPE_INTEGER or sched_entries(i).uop.operation_type = OPTYPE_BRANCH or sched_entries(i).uop.operation_type = OPTYPE_SYSTEM)) then
                 sched_dispatch_ready_bits(0)(i) <= sched_operands_ready_bits(i);
             else
                 sched_dispatch_ready_bits(0)(i) <= '0';

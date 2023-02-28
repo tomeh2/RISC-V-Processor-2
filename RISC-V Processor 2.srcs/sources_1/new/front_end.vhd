@@ -32,16 +32,6 @@ use STD.TEXTIO.ALL;
 
 entity front_end is
     port(
-        debug_sv_immediate : out std_logic_vector(31 downto 0);
-        debug_sv_pc : out std_logic_vector(31 downto 0);
---        debug_clear_pipeline : in std_logic;
---        debug_cdb_valid : in std_logic;
---        debug_cdb_mispred : in std_logic;
---        debug_cdb_targ_addr : in std_logic_vector(31 downto 0);
-        debug_f2_d1_pc : out std_logic_vector(31 downto 0);
-        debug_f2_d1_instr : out std_logic_vector(31 downto 0);
-        debug_f2_d1_valid : out std_logic;
-    
         cdb : in cdb_type;
         
         fifo_full : in std_logic;
@@ -319,6 +309,7 @@ begin
     decoded_uop.pc <= f3_d1_pipeline_reg.pc;
     decoded_uop.operation_type <= d1_instr_dec_uop.operation_type;
     decoded_uop.operation_select <= d1_instr_dec_uop.operation_select;
+    decoded_uop.csr <= d1_instr_dec_uop.csr;
     decoded_uop.immediate <= d1_instr_dec_uop.immediate;
     decoded_uop.arch_src_reg_1_addr <= d1_instr_dec_uop.arch_src_reg_1_addr;
     decoded_uop.arch_src_reg_2_addr <= d1_instr_dec_uop.arch_src_reg_2_addr;
@@ -345,13 +336,6 @@ begin
             assert f3_d1_pipeline_reg.instruction = progmem_debug(to_integer(unsigned(f3_d1_pipeline_reg.pc(14 downto 2)))) report "Instruction fetch mismatch!" severity failure;
         end if;
     end process;
-     
-    
-    debug_sv_immediate <= decoded_uop.immediate;
-    debug_sv_pc <= decoded_uop.pc;
-    debug_f2_d1_pc <= f3_d1_pipeline_reg.pc;
-    debug_f2_d1_instr <= f3_d1_pipeline_reg.instruction;
-    debug_f2_d1_valid <= f3_d1_pipeline_reg.valid;
 end Structural;
 
 

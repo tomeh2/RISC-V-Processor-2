@@ -66,6 +66,8 @@ package pkg_cpu is
     constant DCACHE_ENTRIES_PER_CACHELINE : integer := 4;
     constant DCACHE_NUM_SETS : integer := 16;                     -- MUST BE POWER OF 2!
     
+    constant CSR_PERF_COUNTERS_EN : boolean := true;
+    
     constant PERF_COUNTERS_EN : boolean := false;
     constant PERF_COUNTERS_WIDTH_BITS : integer := 32;
     -- ===================================================================
@@ -110,6 +112,7 @@ package pkg_cpu is
         
         operation_type : std_logic_vector(OPERATION_TYPE_BITS - 1 downto 0);
         operation_select : std_logic_vector(OPERATION_SELECT_BITS - 1 downto 0);
+        csr : std_logic_vector(11 downto 0);
         immediate : std_logic_vector(CPU_DATA_WIDTH_BITS - 1 downto 0);
         
         arch_src_reg_1_addr : std_logic_vector(ARCH_REGFILE_ADDR_BITS - 1 downto 0);
@@ -122,6 +125,7 @@ package pkg_cpu is
         
         operation_type : std_logic_vector(OPERATION_TYPE_BITS - 1 downto 0);
         operation_select : std_logic_vector(OPERATION_SELECT_BITS - 1 downto 0);
+        csr : std_logic_vector(11 downto 0);
         immediate : std_logic_vector(CPU_DATA_WIDTH_BITS - 1 downto 0);
         
         arch_src_reg_1_addr : std_logic_vector(ARCH_REGFILE_ADDR_BITS - 1 downto 0);
@@ -136,6 +140,7 @@ package pkg_cpu is
     type uop_exec_type is record
         operation_type : std_logic_vector(OPERATION_TYPE_BITS - 1 downto 0);
         operation_select : std_logic_vector(OPERATION_SELECT_BITS - 1 downto 0);
+        csr : std_logic_vector(11 downto 0);
         immediate : std_logic_vector(CPU_DATA_WIDTH_BITS - 1 downto 0);
         
         phys_src_reg_1_addr : std_logic_vector(PHYS_REGFILE_ADDR_BITS - 1 downto 0);
@@ -155,6 +160,7 @@ package pkg_cpu is
         
         operation_type : std_logic_vector(OPERATION_TYPE_BITS - 1 downto 0);
         operation_select : std_logic_vector(OPERATION_SELECT_BITS - 1 downto 0);
+        csr : std_logic_vector(11 downto 0);
         immediate : std_logic_vector(CPU_DATA_WIDTH_BITS - 1 downto 0);
         
         arch_src_reg_1_addr : std_logic_vector(ARCH_REGFILE_ADDR_BITS - 1 downto 0);
@@ -210,6 +216,7 @@ package pkg_cpu is
     constant OPTYPE_BRANCH : std_logic_vector(2 downto 0) := "001";
     constant OPTYPE_LOAD : std_logic_vector(2 downto 0) := "010";
     constant OPTYPE_STORE : std_logic_vector(2 downto 0) := "011";
+    constant OPTYPE_SYSTEM : std_logic_vector(2 downto 0) := "100";
     
     -- OPCODE Definitions
     constant OPCODE_LUI : std_logic_vector(4 downto 0) := "01101";
@@ -221,6 +228,7 @@ package pkg_cpu is
     constant OPCODE_STORE : std_logic_vector(4 downto 0) := "01000";
     constant OPCODE_ALU_REG_REG : std_logic_vector(4 downto 0) := "01100";
     constant OPCODE_ALU_REG_IMM : std_logic_vector(4 downto 0) := "00100";
+    constant OPCODE_SYSTEM : std_logic_vector(4 downto 0) := "11100";
     
     -- Load-Store Unit Operation Definitions
     constant LSU_OP_LW : std_logic_vector(7 downto 0) := "00000000";
@@ -284,6 +292,7 @@ package pkg_cpu is
                                             '0');
                                             
     constant UOP_ZERO : uop_decoded_type := ((others => '0'),
+                                     (others => '0'),
                                      (others => '0'),
                                      (others => '0'),
                                      (others => '0'),

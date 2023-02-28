@@ -131,7 +131,7 @@ begin
                          clk => clk,
                          reset => reset);
                          
-    your_instance_name : entity work.decoded_uop_fifo
+    uop_fifo : entity work.decoded_uop_fifo
         generic map(DEPTH => DECODED_INSTR_QUEUE_ENTRIES)
       PORT MAP (
         cdb => cdb,

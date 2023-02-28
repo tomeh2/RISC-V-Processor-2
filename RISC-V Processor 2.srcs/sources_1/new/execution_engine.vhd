@@ -226,6 +226,7 @@ architecture Structural of execution_engine is
     signal sched_op_2_ready : std_logic;
     -- =======================================
     
+    signal csr_read_val : std_logic_vector(CPU_DATA_WIDTH_BITS - 1 downto 0);
     signal debug_rat : debug_rat_type;
 begin
     -- ========================================================================================
@@ -289,7 +290,13 @@ begin
     begin
         pipeline_reg_4_0_next.eu_input.instr_tag <= pipeline_reg_3_0.uop.instr_tag;
         pipeline_reg_4_0_next.eu_input.operand_1 <= rf_rd_data_1;
-        pipeline_reg_4_0_next.eu_input.operand_2 <= rf_rd_data_2;
+        
+        if (CSR_PERF_COUNTERS_EN = true) then
+            pipeline_reg_4_0_next.eu_input.operand_2 <= csr_read_val when pipeline_reg_3_0.uop.operation_type = OPTYPE_SYSTEM else rf_rd_data_2;
+        else
+            pipeline_reg_4_0_next.eu_input.operand_2 <= rf_rd_data_2;
+        end if;
+        
         pipeline_reg_4_0_next.eu_input.immediate <= pipeline_reg_3_0.uop.immediate;
         pipeline_reg_4_0_next.eu_input.pc <= rob_pc_out;
         pipeline_reg_4_0_next.eu_input.phys_dest_reg_addr <= pipeline_reg_3_0.uop.phys_dest_reg_addr;
@@ -323,6 +330,7 @@ begin
     next_uop_full.branch_mask <= next_uop.branch_mask;
     next_uop_full.operation_type <= next_uop.operation_type;
     next_uop_full.operation_select <= next_uop.operation_select;
+    next_uop_full.csr <= next_uop.csr;
     next_uop_full.immediate <= next_uop.immediate;
     next_uop_full.arch_src_reg_1_addr <= next_uop.arch_src_reg_1_addr;
     next_uop_full.arch_src_reg_2_addr <= next_uop.arch_src_reg_2_addr;
@@ -338,6 +346,7 @@ begin
                     
     next_uop_exec.operation_type <= next_uop.operation_type;
     next_uop_exec.operation_select <= next_uop.operation_select;
+    next_uop_exec.csr <= next_uop.csr;
     next_uop_exec.immediate <= next_uop.immediate;
     next_uop_exec.phys_src_reg_1_addr <= rf_phys_src_reg_1_addr;
     next_uop_exec.phys_src_reg_2_addr <= rf_phys_src_reg_2_addr;
@@ -381,7 +390,7 @@ begin
                                        rd_en => eu_0_ready,
                                        
                                        clk => clk);
-      
+    
     -- ==================================================================================================
     --                                        REGISTER RENAMING
     -- ==================================================================================================
@@ -455,7 +464,17 @@ begin
                                          
     -- ==================================================================================================
     -- ==================================================================================================
-      
+    csr_regs_gen : if (CSR_PERF_COUNTERS_EN = true) generate
+        csr_regs : entity work.zicsr_registers(rtl)
+                   port map(read_addr => pipeline_reg_2_0.uop.csr,
+                            read_data => csr_read_val,
+                            
+                            instr_ret => perf_commit_ready,
+                            
+                            clk => clk,
+                            reset => reset);
+    end generate;
+    
     rf_write_en <= '1' when cdb.valid = '1' and cdb.branch_mask = BRANCH_MASK_ZERO else '0';
     register_file : entity work.register_file(rtl)
                     generic map(REG_DATA_WIDTH_BITS => CPU_DATA_WIDTH_BITS,

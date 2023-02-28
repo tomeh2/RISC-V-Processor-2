@@ -16,15 +16,15 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="0.000000000 ms"></ZoomStartTime>
-      <ZoomEndTime time="58.918974491 ms"></ZoomEndTime>
-      <Cursor1Time time="0.020000000 ms"></Cursor1Time>
+      <ZoomStartTime time="0.000000 us"></ZoomStartTime>
+      <ZoomEndTime time="2,739.750001 us"></ZoomEndTime>
+      <Cursor1Time time="2,739.750000 us"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="386"></NameColumnWidth>
-      <ValueColumnWidth column_width="130"></ValueColumnWidth>
+      <ValueColumnWidth column_width="126"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="21" />
+   <WVObjectSize size="16" />
    <wvobject fp_name="/cpu_tb/clk" type="logic">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
@@ -131,7 +131,6 @@
    <wvobject fp_name="group9" type="group">
       <obj_property name="label">FRONT_END</obj_property>
       <obj_property name="DisplayName">label</obj_property>
-      <obj_property name="isExpanded"></obj_property>
       <wvobject fp_name="group2322" type="group">
          <obj_property name="label">ICACHE</obj_property>
          <obj_property name="DisplayName">label</obj_property>
@@ -438,26 +437,6 @@
       <obj_property name="ElementShortName">bram[15:0][152:0]</obj_property>
       <obj_property name="ObjectShortName">bram[15:0][152:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/cpu_tb/cpu/core_1/your_instance_name/fifo" type="array">
-      <obj_property name="ElementShortName">fifo[3:0][96:0]</obj_property>
-      <obj_property name="ObjectShortName">fifo[3:0][96:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/cpu_tb/cpu/core_1/your_instance_name/rd_ready" type="logic">
-      <obj_property name="ElementShortName">rd_ready</obj_property>
-      <obj_property name="ObjectShortName">rd_ready</obj_property>
-   </wvobject>
-   <wvobject fp_name="/cpu_tb/cpu/core_1/your_instance_name/wr_en" type="logic">
-      <obj_property name="ElementShortName">wr_en</obj_property>
-      <obj_property name="ObjectShortName">wr_en</obj_property>
-   </wvobject>
-   <wvobject fp_name="/cpu_tb/cpu/core_1/your_instance_name/i_full" type="logic">
-      <obj_property name="ElementShortName">i_full</obj_property>
-      <obj_property name="ObjectShortName">i_full</obj_property>
-   </wvobject>
-   <wvobject fp_name="/cpu_tb/cpu/core_1/your_instance_name/i_empty" type="logic">
-      <obj_property name="ElementShortName">i_empty</obj_property>
-      <obj_property name="ObjectShortName">i_empty</obj_property>
-   </wvobject>
    <wvobject fp_name="group7" type="group">
       <obj_property name="label">EXECUTION_ENGINE</obj_property>
       <obj_property name="DisplayName">label</obj_property>
@@ -736,6 +715,15 @@
          <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/register_file/en" type="logic">
             <obj_property name="ElementShortName">en</obj_property>
             <obj_property name="ObjectShortName">en</obj_property>
+         </wvobject>
+      </wvobject>
+      <wvobject fp_name="group772" type="group">
+         <obj_property name="label">CSR</obj_property>
+         <obj_property name="DisplayName">label</obj_property>
+         <obj_property name="isExpanded"></obj_property>
+         <wvobject fp_name="/cpu_tb/cpu/core_1/execution_engine/csr_regs/csr_regs" type="array">
+            <obj_property name="ElementShortName">csr_regs[1:0][63:0]</obj_property>
+            <obj_property name="ObjectShortName">csr_regs[1:0][63:0]</obj_property>
          </wvobject>
       </wvobject>
       <wvobject fp_name="group34" type="group">

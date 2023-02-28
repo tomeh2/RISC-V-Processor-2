@@ -95,6 +95,10 @@ begin
         uop.arch_dest_reg_addr <= instruction(11 downto 7);
         uop.pc <= pc;
         
+        if (CSR_PERF_COUNTERS_EN = true) then
+            uop.csr <= instruction(31 downto 20);
+        end if;
+        
         uop.operation_select(OPERATION_SELECT_BITS - 1 downto 3) <= (others => '0');
         branch_op_sel <= (others => '0');
         
@@ -169,7 +173,17 @@ begin
                 uop_is_speculative_branch <= '1';
                 is_uncond_branch <= '1';
                 is_jalr <= '1';
+            
+            when OPCODE_SYSTEM =>
+                uop.operation_type <= (others => '0');
+                uop.operation_select <= (others => '0');
+            
+                if (CSR_PERF_COUNTERS_EN = true) then
+                    uop.operation_type <= OPTYPE_SYSTEM;
+                    uop.operation_select <= "000000" & ALU_OP_ADD;
                 
+                    uop.arch_src_reg_1_addr <= (others => '0');
+                end if;
             when others => 
                 uop.operation_type <= (others => '0');
                 uop.operation_select <= (others => '0');
